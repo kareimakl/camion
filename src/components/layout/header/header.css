@@ -1,0 +1,320 @@
+.icon-1 {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: 1px solid var(--bgIcon);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+.icon-1:hover {
+  background: var(--bgIcon);
+}
+.devi {
+  width: 95%;
+  border-bottom: 1px solid var(--bgIcon);
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.text-icon {
+  color: #c69d4d;
+  font-size: x-large;
+}
+.iconeee:hover .text-icon {
+  color: #fff !important;
+}
+
+/* اللون الافتراضي للأيقونات الاجتماعية وتغيير اللون عند التمرير */
+.icon-social {
+  color: var(--secondary);
+  transition: color 0.3s ease, transform 0.3s ease;
+  font-size: large;
+  padding: 5px;
+}
+
+.icon-social:hover {
+  background-color: #c69d4d;
+  border-radius: 50%;
+  color: #ffffff; /* يصبح اللون أبيض عند التمرير */
+  transform: rotate(360deg); /* تدوير الأيقونة 360 درجة */
+}
+
+.rotate-on-hover {
+  display: inline-block;
+}
+
+.relative {
+  position: relative; /* التأكد من أن العنصر له موضع */
+}
+
+/* إظهار القائمة عند تمرير الفأرة */
+.ul-class:hover .dropdown,
+.dropdown:hover {
+  display: block !important; /* عرض القائمة */
+}
+
+.dropdown {
+  display: none; /* إخفاء القائمة بشكل افتراضي */
+  position: absolute;
+  width: 250px; /* عرض القائمة */
+  transition: 0.7s;
+  background-color: #fff; /* خلفية بيضاء */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* ظل */
+  padding: 10px; /* حشوة للقائمة */
+  z-index: 1000; /* ز-index عالٍ للتأكد من أنها فوق العناصر الأخرى */
+}
+.Menuo {
+  display: none;
+}
+.icon-menu {
+  display: none;
+  font-size: xx-large;
+  position: absolute;
+  right: 10px;
+  background-color: var(--bgIcon);
+  border-radius: 20%;
+  padding: 5px;
+  height: 30px;
+  margin: auto;
+  margin-top: -20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 30px;
+  border: none !important;
+}
+.icon-menu svg {
+  margin: auto;
+  margin-bottom: 4px;
+}
+.icon-menu:active {
+  scale: 0.9;
+}
+.icon-menu:active {
+  scale: 0.9;
+}
+
+/* ===========================
+ table of contents
+==============================
+1. Header Design
+2. Button & icon
+3- Modal == pop up
+4- Responsive Design (media query)*/
+
+/* ========================
+    1. Header Design
+=========================== */
+
+ul.modal {
+  gap: 16px;
+  max-width: 400px;
+}
+
+ul.modal .lk {
+  color: black !important;
+  font-size: 0.8rem;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  font-weight: 900;
+  width: 90%;
+  margin: auto;
+  padding: 20px !important;
+  transition: 0.5s;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+ul .botm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  gap: 5px;
+}
+ul.modal li .lk:hover {
+  color: var(--white) !important;
+  opacity: 1;
+  background-color: var(--icon-hover);
+  box-shadow: 1px -1111px 100px var(--icon-hover);
+}
+
+button {
+  font-size: 1.2rem;
+}
+
+button.men {
+  display: none;
+  background-color: rgb(244 244 245);
+}
+
+/* ========================
+    2. Button & icon
+=========================== */
+.men,
+button.mode {
+  background-color: red;
+  height: 2rem;
+  width: 2.4rem;
+  border-radius: 30px;
+  justify-content: center;
+  text-align: center;
+  color: red;
+  transition: 0.2s;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--subtitle);
+  transform: translateX(5px);
+  box-shadow: 1px 1px 40px #2323242a;
+}
+
+.icon-chevron-down {
+  font-size: 12px;
+}
+
+.icon-chevron-down:hover,
+button.mode:hover {
+  color: var(--title);
+  /* border: 1px solid var(--border); */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.icon-x {
+  font-size: 1rem;
+  color: red !important;
+  transition: 0.3s;
+}
+
+.icon-x:hover {
+  font-size: 1.2rem;
+  color: crimson;
+  rotate: 180deg;
+}
+
+/* ========================
+    3- Modal == pop up
+=========================== */
+.fixed1 {
+  position: fixed;
+  inset: 0;
+  top: 0;
+  left: 0;
+  z-index: 11;
+  background-color: rgba(40, 40, 48, 0.91);
+  backdrop-filter: blur(4px);
+}
+
+@keyframes mymove {
+  0% {
+    transform: translateX(-100%); /* Start off-screen to the left */
+    opacity: 0; /* Optional: Start fully transparent */
+  }
+
+  60% {
+    transform: translateX(10%); /* Move slightly past the final position */
+    opacity: 1; /* Optional: Fade in */
+  }
+
+  100% {
+    transform: translateX(0); /* Final position */
+    opacity: 1; /* Fully visible */
+  }
+}
+/* To animate when the element closes */
+@keyframes slideToRight {
+  0% {
+    transform: translateX(0); /* Start at the final position */
+    opacity: 1; /* Fully visible */
+  }
+
+  100% {
+    transform: translateX(100%); /* Move off-screen to the right */
+    opacity: 0; /* Optional: Fade out */
+  }
+}
+
+.element-close {
+  animation: slideToRight 0.77s 1 ease-in-out forwards;
+}
+
+header .fixed1 ul.modal {
+  animation: mymove 0.77s 1;
+  width: 75%;
+  /* margin-left: auto; */
+  margin-right: auto;
+  /* margin-top: 2rem; */
+  /* border-radius: 1rem; */
+  padding: 1rem 2rem;
+  background-color: var(--secondary);
+  height: 100%;
+}
+
+header .fixed1 ul.modal li {
+  /* padding-top: 4rem; */
+}
+
+header .fixed1 ul.modal li:first-child {
+  text-align: right;
+  border: none;
+  padding-bottom: 0;
+  padding-top: 0.2rem;
+  /* margin-bottom: -1rem; */
+}
+
+header .fixed1 ul.modal li:last-child {
+  border: none;
+}
+
+header .fixed1 ul li a {
+  font-size: 1rem;
+  color: black;
+}
+ul.modal button {
+  border: none !important;
+}
+ul.modal button:hover {
+  font-size: xx-large;
+}
+ul.modal button {
+  font-size: x-large;
+  padding: 0px;
+}
+
+header .men {
+  flex-direction: row-reverse !important;
+  display: block !important;
+}
+@media screen and (width < 1508px) {
+  .icon-1 {
+    padding: 5px !important;
+  }
+}
+@media screen and (width < 1068px) {
+  .hedtop {
+    display: none;
+  }
+  .link-mail,
+  header section .link-route ul {
+    display: none !important;
+  }
+  .Menuo,
+  .icon-menu {
+    display: flex !important;
+  }
+  .icon-1 {
+    padding: 5px !important;
+  }
+}
