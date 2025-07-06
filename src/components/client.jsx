@@ -65,7 +65,7 @@ export default function ClientsSection() {
 
           return (
             <div key={idx}>
-              <p className="text-blue-700 text-[69px] font-[700] ">
+              <p className="text-blue-700 md:text-[69px] text-[30px] font-[700] ">
                 <CountUp end={rawNumber} duration={2} separator="," />
                 <span>+</span>
               </p>

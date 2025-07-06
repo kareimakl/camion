@@ -18,7 +18,7 @@ export default function WhyUs() {
           </p>
         </div>
         <div className="relative w-full lg:w-1/2 flex justify-center">
-          <div className="w-[350px] h-[350px] bg-[#D5A3C9] rounded-2xl overflow-hidden">
+          <div className="md:w-[350px] md:h-[350px] w-[250px] h-[250px]  bg-[#D5A3C9] rounded-2xl overflow-hidden">
             <Image
               src="/assets/images/whyus.webp"
               alt="bg object"
@@ -28,7 +28,7 @@ export default function WhyUs() {
             />
           </div>
 
-          <div className="absolute -bottom-12 -left-12 w-[200px] h-[200px] bg-[#FFA500] rounded-2xl overflow-hidden shadow-lg border-4 border-white">
+          <div className="absolute -bottom-12 left-6 md:w-[200px] md:h-[200px] w-[150px] h-[150px] bg-[#FFA500] rounded-2xl overflow-hidden shadow-lg border-4 border-white">
             <Image
               src="/assets/images/why.webp"
               alt="megaphone"
