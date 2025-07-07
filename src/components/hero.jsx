@@ -15,12 +15,12 @@ export default function hero() {
         البرمجية
       </h2>
       <div className="flex md:gap-10 gap-2 w-full   justify-center items-center m-auto">
-        <button className="cursor-pointer font-bold md:block text-[16px] bg-[#0000ff] hover:bg-[#8700FF] text-white md:px-[45px] px-[25px] py-[6px] rounded-[3px]  transition   font[600] shadow-sm">
+        <button className="cursor-pointer font-bold md:block md:text-[16px] text-[12px] bg-[#0000ff] hover:bg-[#8700FF] text-white md:px-[45px] px-[20px] py-[6px] rounded-[3px]  transition   font[600] shadow-sm">
           {`
           سابقة أعمالنا >>
 `}
         </button>
-        <button className=" cursor-pointer  font-bold md:block bg-[#0000ff] hover:bg-[#8700FF] text-white md:px-[45px] px-[25px] py-[6px]  rounded-[3px]  transition  font[600] shadow-sm">
+        <button className=" cursor-pointer md:text-[16px] text-[12px]  font-bold md:block bg-[#0000ff] hover:bg-[#8700FF] text-white md:px-[45px] px-[20px] py-[6px]  rounded-[3px]  transition  font[600] shadow-sm">
           {`
 طلب عرض سعر >>
   

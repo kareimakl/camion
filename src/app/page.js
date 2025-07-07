@@ -7,16 +7,18 @@ import Review from "@/components/review";
 import WhyUs from "@/components/WhyUs";
 import Client from "@/components/client";
 import Contact from "@/components/contact";
+import Project from "@/components/project";
 export default function Home() {
   return (
     <div className="overflow-hidden">
       <Header />
       <Hero />
       <Services />
+      <Project />
       <Client />
       <Review />
       <WhyUs />
-      <Contact/>
+      <Contact />
       <Secbottom />
       <Footer />
     </div>

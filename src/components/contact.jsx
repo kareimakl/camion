@@ -2,11 +2,38 @@
 
 import { useState } from "react";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
-
+import ReCAPTCHA from "react-google-recaptcha";
 const countries = [
   { code: "EG", name: "مصر", dialCode: "+20", flag: "🇪🇬" },
   { code: "SA", name: "السعودية", dialCode: "+966", flag: "🇸🇦" },
   { code: "AE", name: "الإمارات", dialCode: "+971", flag: "🇦🇪" },
+  { code: "QA", name: "قطر", dialCode: "+974", flag: "🇶🇦" },
+  { code: "KW", name: "الكويت", dialCode: "+965", flag: "🇰🇼" },
+  { code: "OM", name: "عمان", dialCode: "+968", flag: "🇴🇲" },
+  { code: "BH", name: "البحرين", dialCode: "+973", flag: "🇧🇭" },
+  { code: "JO", name: "الأردن", dialCode: "+962", flag: "🇯🇴" },
+  { code: "IQ", name: "العراق", dialCode: "+964", flag: "🇮🇶" },
+  { code: "LB", name: "لبنان", dialCode: "+961", flag: "🇱🇧" },
+  { code: "SY", name: "سوريا", dialCode: "+963", flag: "🇸🇾" },
+  { code: "YE", name: "اليمن", dialCode: "+967", flag: "🇾🇪" },
+  { code: "SD", name: "السودان", dialCode: "+249", flag: "🇸🇩" },
+  { code: "MA", name: "المغرب", dialCode: "+212", flag: "🇲🇦" },
+  { code: "DZ", name: "الجزائر", dialCode: "+213", flag: "🇩🇿" },
+  { code: "TN", name: "تونس", dialCode: "+216", flag: "🇹🇳" },
+  { code: "LY", name: "ليبيا", dialCode: "+218", flag: "🇱🇾" },
+  { code: "FR", name: "فرنسا", dialCode: "+33", flag: "🇫🇷" },
+  { code: "US", name: "الولايات المتحدة", dialCode: "+1", flag: "🇺🇸" },
+  { code: "GB", name: "بريطانيا", dialCode: "+44", flag: "🇬🇧" },
+  { code: "DE", name: "ألمانيا", dialCode: "+49", flag: "🇩🇪" },
+  { code: "TR", name: "تركيا", dialCode: "+90", flag: "🇹🇷" },
+  { code: "IN", name: "الهند", dialCode: "+91", flag: "🇮🇳" },
+  { code: "PK", name: "باكستان", dialCode: "+92", flag: "🇵🇰" },
+  { code: "CN", name: "الصين", dialCode: "+86", flag: "🇨🇳" },
+  { code: "CA", name: "كندا", dialCode: "+1", flag: "🇨🇦" },
+  { code: "RU", name: "روسيا", dialCode: "+7", flag: "🇷🇺" },
+  { code: "ES", name: "إسبانيا", dialCode: "+34", flag: "🇪🇸" },
+  { code: "IT", name: "إيطاليا", dialCode: "+39", flag: "🇮🇹" },
+  { code: "AU", name: "أستراليا", dialCode: "+61", flag: "🇦🇺" },
 ];
 
 export default function ContactPage() {
@@ -18,7 +45,12 @@ export default function ContactPage() {
     service: "",
     notes: "",
   });
+  const [captchaValue, setCaptchaValue] = useState(null);
 
+  const handleCaptchaChange = (value) => {
+    setCaptchaValue(value);
+    console.log("CAPTCHA value:", value);
+  };
   const handleValidation = () => {
     const fullNumber = selectedCountry.dialCode + phone;
     const parsed = parsePhoneNumberFromString(fullNumber);
@@ -37,14 +69,24 @@ export default function ContactPage() {
     e.preventDefault();
     handleValidation();
     console.log({ ...formData, phone: selectedCountry.dialCode + phone });
-    // هنا ممكن تبعت البيانات للباك إند
+    e.preventDefault();
+    if (!captchaValue) {
+      alert("من فضلك أكّد أنك لست روبوتاً");
+      return;
+    }
+
+    // إرسال البيانات مع قيمة captcha
+    console.log("Form submitted with CAPTCHA:", captchaValue);
   };
 
   return (
-    <div className="min-h-screen bg-[#f1f6ff] flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen bg-[#f7f9ff] flex flex-col items-center justify-center p-4">
       <div className="rounded-lg max-w-[1200px] w-full grid grid-cols-1 md:grid-cols-2 overflow-hidden">
         {/* Side Text Section (Badge) */}
-        <div className="flex flex-col justify-center p-8 bg-[#e9f1ff] text-right">
+        <div className="flex flex-col items-start justify-start p-8 bg-[#f5f9ff] text-right">
+          <p className="text-sm font-bold mb-10  text-black">
+            احجز استشارتك...
+          </p>
           <h2 className="text-2xl md:text-3xl font-bold mb-2">
             كيف يمكننا <span className="text-blue-700">مساعدتك</span> في تاج
             هاوس؟
@@ -70,7 +112,7 @@ export default function ContactPage() {
             />
 
             {/* الهاتف */}
-            <div className="flex flex-col space-y-2">
+            <div className="flex  space-x-2">
               <select
                 value={selectedCountry.code}
                 onChange={(e) =>
@@ -88,8 +130,7 @@ export default function ContactPage() {
                 ))}
               </select>
 
-              <div className="flex items-center border border-gray-300 rounded p-2">
-                <span className="mr-2">{selectedCountry.dialCode}</span>
+              <div className="flex w-full items-center border border-gray-300 rounded p-2">
                 <input
                   type="tel"
                   className="w-full outline-none text-right"
@@ -97,6 +138,7 @@ export default function ContactPage() {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                 />
+                <span className="mr-2">{selectedCountry.dialCode}</span>
               </div>
             </div>
 
@@ -129,11 +171,11 @@ export default function ContactPage() {
               className="w-full border border-gray-300 rounded p-2 text-right h-24 resize-none"
             />
 
-            {/* reCAPTCHA placeholder */}
-            <div className="mt-4">
-              <div className="bg-gray-100 p-4 text-center rounded border">
-                [ reCAPTCHA placeholder ]
-              </div>
+            <div className="">
+              <ReCAPTCHA
+                sitekey="YOUR_SITE_KEY" // استبدله بمفتاحك
+                onChange={handleCaptchaChange}
+              />
             </div>
 
             {/* زر الإرسال */}

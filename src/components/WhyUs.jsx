@@ -8,7 +8,7 @@ export default function WhyUs() {
           <p className="text-sm text-gray-600 mb-2">لماذا تختارنا؟</p>
           <h2 className="text-3xl font-bold leading-snug">
             نقدم لكم
-            <span className="text-[#0000ff]">حلول برمجية وتسويقية </span>
+            <span className="text-[#0000ff]"> حلول برمجية وتسويقية  </span>
             <br /> مبتكرة...
           </h2>
           <p className="mt-4 text-gray-600 text-lg leading-relaxed">
@@ -18,7 +18,7 @@ export default function WhyUs() {
           </p>
         </div>
         <div className="relative w-full lg:w-1/2 flex justify-center">
-          <div className="md:w-[350px] md:h-[350px] w-[250px] h-[250px]  bg-[#D5A3C9] rounded-2xl overflow-hidden">
+          <div className="md:w-[350px] md:h-[350px] w-[250px] h-[250px]  bg-[#D5A3C9] rounded-2xl overflow-hidden shadow-lg border-4 border-white">
             <Image
               src="/assets/images/whyus.webp"
               alt="bg object"

@@ -6,7 +6,7 @@ import { FaBars, FaChevronDown, FaSearch, FaTimes } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
-const Header = () => {
+const Nav = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [options, setOptions] = useState([]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -30,11 +30,11 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="w-full bg-[url('/assets/images/bg.avif')] md:min-h-[300px] md:pt-5   bg-cover bg-top bg-no-repeat z-50">
-      <div className="md:max-w-[1200px]  w-full rounded-sm md:h-[105px] h-[50px] p-4 bg-white  z-[99] shadow-[0px_10px_40px_rgba(0,0,0,0.04)] transition-all duration-300 mx-auto px-4 py-4 flex justify-between items-center">
+    <header className="w-full  md:pt-5 bg-[#f5f9ff] relative   bg-cover bg-top bg-no-repeat ">
+      <div className="md:max-w-[1200px] z-50 relative   w-full rounded-sm md:h-[90px] h-[50px] p-4 bg-white   transition-all duration-300 mx-auto px-4 py-4 flex justify-between items-center">
         {/* CTA + Search */}
         <div className="flex items-center gap-3">
-          <button className="hidden cursor-pointer md:block bg-[#0000ff] text-white px-5 py-3 rounded-sm hover:bg-[#8700FF] transition text-xs  font[600] shadow-sm">
+          <button className="hidden cursor-pointer md:block bg-[#0000ff] text-white px-5 py-3 rounded-sm hover:bg-[#8700FF] transition text-xs  font[600] ">
             طلب عرض سعر
           </button>
           <button
@@ -180,7 +180,7 @@ const Header = () => {
               <Link href="/about">من نحن</Link>
             </li>
             <li>
-              <Link href="">client</Link>
+              <Link href="/client">عملائنا</Link>
             </li>
             <li>
               <Link href="/projects">أعمالنا</Link>
@@ -204,4 +204,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Nav;

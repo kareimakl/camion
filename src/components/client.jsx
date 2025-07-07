@@ -1,6 +1,6 @@
 // components/ClientsSection.tsx
 "use client";
-import CountUp from "react-countup"; // أضف هذا السطر في أعلى الملف
+import CountUp from "react-countup";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -24,8 +24,8 @@ const stats = [
 
 export default function ClientsSection() {
   return (
-    <section className="bg-white py-16 px-4 text-center">
-      <h2 className="text-3xl font-bold mb-10 text-blue-700">عملاؤنا</h2>
+    <section className="bg-white md:py-16 py-8 px-4 text-center">
+      <h2 className="text-3xl font-bold mb-10  text-[#2B00FF]">عملاؤنا</h2>
 
       <div className="max-w-[1200px]  mx-auto">
         {/* Slider */}
@@ -37,18 +37,20 @@ export default function ClientsSection() {
             768: { slidesPerView: 3 },
             1024: { slidesPerView: 5 },
           }}
-          loop
-          autoplay={{ delay: 1000 }}
+          autoplay={{
+            delay: 2500,
+            disableOnInteraction: false,
+          }}
         >
           {clientLogos.map((src, index) => (
             <SwiperSlide key={index}>
-              <div className="w-32 h-32 mb-4 mx-auto rounded-full p-1 bg-white shadow-lg relative overflow-hidden">
+              <div className="md:w-44 md:h-44  w-26 h-26 mb-4 mx-auto rounded-full p-1   relative overflow-hidden">
                 <Image
                   src={src}
                   alt={`Client ${index}`}
-                  width={120}
-                  height={120}
-                  className="object-contain w-full h-full"
+                  width={200}
+                  height={200}
+                  className="object-contain  w-full h-full"
                 />
               </div>
             </SwiperSlide>
@@ -58,14 +60,14 @@ export default function ClientsSection() {
 
       {/* Stats */}
 
-      <div className="grid max-w-[1000px] m-auto grid-cols-2 md:grid-cols-4 gap-8 mt-16 text-center">
+      <div className="grid max-w-[1200px] m-auto grid-cols-2 md:grid-cols-4 gap-8 md:mt-16 mt-8 text-center">
         {stats.map((stat, idx) => {
-          // نزيل علامة "+" من الرقم ونحول النص لرقم
           const rawNumber = parseInt(stat.number.replace(/[^\d]/g, ""));
 
           return (
             <div key={idx}>
-              <p className="text-blue-700 md:text-[69px] text-[30px] font-[700] ">
+              مبتكرة
+              <p className="text-[#2B00FF] md:text-[69px] text-[30px] font-[700] ">
                 <CountUp end={rawNumber} duration={2} separator="," />
                 <span>+</span>
               </p>
