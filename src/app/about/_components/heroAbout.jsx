@@ -33,7 +33,11 @@ export default function heroAbout() {
         <section className="bg-gradient-to-r relative md:w-[50%] w-[95%] m-auto  md:py-20 md:px-4 flex justify-center items-center">
           <div className=" absolute z-0 w-[300px] bottom-0  h-[200px] "></div>
           <div className=" md:h-[350px] rounded-2xl flex justify-center items-center m-auto h-[100px] bg-[#FFF]     shadow-lg md:w-[400px] w-[200px] ">
-            <img src="/assets/logos/logo-tajhouse.png" alt="" className="w-full object-contain" />
+            <img
+              src="/assets/logos/logo-tajhouse.png"
+              alt=""
+              className="w-full object-contain"
+            />
           </div>
         </section>
       </div>
@@ -41,12 +45,10 @@ export default function heroAbout() {
       <div className="flex gap-2 md:flex-row-reverse flex-col justify-between m-auto max-w-[1200px]">
         <div className="flex flex-col bg-white md:h-[240px] shadow-xl rounded-2xl m-auto md:w-[50%] w-[95%] items-start justify-start py-4 px-4  text-right">
           <h2 className="text-xl md:text-xl font-bold mb-2">
-
             رؤية<span className="text-[#2B00FF]"> تاج هاوس </span>
             ...
           </h2>
           <p className="text-gray-700 md:text-sm text-xs md:mt-4 leading-loose">
-
             أن نكون الشريك الرقمي الأول للشركات والعلامات التجارية، من خلال
             تقديم حلول برمجية متكاملة تساعد على تحقيق النمو المستدام، وتعزز من
             حضور العملاء الرقمي، مما يمكنهم من تحقيق أهدافهم بسهولة وكفاءة في
@@ -109,7 +111,6 @@ export default function heroAbout() {
           );
         })}
       </div>
-      
     </div>
   );
 }

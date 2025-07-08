@@ -6,7 +6,7 @@ import { FaBars, FaChevronDown, FaSearch, FaTimes } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
-const Header = () => {
+const Header = ({ allServices }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [options, setOptions] = useState([]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -26,7 +26,7 @@ const Header = () => {
         { id: 9, title: "الدعم الفني" },
       ]);
       setIsLoading(false);
-    }, 1000);
+    }, 100);
   }, []);
 
   return (
@@ -53,7 +53,9 @@ const Header = () => {
           {/* Dropdown */}
           <li className="relative list-none group">
             <div className="flex items-center gap-1 cursor-pointer hover:text-[#8700FF] transition">
-              <span className="text-[15px] font-[500]">خدماتنا</span>
+              <Link href="/services" className="text-[15px] font-[500]">
+                خدماتنا
+              </Link>
               <FontAwesomeIcon icon={faChevronDown} className="h-3 w-3" />
             </div>
 
@@ -78,7 +80,7 @@ const Header = () => {
                 options.map((option) => (
                   <li key={option.id}>
                     <Link
-                      href={`/services/${encodeURIComponent(
+                      href={`/services/${option.id}-${encodeURIComponent(
                         option.title.replace(/\s+/g, "-")
                       )}`}
                       className="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-[#8700FF] transition"
@@ -100,7 +102,7 @@ const Header = () => {
           <Link href="/projects" className="hover:text-[#8700FF] transition">
             أعمالنا
           </Link>
-          <Link href="#" className="hover:text-[#8700FF] transition">
+          <Link href="/blogs" className="hover:text-[#8700FF] transition">
             المدونة
           </Link>
           <Link href="/contact" className="hover:text-[#8700FF] transition">
@@ -150,7 +152,9 @@ const Header = () => {
                 onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
                 className="flex items-center justify-between cursor-pointer"
               >
-                <span className="text-[15px] font-[500]"> خدماتنا </span>
+                <Link href="/services" className="text-[15px] font-[500]">
+                  خدماتنا{" "}
+                </Link>
                 <FaChevronDown
                   className={`transition-transform ${
                     mobileServicesOpen ? "rotate-180" : ""
@@ -162,9 +166,9 @@ const Header = () => {
                   {options.map((option) => (
                     <li key={option.id}>
                       <Link
-                        href={`/services/${encodeURIComponent(
+                        href={`/services/${option.id}-${encodeURIComponent(
                           option.title.replace(/\s+/g, "-")
-                        )}-${option.id}`}
+                        )}`}
                         className="block hover:text-[#8700FF] transition"
                         onClick={() => setMobileMenuOpen(false)}
                       >
@@ -180,13 +184,13 @@ const Header = () => {
               <Link href="/about">من نحن</Link>
             </li>
             <li>
-              <Link href="">client</Link>
+              <Link href=""> عملائنا</Link>
             </li>
             <li>
               <Link href="/projects">أعمالنا</Link>
             </li>
             <li>
-              <Link href="#">المدونة</Link>
+              <Link href="/blogs">المدونة</Link>
             </li>
             <li>
               <Link href="/contact">تواصل معنا</Link>

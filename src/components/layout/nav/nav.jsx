@@ -53,7 +53,9 @@ const Nav = () => {
           {/* Dropdown */}
           <li className="relative list-none group">
             <div className="flex items-center gap-1 cursor-pointer hover:text-[#8700FF] transition">
-              <span className="text-[15px] font-[500]">خدماتنا</span>
+              <Link href="/services" className="text-[15px] font-[500]">
+                خدماتنا
+              </Link>
               <FontAwesomeIcon icon={faChevronDown} className="h-3 w-3" />
             </div>
 
@@ -78,7 +80,7 @@ const Nav = () => {
                 options.map((option) => (
                   <li key={option.id}>
                     <Link
-                      href={`/services/${encodeURIComponent(
+                      href={`/services/${option.id}-${encodeURIComponent(
                         option.title.replace(/\s+/g, "-")
                       )}`}
                       className="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-[#8700FF] transition"
@@ -100,7 +102,7 @@ const Nav = () => {
           <Link href="/projects" className="hover:text-[#8700FF] transition">
             أعمالنا
           </Link>
-          <Link href="#" className="hover:text-[#8700FF] transition">
+          <Link href="/blogs" className="hover:text-[#8700FF] transition">
             المدونة
           </Link>
           <Link href="/contact" className="hover:text-[#8700FF] transition">
@@ -127,7 +129,7 @@ const Nav = () => {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="fixed top-0 right-0 w-72 h-full bg-white shadow-xl z-50 transition-transform duration-300 p-5 text-right flex flex-col">
+        <div className="fixed top-0 right-0 w-72 h-full bg-[#eff4fe] shadow-xl z-50 transition-transform duration-300 p-5 text-right flex flex-col">
           <div className="flex justify-between items-center mb-6">
             <img
               src="/assets/logos/logo-tajhouse.png"
@@ -150,7 +152,10 @@ const Nav = () => {
                 onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
                 className="flex items-center justify-between cursor-pointer"
               >
-                <span className="text-[15px] font-[500]"> خدماتنا </span>
+                <Link href="/services" className="text-[15px] font-[500]">
+                  {" "}
+                  خدماتنا{" "}
+                </Link>
                 <FaChevronDown
                   className={`transition-transform ${
                     mobileServicesOpen ? "rotate-180" : ""
@@ -162,9 +167,9 @@ const Nav = () => {
                   {options.map((option) => (
                     <li key={option.id}>
                       <Link
-                        href={`/services/${encodeURIComponent(
+                        href={`/services/${option.id}-${encodeURIComponent(
                           option.title.replace(/\s+/g, "-")
-                        )}-${option.id}`}
+                        )}`}
                         className="block hover:text-[#8700FF] transition"
                         onClick={() => setMobileMenuOpen(false)}
                       >
@@ -186,7 +191,7 @@ const Nav = () => {
               <Link href="/projects">أعمالنا</Link>
             </li>
             <li>
-              <Link href="#">المدونة</Link>
+              <Link href="/blogs">المدونة</Link>
             </li>
             <li>
               <Link href="/contact">تواصل معنا</Link>

@@ -29,9 +29,9 @@ const clientLogos = [
 ];
 export default function Client() {
   return (
-    <div className=" w-full  relative bg-[#fff] py-16 m-auto  flex flex-col gap-1 justify-center items-center text-start">
+    <div className=" w-full  relative bg-[#e7e7e7] py-16 m-auto  flex flex-col gap-1 justify-center items-center text-start">
       <h2 className="text-[#2B00FF] mb-8 text-3xl font-bold"> عملائنا</h2>
-      <div className="max-w-[1200px] grid grid-cols-8  mx-auto">
+      <div className="max-w-[1200px] grid md:grid-cols-8 grid-cols-4  mx-auto">
         {clientLogos.map((src, index) => (
           <div
             key={index}

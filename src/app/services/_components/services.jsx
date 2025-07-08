@@ -1,17 +1,17 @@
-import { allServices } from "@/app/services/_data/servicesData";
+
 import Link from "next/link";
 import React from "react";
-export default function services() {
-  const servicesAll = allServices;
 
+export default function services({servicesAll}) {
   return (
-    <div className=" w-full bg-[#eff5fe] mt-16  flex flex-col gap-1 justify-center items-center text-center">
-      <h2 className="text-[#0000ff] mt-4 md:text-[33px] text-[20px] font-[700]">
-        خدماتنا
+    <div className=" w-full bg-[#eff5fe]   flex flex-col gap-1 justify-center items-center text-center">
+      <h2 className=" mt-4 md:text-[33px] text-[20px] font-[700]">
+        خدمات
+        <span className="text-[#0000ff]"> تاج هاوس </span>
       </h2>
       <p className="md:text-[18px] md:w-full w-[80%]  text-[15px] mb-2  text-[#50595f]">
-        نقدم خدمات استثنائية مثل تطوير المواقع والمتاجر والتطبيقات والأنظمة
-        البرمجية
+        منذ عام 2016 وحتى الآن نحن ملتزمون بتقديم خدمات احترافية متكاملة تلبي
+        احتياجات عملائنا
       </p>
 
       <section className="py-4 px-4 ">
