@@ -6,7 +6,7 @@ import { FaBars, FaChevronDown, FaSearch, FaTimes } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
-const Header = ({ allServices }) => {
+const Header = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [options, setOptions] = useState([]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
