@@ -8,7 +8,9 @@ import WhyUs from "@/components/WhyUs";
 import Client from "@/components/client";
 import Contact from "@/components/contact";
 import Project from "@/components/project";
-export default function Home() {
+import { getTranslations } from "next-intl/server";
+export default async function HomePage() {
+  const t = await getTranslations("HomePage");
   return (
     <div className="overflow-hidden">
       <Header />

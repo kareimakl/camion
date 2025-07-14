@@ -5,6 +5,7 @@ import Link from "next/link";
 import { FaBars, FaChevronDown, FaSearch, FaTimes } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { GlobalLanguage } from "../../GolablLanguage";
 
 const Nav = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -34,6 +35,7 @@ const Nav = () => {
       <div className="md:max-w-[1200px] z-50 relative   w-full rounded-sm md:h-[90px] h-[50px] p-4 bg-white   transition-all duration-300 mx-auto px-4 py-4 flex justify-between items-center">
         {/* CTA + Search */}
         <div className="flex items-center gap-3">
+          <GlobalLanguage />
           <button className="hidden cursor-pointer md:block bg-[#0000ff] text-white px-5 py-3 rounded-sm hover:bg-[#8700FF] transition text-xs  font[600] ">
             طلب عرض سعر
           </button>

@@ -1,0 +1,37 @@
+{
+  "HomePage": {
+    "title": "Home Page",
+    "hero": [
+      "Taj House",
+      "For Programming Services",
+      "A leading company in building websites, e-commerce stores, and software systems",
+      "Our Portfolio >>",
+      "Request a Quote >>"
+    ],
+    "services": [
+      "Services",
+      "We offer services for sale, such as website and store development, and systems detection and freezing."
+    ]
+  },
+  "header": {
+    "home": "Home",
+    "aboutUS": "About Us",
+    "services": "Services",
+    "blogs": "Blogs",
+    "client": "Client",
+    "contact": "Contact Us",
+    "finalwork": "Final Work",
+    "connectWithUs": "Request a quote",
+    "serviceOptions": [
+      "Website Development",
+      "E-commerce Development",
+      "Mobile App Development",
+      "Web Hosting",
+      "Web Programming",
+      "CRM Systems",
+      "ERP Systems",
+      "Odoo Systems",
+      "Technical Support"
+    ]
+  }
+}

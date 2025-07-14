@@ -57,11 +57,18 @@ const projects = [
 
 export default function ProjectsGallery() {
   const [selectedCategory, setSelectedCategory] = useState("الكل");
+  const [activeProjectId, setActiveProjectId] = useState(null);
 
   const filteredProjects =
     selectedCategory === "الكل"
       ? projects
       : projects.filter((p) => p.category === selectedCategory);
+
+  const handleClick = (id) => {
+    if (window.innerWidth < 768) {
+      setActiveProjectId(id === activeProjectId ? null : id); // Toggle
+    }
+  };
 
   return (
     <section className="md:py-16 py-4 max-w-[1200px] m-auto px-4 text-right">
@@ -83,12 +90,13 @@ export default function ProjectsGallery() {
           مصر والعالم العربي، مما ساعدهم على تحقيق نمو ملموس في أعمالهم الرقمية.
         </p>
       </div>
+
       <div className="flex justify-center gap-4 my-10">
         {categories.map((cat) => (
           <button
             key={cat}
             onClick={() => setSelectedCategory(cat)}
-            className={`md:px-4 px-2  py-2 md:text-2xl text-xs   hover:bg-[#2B00FF] hover:text-[#fff] cursor-pointer rounded  font-semibold border transition-all duration-200 ${
+            className={`md:px-4 px-2  py-2 md:text-2xl text-xs hover:bg-[#2B00FF] hover:text-[#fff] cursor-pointer rounded font-semibold border transition-all duration-200 ${
               selectedCategory === cat
                 ? "bg-[#2B00FF] text-white"
                 : "bg-white text-black border-gray-300"
@@ -98,24 +106,40 @@ export default function ProjectsGallery() {
           </button>
         ))}
       </div>
+
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-        {filteredProjects.map((project) => (
-          <div
-            style={{ boxShadow: "0px 0px 5px 0px rgba(0, 0, 0, 0.5)" }}
-            key={project.id}
-            className="overflow-hidden rounded-lg shadow-md group relative w-full md:h-[500px] h-[300px]"
-          >
-            <div className="w-full h-full overflow-hidden">
-              <Image
-                src={project.image}
-                alt={project.title}
-                width={400}
-                height={1200}
-                className="w-full h-auto block transition-transform object-cover duration-[3000ms] ease-in-out group-hover:translate-y-[-300px]"
-              />
+        {filteredProjects.map((project) => {
+          const isActive = activeProjectId === project.id;
+
+          return (
+            <div
+              key={project.id}
+              onClick={() => handleClick(project.id)}
+              style={{ boxShadow: "0px 0px 5px 0px rgba(0, 0, 0, 0.5)" }}
+              className="overflow-hidden rounded-lg shadow-md group relative w-full md:h-[400px] h-[300px] cursor-pointer"
+            >
+              <div className="w-full h-full overflow-hidden">
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  width={400}
+                  height={1200}
+                  className={`w-full h-auto block object-cover transition-transform duration-[3000ms] ease-in-out
+  ${
+    isActive
+      ? project.id === 1
+        ? "translate-y-[-50px]"
+        : "translate-y-[-150px]"
+      : project.id === 1
+      ? "group-hover:translate-y-[-100px]"
+      : "group-hover:translate-y-[-300px]"
+  }
+`}
+                />
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );

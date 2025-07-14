@@ -1,19 +1,22 @@
-@import url("https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700&display=swap"); */
 @import "tailwindcss";
-body {
-  font-family: "Almarai", sans-serif;
-  direction: rtl;
+
+:root {
+  --font-primary: var(--font-geist-sans);
+  --font-secondary: var(--font-almarai);
+  --font-mono: var(--font-geist-mono);
 }
-   <>
-      <link
-        href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700&display=swap"
-        rel="stylesheet"
-      />
-      <link
-        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet"
-      />
-    </>
+
+body {
+  font-family: var(--font-secondary);
+}
 * {
-  font-family: "Almarai", sans-serif;
+  font-family: var(--font-secondary);
+}
+
+@font-face {
+  font-family: "Almarai";
+  src: url("/fonts/Almarai/Almarai-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
 }

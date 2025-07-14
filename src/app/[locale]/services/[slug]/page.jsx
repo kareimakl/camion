@@ -3,7 +3,7 @@ import Footer from "@/components/layout/footer/footer";
 import Nav from "@/components/layout/nav/nav";
 import SinglService from "./_components/SinglService";
 import Hero from "./_components/hero";
-import { allServices } from "@/app/services/_data/servicesData";
+import { allServices } from "../_data/servicesData";
 import Join from "./_components/join";
 import Client from "./_components/client";
 import Services from "./_components/servicesSingle";
@@ -14,11 +14,9 @@ export default function ServicePage({ params }) {
   const ServiceAll = allServices;
   const id = slug.split("-")[0]; // رقم ID
   const service = allServices.find((s) => s.id === Number(id));
-
   if (!service) {
     return <div className="p-10 text-red-600">الخدمة غير موجودة</div>;
   }
-
   return (
     <>
       <Nav />
