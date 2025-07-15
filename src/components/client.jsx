@@ -1,11 +1,9 @@
-// components/ClientsSection.tsx
 "use client";
 import CountUp from "react-countup";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import Image from "next/image";
-
+import { useTranslations } from "next-intl";
 const clientLogos = [
   "/assets/images/client-1.avif",
   "/assets/images/client-2.avif",
@@ -15,17 +13,20 @@ const clientLogos = [
   "/assets/images/client-6.avif",
 ];
 
-const stats = [
-  { number: "10+", label: "سنوات الخبرة" },
-  { number: "9,000+", label: "عملاء سعداء" },
-  { number: "11,000+", label: "مشروعات منتهية" },
-  { number: "689+", label: "مشروع تحت التنفيذ" },
-];
-
 export default function ClientsSection() {
+  const t = useTranslations("HomePage");
+  const stats = [
+    { number: "10+", label: t("client.1") },
+    { number: "9,000+", label: t("client.2") },
+    { number: "11,000+", label: t("client.3") },
+    { number: "689+", label: t("client.4") },
+  ];
+
   return (
     <section className="bg-white md:py-16 py-8 px-4 text-center">
-      <h2 className="text-3xl font-bold mb-10  text-[#2B00FF]">عملاؤنا</h2>
+      <h2 className="text-3xl font-bold mb-10  text-[#2B00FF]">
+        {t("client.0")}
+      </h2>
 
       <div className="max-w-[1200px]  mx-auto">
         {/* Slider */}
@@ -66,7 +67,6 @@ export default function ClientsSection() {
 
           return (
             <div key={idx}>
-              مبتكرة
               <p className="text-[#2B00FF] md:text-[69px] text-[30px] font-[700] ">
                 <CountUp end={rawNumber} duration={2} separator="," />
                 <span>+</span>

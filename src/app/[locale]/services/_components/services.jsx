@@ -1,25 +1,25 @@
-
-import Link from "next/link";
+"use client";
 import React from "react";
-
-export default function services({servicesAll}) {
+import Lottie from "lottie-react";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation"; // use this if you're using localized routes
+export default function services({ servicesAll }) {
+  const t = useTranslations("HomePage");
+  const servicesTexts = t.raw("services");
   return (
     <div className=" w-full bg-[#eff5fe]   flex flex-col gap-1 justify-center items-center text-center">
-      <h2 className=" mt-4 md:text-[33px] text-[20px] font-[700]">
-        خدمات
-        <span className="text-[#0000ff]"> تاج هاوس </span>
+      <h2 className="text-[#0000ff] mt-4 md:text-[33px] text-[20px] font-[700]">
+        {servicesTexts[0]}
       </h2>
       <p className="md:text-[18px] md:w-full w-[80%]  text-[15px] mb-2  text-[#50595f]">
-        منذ عام 2016 وحتى الآن نحن ملتزمون بتقديم خدمات احترافية متكاملة تلبي
-        احتياجات عملائنا
+        {servicesTexts[1]}
       </p>
-
       <section className="py-4 px-4 ">
         <div className="max-w-[1200px]  mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 md:gap-6 gap-2">
           {servicesAll.map((item) => (
             <div
               key={item?.id}
-              className="border relative bg-white cursor-pointer border-gray-200 rounded-lg p-5 md:text-right text-center hover:shadow-md transition-all duration-300"
+              className="border relative bg-white cursor-pointer border-gray-200 rounded-lg p-5 md:text-start text-center hover:shadow-md transition-all duration-300"
             >
               <Link
                 className="absolute w-full h-full z-10 "
@@ -27,12 +27,21 @@ export default function services({servicesAll}) {
                   item?.title.replace(/\s+/g, "-")
                 )}`}
               ></Link>
-              <div className="w-20 h-20 mx-auto mb-4">
-                <img
-                  src={item?.img}
-                  alt={item?.title}
-                  className="w-full h-full object-contain"
-                />
+              <div className="w-26 h-26 mx-auto mb-4">
+                {item?.img && typeof item.img === "object" ? (
+                  <Lottie
+                    animationData={item.img}
+                    loop
+                    autoplay
+                    style={{ width: 100, height: 100 }}
+                  />
+                ) : (
+                  <img
+                    src={item?.img}
+                    alt={item?.title}
+                    className="w-20 h-20 object-contain mx-auto"
+                  />
+                )}
               </div>
               <h3 className="text-blue-700 text-md font-bold mb-2">
                 {item?.title}

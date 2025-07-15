@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -6,41 +7,37 @@ import {
   faLinkedin,
   faSquareInstagram,
 } from "@fortawesome/free-brands-svg-icons";
+
 export default function Footer() {
   const [show, setShow] = useState(false);
+  const t = useTranslations("Footer");
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setShow(true);
-    }, 1000);
+    const timeout = setTimeout(() => setShow(true), 1000);
     return () => clearTimeout(timeout);
   }, []);
+
   return (
-    <footer className="bg-[#f5f7fe] border-t border-[#DEDEDE] text-right text-gray-700 pt-12 pb-6 px-4 rtl">
+    <footer className="bg-[#f5f7fe] border-t border-[#343333] text-right text-gray-700 pt-12 pb-6 px-4 rtl">
       <div className="max-w-[1200px] mx-auto grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-8">
         <div>
-          <h4 className="text-xl font-bold text-gray-900 mb-4">تاج هاوس</h4>
-          <p className="text-2xl   text-gray-900 mb-2 font-syne">01000447398</p>
-          <p className="text-sm text-gray-600 mb-4">info@tajhouse.com</p>
-          <div className="flex gap-3 mt-4">
-            <a
-              href="https://www.facebook.com/tajhouse2022"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+          <h4 className="text-xl text-start font-bold text-gray-900 mb-4">
+            {t("company")}
+          </h4>
+          <p className="text-2xl text-start text-gray-900 mb-2 font-syne">
+            {t("phone")}
+          </p>
+          <p className="text-sm text-start text-gray-600 mb-4">{t("email")}</p>
+          <div className="flex text-start gap-3 mt-4">
+            <a href="https://www.facebook.com/tajhouse2022" target="_blank">
               <FontAwesomeIcon icon={faFacebook} />
             </a>
-            <a
-              href="https://www.instagram.com/tajhouse2022"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href="https://www.instagram.com/tajhouse2022" target="_blank">
               <FontAwesomeIcon icon={faSquareInstagram} />
             </a>
             <a
               href="https://www.linkedin.com/company/taj-house"
               target="_blank"
-              rel="noopener noreferrer"
             >
               <FontAwesomeIcon icon={faLinkedin} />
             </a>
@@ -48,45 +45,45 @@ export default function Footer() {
         </div>
 
         <div>
-          <h4 className="text-lg font-bold text-gray-900 mb-4">فروعنا</h4>
-          <ul className="space-y-2 text-sm leading-6">
-            <li>9 مصطفى النحاس - مدينة نصر</li>
-            <li>كايرو كومبلكس - شيراتون المطار</li>
-            <li>مكتب 907 مبنى أبراج - دبي</li>
-            <li>21442 حي التيسير - جدة</li>
-          </ul>
-        </div>
-
-        <div>
-          <h4 className="text-lg font-bold text-gray-900 mb-4">خدماتنا</h4>
-          <ul className="space-y-2 text-sm leading-6">
-            <li>تصميم وتطوير المواقع الإلكترونية</li>
-            <li>تصميم وتطوير تطبيقات الهاتف</li>
-            <li>إنشاء وتطوير المتاجر الإلكترونية</li>
-            <li>برمجة مواقع الويب</li>
-          </ul>
-        </div>
-
-        <div>
-          <h4 className="text-lg font-bold text-gray-900 mb-4">
-            نشرتنا الاخبارية
+          <h4 className="text-lg text-start font-bold text-gray-900 mb-4">
+            {t("branchesTitle")}
           </h4>
-          <p className="text-sm mb-4">
-            اشترك في نشرتنا الاخبارية ليصلك كل جديد...
-          </p>
+          <ul className="space-y-2 text-start text-sm leading-6">
+            {t.raw("branches").map((item, i) => (
+              <li key={i}>{item}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <h4 className="text-lg text-start font-bold text-gray-900 mb-4">
+            {t("servicesTitle")}
+          </h4>
+          <ul className="space-y-2 text-start text-sm leading-6">
+            {t.raw("services").map((item, i) => (
+              <li key={i}>{item}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <h4 className="text-lg text-start font-bold text-gray-900 mb-4">
+            {t("newsletterTitle")}
+          </h4>
+          <p className="text-sm mb-4 text-start">{t("newsletterText")}</p>
           <input
             type="email"
-            placeholder="البريد الإلكتروني"
+            placeholder={t("emailPlaceholder")}
             className="w-full px-4 py-2 rounded-md border border-gray-300 mb-3 text-sm"
           />
-          <button className="w-full bg-blue-700 text-white py-2 rounded-md hover:bg-blue-800 text-sm font-semibold">
-            اشترك
+          <button className="w-full  bg-blue-700 text-white py-2 rounded-md hover:bg-blue-800 text-sm font-semibold">
+            {t("subscribe")}
           </button>
         </div>
       </div>
 
       <div className="mt-12 border-t border-[#DEDEDE] pt-4 text-center text-xs text-gray-500">
-        Copyright © 2022 Made With Love, Taj House All Rights Reserved.
+        {t("copyright")}
       </div>
 
       <a
@@ -96,6 +93,9 @@ export default function Footer() {
           show ? "animate-slide-up" : "opacity-0"
         }`}
       >
+        <span className="bg-white shadow-md px-3 py-2 rounded-full">
+          {t("whatsapp")}
+        </span>
         <svg
           width="39"
           height="39"
@@ -123,9 +123,6 @@ export default function Footer() {
             strokeWidth="0.2"
           ></path>
         </svg>
-        <span className="bg-white shadow-md  px-3 py-2  rounded-full">
-          تواصل معنا
-        </span>
       </a>
     </footer>
   );

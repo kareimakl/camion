@@ -1,24 +1,30 @@
+"use client";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 export default function WhyUs() {
+  const t = useTranslations("HomePage");
+
   return (
-    <section className="bg-white  py-20 px-6 text-right">
+    <section className="bg-white py-20 px-6 text-right">
       <div className="max-w-[1200px] mx-auto flex flex-col lg:flex-row items-center justify-between gap-12">
-        <div className="w-full lg:w-1/2">
-          <p className="text-sm text-gray-600 mb-2">لماذا تختارنا؟</p>
+        {/* Text Section */}
+        <div className="w-full text-start lg:w-1/2">
+          <p className="text-sm text-gray-600 mb-2">{t("why.0")}</p>
           <h2 className="text-3xl font-bold leading-snug">
-            نقدم لكم
-            <span className="text-[#0000ff]"> حلول برمجية وتسويقية  </span>
-            <br /> مبتكرة...
+            {t("why.1")}
+            <span className="text-[#0000ff]"> {t("why.2")} </span>
+            <br />
+            {t("why.3")}
           </h2>
           <p className="mt-4 text-gray-600 text-lg leading-relaxed">
-            نحن ملتزمون بمساعدتك على تحقيق أهدافك الرقمية وبناء حضور قوي في
-            السوق. يتميز فريقنا بخبرة واسعة منذ عام 2016، مما يتيح لنا تقديم
-            حلول مبتكرة.
+            {t("why.4")}
           </p>
         </div>
+
+        {/* Image Section */}
         <div className="relative w-full lg:w-1/2 flex justify-center">
-          <div className="md:w-[350px] md:h-[350px] w-[250px] h-[250px]  bg-[#D5A3C9] rounded-2xl overflow-hidden shadow-lg border-4 border-white">
+          <div className="md:w-[350px] md:h-[350px] w-[250px] h-[250px] bg-[#D5A3C9] rounded-2xl overflow-hidden shadow-lg border-4 border-white">
             <Image
               src="/assets/images/whyus.webp"
               alt="bg object"

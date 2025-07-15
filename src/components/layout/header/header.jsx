@@ -24,14 +24,14 @@ const Header = () => {
       );
     }
     setIsLoading(false);
-  }, [t]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <header className="w-full bg-[url('/assets/images/bg.avif')] md:min-h-[300px] md:pt-5   bg-cover bg-top bg-no-repeat z-50">
       <div className="md:max-w-[1200px]  w-full rounded-sm md:h-[105px] h-[50px] p-4 bg-white  z-[99] shadow-[0px_10px_40px_rgba(0,0,0,0.04)] transition-all duration-300 mx-auto px-4 py-4 flex justify-between items-center">
         {/* CTA + Search */}
         <div className="flex items-center gap-3">
-          <GlobalLanguage />
           <button className="hidden cursor-pointer md:block bg-[#0000ff] text-white px-5 py-3 rounded-sm hover:bg-[#8700FF] transition text-xs  font[600] shadow-sm">
             {t("connectWithUs")}
           </button>
@@ -106,6 +106,7 @@ const Header = () => {
           <Link href="/contact" className="hover:text-[#8700FF] transition">
             {t("contact")}
           </Link>
+          <GlobalLanguage />
         </nav>
         {/* Logo */}
         <div className="md:w-40 w-26 items-start flex justify-start  ">
@@ -115,6 +116,7 @@ const Header = () => {
             className="w-full h-auto object-contain"
           />
         </div>
+        <GlobalLanguage className=" md:hidden " />
       </div>
 
       {/* Mobile Overlay */}
@@ -124,7 +126,6 @@ const Header = () => {
           onClick={() => setMobileMenuOpen(false)}
         />
       )}
-
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="fixed top-0 right-0 w-72 h-full bg-white shadow-xl z-50 transition-transform duration-300 p-5 text-right flex flex-col">

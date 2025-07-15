@@ -1,9 +1,9 @@
-// app/blog/page.tsx أو pages/blog/index.tsx حسب نسخة Next.js
 "use client";
-
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 export default function Blog({ posts }) {
+  const t = useTranslations("Bolgs");
   return (
     <section className="py-12 px-4 max-w-[1200px] mx-auto">
       <div className="grid grid-cols-1 sm:grid-cols-2  xl:grid-cols-3 gap-6">
@@ -29,18 +29,18 @@ export default function Blog({ posts }) {
                 {post.badge}
               </span>
             </div>
-            <div className="p-4 text-right">
+            <div className="p-4  text-start">
               <h3 className="text-md font-bold text-[#2B00FF] mb-2 leading-snug">
                 {post.title}
               </h3>
-              <p className="text-sm text-gray-700 leading-relaxed mb-4">
+              <p className="text-sm text-gray-700 text-start leading-relaxed mb-4">
                 {post.desc}
               </p>
               <Link
                 href={`/blogs/${post.id}`}
                 className="text-sm text-[#2B00FF] font-semibold"
               >
-                المزيد &gt;
+                {t("more")}&gt;
               </Link>
             </div>
           </div>

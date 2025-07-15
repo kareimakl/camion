@@ -1,6 +1,8 @@
 "use client";
 import React from "react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
+
 const clientLogos = [
   "/assets/images/client-1.avif",
   "/assets/images/client-2.avif",
@@ -28,9 +30,13 @@ const clientLogos = [
   "/assets/images/client-6.avif",
 ];
 export default function Client() {
+  const t = useTranslations("HomePage");
+
   return (
-    <div className=" w-full  relative bg-[#e7e7e7] py-16 m-auto  flex flex-col gap-1 justify-center items-center text-start">
-      <h2 className="text-[#2B00FF] mb-8 text-3xl font-bold"> عملائنا</h2>
+    <div className=" w-full  relative bg-[#fff] py-16 m-auto  flex flex-col gap-1 justify-center items-center text-start">
+      <h2 className="text-[#2B00FF] mb-8 text-3xl font-bold">
+        {t("client.0")}
+      </h2>
       <div className="max-w-[1200px] grid md:grid-cols-8 grid-cols-4  mx-auto">
         {clientLogos.map((src, index) => (
           <div

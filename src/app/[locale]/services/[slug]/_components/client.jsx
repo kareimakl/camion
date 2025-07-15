@@ -1,11 +1,9 @@
 // components/ClientsSection.tsx
 "use client";
-import CountUp from "react-countup";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import Image from "next/image";
-
+import { useTranslations } from "next-intl";
 const clientLogos = [
   "/assets/images/client-1.avif",
   "/assets/images/client-2.avif",
@@ -16,13 +14,13 @@ const clientLogos = [
 ];
 
 export default function ClientsSection() {
+  const t = useTranslations("HomePage");
   return (
     <div className="bg-[#f7f7f7]">
-      <section className=" md:py-16 py-8 px-4 text-right m-auto max-w-[1200px]">
-        <h2 className="text-sm font-bold mb-10 "> عملاؤنا...</h2>
+      <section className=" md:py-16 py-8 px-4 text-start m-auto max-w-[1200px]">
+        <h2 className="text-sm font-bold mb-10 ">{t("client.5")}</h2>
         <p className="text-2xl font-bold  mb-10 space-x-1">
-          {` عملاء شرفنا     `}
-          <span className="text-[#0000ff]">بالعمل معهم ...</span>
+          <span className="text-[#0000ff]">{t("client.6")}</span>
         </p>
 
         <div className="max-w-[1200px]  mx-auto">

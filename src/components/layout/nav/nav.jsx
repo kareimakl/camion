@@ -1,43 +1,40 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
-import { FaBars, FaChevronDown, FaSearch, FaTimes } from "react-icons/fa";
+import { FaBars, FaChevronDown, FaTimes } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { GlobalLanguage } from "../../GolablLanguage";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 
 const Nav = () => {
+  const t = useTranslations("header");
   const [isLoading, setIsLoading] = useState(true);
   const [options, setOptions] = useState([]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => {
-      setOptions([
-        { id: 1, title: "إنشاء وتطوير المواقع الإلكترونية" },
-        { id: 2, title: "إنشاء وتطوير المتاجر الإلكترونية" },
-        { id: 3, title: "تصميم وتطوير تطبيقات الهاتف" },
-        { id: 4, title: "استضافة المواقع الإلكترونية" },
-        { id: 5, title: "برمجة مواقع الويب" },
-        { id: 6, title: "أنظمة CRM" },
-        { id: 7, title: "أنظمة ERP" },
-        { id: 8, title: "أنظمة Odoo" },
-        { id: 9, title: "الدعم الفني" },
-      ]);
-      setIsLoading(false);
-    }, 1000);
-  }, []);
+    const titles = t.raw("serviceOptions");
+    if (titles?.length) {
+      setOptions(
+        titles.map((title, index) => ({
+          id: index + 1,
+          title,
+        }))
+      );
+    }
+    setIsLoading(false);
+  }, [t]);
 
   return (
     <header className="w-full  md:pt-5 bg-[#f5f9ff] relative   bg-cover bg-top bg-no-repeat ">
       <div className="md:max-w-[1200px] z-50 relative   w-full rounded-sm md:h-[90px] h-[50px] p-4 bg-white   transition-all duration-300 mx-auto px-4 py-4 flex justify-between items-center">
         {/* CTA + Search */}
         <div className="flex items-center gap-3">
-          <GlobalLanguage />
           <button className="hidden cursor-pointer md:block bg-[#0000ff] text-white px-5 py-3 rounded-sm hover:bg-[#8700FF] transition text-xs  font[600] ">
-            طلب عرض سعر
+            {t("connectWithUs")}
           </button>
           <button
             className="md:hidden text-2xl text-gray-700"
@@ -49,21 +46,20 @@ const Nav = () => {
         {/* Desktop Nav */}
         <nav className="hidden md:flex gap-10 items-center text-[15px] font-medium text-gray-800">
           <Link href="/" className="hover:text-[#8700FF] transition">
-            الرئيسية
+            {t("home")}
           </Link>
 
           {/* Dropdown */}
           <li className="relative list-none group">
             <div className="flex items-center gap-1 cursor-pointer hover:text-[#8700FF] transition">
               <Link href="/services" className="text-[15px] font-[500]">
-                خدماتنا
+                {t("services")}
               </Link>
               <FontAwesomeIcon icon={faChevronDown} className="h-3 w-3" />
             </div>
-
             <ul
               className={`
-      absolute top-full right-0 mt-2 w-64 bg-white shadow-xl rounded-xl z-50 text-right py-2 overflow-hidden
+      absolute top-full right-0 mt-2 w-64 bg-white shadow-xl rounded-xl z-50 text-start py-2 overflow-hidden
       opacity-0 group-hover:opacity-100
       invisible group-hover:visible
       transition-all duration-300
@@ -96,20 +92,21 @@ const Nav = () => {
           </li>
 
           <Link href="/about" className="hover:text-[#8700FF] transition">
-            من نحن
+            {t("aboutUS")}
           </Link>
           <Link href="/client" className="hover:text-[#8700FF] transition">
-            عملائنا
+            {t("client")}
           </Link>
           <Link href="/projects" className="hover:text-[#8700FF] transition">
-            أعمالنا
+            {t("finalwork")}
           </Link>
           <Link href="/blogs" className="hover:text-[#8700FF] transition">
-            المدونة
+            {t("blogs")}
           </Link>
           <Link href="/contact" className="hover:text-[#8700FF] transition">
-            تواصل معنا
+            {t("contact")}
           </Link>
+          <GlobalLanguage />
         </nav>
         {/* Logo */}
         <div className="md:w-40 w-26 items-start flex justify-start  ">
@@ -119,6 +116,7 @@ const Nav = () => {
             className="w-full h-auto object-contain"
           />
         </div>
+        <GlobalLanguage className=" md:hidden " />
       </div>
 
       {/* Mobile Overlay */}
@@ -146,7 +144,7 @@ const Nav = () => {
 
           <ul className="space-y-4 text-gray-800 font-medium">
             <li>
-              <Link href="/">الرئيسية</Link>
+              <Link href="/">{t("home")}</Link>
             </li>
 
             <li>
@@ -155,8 +153,7 @@ const Nav = () => {
                 className="flex items-center justify-between cursor-pointer"
               >
                 <Link href="/services" className="text-[15px] font-[500]">
-                  {" "}
-                  خدماتنا{" "}
+                  {t("services")}
                 </Link>
                 <FaChevronDown
                   className={`transition-transform ${
@@ -184,24 +181,24 @@ const Nav = () => {
             </li>
 
             <li>
-              <Link href="/about">من نحن</Link>
+              <Link href="/about">{t("aboutUS")}</Link>
             </li>
             <li>
-              <Link href="/client">عملائنا</Link>
+              <Link href="/client">{t("client")}</Link>
             </li>
             <li>
-              <Link href="/projects">أعمالنا</Link>
+              <Link href="/projects">{t("finalwork")}</Link>
             </li>
             <li>
-              <Link href="/blogs">المدونة</Link>
+              <Link href="/blogs">{t("blogs")}</Link>
             </li>
             <li>
-              <Link href="/contact">تواصل معنا</Link>
+              <Link href="/contact">{t("contact")}</Link>
             </li>
 
             <li>
               <button className="w-full bg-[#0000ff] text-white py-2 rounded-full mt-4 hover:bg-[#8700FF] transition shadow-sm text-sm">
-                طلب عرض سعر
+                {t("connectWithUs")}
               </button>
             </li>
           </ul>

@@ -1,86 +1,77 @@
 "use client";
 import React from "react";
 import CountUp from "react-countup";
-const stats = [
-  { number: "296+", label: "عميل حول العالم" },
-  { number: "8+", label: "سنوات الخبرة" },
-  { number: "23+", label: "أعضاء الفريق" },
-  { number: "312+", label: "مشاريع سنوية" },
-];
+import { useTranslations } from "next-intl";
+import Lottie from "lottie-react";
+import animation1 from "@/animations/Animation-1742807046585.json";
+import animation2 from "@/animations/81XZmbnTn2.json";
+import animation3 from "@/animations/9cnqOoyb9e.json";
+import animation4 from "@/animations/fsj75yBjta.json";
+
 export default function heroAbout() {
+  const t = useTranslations("About");
+  const stats = [
+    { number: "296+", label: t("hero.12"), animationData: animation1 },
+    { number: "8+", label: t("hero.13"), animationData: animation2 },
+    { number: "23+", label: t("hero.14"), animationData: animation3 },
+    { number: "312+", label: t("hero.15"), animationData: animation4 },
+  ];
   return (
     <div className=" w-full  relative bg-[#fff] py-16 m-auto  flex flex-col gap-1 justify-center items-center text-start">
-      <div className=" absolute h-[650px] !z-0   -translate-y-[156px] left-0 top-0 bg-[#8700ff] md:w-[400px] w-[15px]"></div>
+      <div className=" absolute h-[650px] !z-0   -translate-y-[156px]  rtl:left-0 ltr:right-0 top-0 bg-[#8700ff] md:w-[400px] w-[15px]"></div>
       <div className="md:max-w-[1200px] flex md:flex-row  flex-col justify-between  ">
         {/* Side Text Section (Badge) */}
-        <div className="flex flex-col md:w-[50%] items-start justify-start p-8  text-right">
-          <h2 className="text-2xl md:text-3xl font-bold mb-2">
-            عن<span className="text-[#2B00FF]"> تاج هاوس </span>
+        <div className="flex flex-col md:w-[50%] items-start justify-start p-8  text-start">
+          <h2 className="text-2xl md:text-3xl  flex gap-2 font-bold mb-2">
+            {t("hero.0")}
+            <span className="text-[#2B00FF]">{t("hero.1")}</span>
             ...
           </h2>
           <p className="text-gray-700 mt-4 leading-loose">
-            تأسست <span className="font-bold">تاج هاوس</span> تاج هاوس عام 2022،
-            وهي شركة متخصصة في تقديم حلول برمجية متكاملة، حيث تجمع بين الإبداع
-            والتكنولوجيا لتحقيق أفضل النتائج لعملائها. يضم فريقنا نخبة من
-            الخبراء الذين يتمتعون بخبرة ممتدة منذ عام 2016 في مجالات التصميم
-            الإبداعي، وتطوير المواقع الإلكترونية، وتحسين محركات البحث (SEO)،
-            وإدارة وسائل التواصل الاجتماعي، والإعلانات المدفوعة. نؤمن بأن النجاح
-            في العصر الرقمي يعتمد على استراتيجيات مبتكرة ومبنية على البيانات،
-            ولذلك نحرص على تقديم حلول مخصصة تلبي احتياجات كل عميل بدقة وفعالية.
+            <span className="font-bold"></span>
+            {t("hero.2")}
           </p>
         </div>
 
         <section className="bg-gradient-to-r relative md:w-[50%] w-[95%] m-auto  md:py-20 md:px-4 flex justify-center items-center">
           <div className=" absolute z-0 w-[300px] bottom-0  h-[200px] "></div>
           <div className=" md:h-[350px] rounded-2xl flex justify-center items-center m-auto h-[100px] bg-[#FFF]     shadow-lg md:w-[400px] w-[200px] ">
-            <img
-              src="/assets/logos/logo-tajhouse.png"
-              alt=""
-              className="w-full object-contain"
-            />
+            <Lottie animationData={animation1} loop autoplay />
           </div>
         </section>
       </div>
       {/* Side Text Section (Badge) */}
       <div className="flex gap-2 md:flex-row-reverse flex-col justify-between m-auto max-w-[1200px]">
-        <div className="flex flex-col bg-white md:h-[240px] shadow-xl rounded-2xl m-auto md:w-[50%] w-[95%] items-start justify-start py-4 px-4  text-right">
-          <h2 className="text-xl md:text-xl font-bold mb-2">
-            رؤية<span className="text-[#2B00FF]"> تاج هاوس </span>
+        <div className="flex flex-col bg-white md:h-[240px] shadow-xl rounded-2xl m-auto md:w-[50%] w-[95%] items-start justify-start py-4 px-4  text-start">
+          <h2 className="text-xl flex gap-1 md:text-xl font-bold mb-2">
+            {t("hero.3")}
+            <span className="text-[#2B00FF]">{t("hero.4")}</span>
             ...
           </h2>
           <p className="text-gray-700 md:text-sm text-xs md:mt-4 leading-loose">
-            أن نكون الشريك الرقمي الأول للشركات والعلامات التجارية، من خلال
-            تقديم حلول برمجية متكاملة تساعد على تحقيق النمو المستدام، وتعزز من
-            حضور العملاء الرقمي، مما يمكنهم من تحقيق أهدافهم بسهولة وكفاءة في
-            عالم متسارع التطور.
+            {t("hero.5")}
           </p>
         </div>
-        <div className="flex flex-col bg-white md:h-[240px] shadow-xl rounded-2xl m-auto md:w-[50%] w-[95%] items-start justify-start py-4 px-4  text-right">
+        <div className="flex flex-col bg-white md:h-[240px] shadow-xl rounded-2xl m-auto md:w-[50%] w-[95%] items-start justify-start py-4 px-4  text-start">
           <h2 className="text-xl md:text-xl font-bold mb-2">
-            مهمة<span className="text-[#2B00FF]"> تاج هاوس </span>
+            {t("hero.6")}
+            <span className="text-[#2B00FF]">{t("hero.4")}</span>
             ...
           </h2>
           <p className="text-gray-700 md:text-sm text-xs md:mt-4 leading-loose">
-            نلتزم في <span className="font-bold">تاج هاوس</span> تاج هاوس بتمكين
-            العلامات التجارية من تحقيق النجاح الفضاء الرقمي، من خلال تقديم خدمات
-            برمجية متقدمة تعتمد على أحدث التقنيات والاستراتيجيات الفعالة. نسعى
-            إلى تحويل الأفكار الإبداعية إلى واقع ملموس، نساعد عملاءنا على تحقيق
-            أقصى استفادة من الفرص المتاحة في الأسواق الرقمية، وتعزيز تفاعلهم مع
-            جمهورهم المستهدف بطريقة فريدة وفعالة.
+            {t("hero.7")}
           </p>
         </div>
       </div>
 
       <div className="flex    gap-6 flex-col justify-center items-center md:mt-12 mt-2 rounded-2xl m-auto md:w-[50%]  py-4 px-4  text-center">
-        <p className="text-sm">لماذا تختارنا؟</p>
+        <p className="text-sm">{t("hero.8")}</p>
         <h2 className="text-2xl md:text-xl font-bold mb-2">
-          نقدم في<span className="text-[#2B00FF]"> تاج هاوس </span>
-          حلول برمجية مبتكرة
+          {t("hero.8")}
+          <span className="text-[#2B00FF]"> {t("hero.9")}</span>
+          {t("hero.10")}
         </h2>
-        <p className="text-gray-700  leading-loose">
-          نحن ملتزمون بمساعدتك على تحقيق أهدافك الرقمية وبناء حضور قوي في السوق.
-          يتميز فريقنا بخبرة واسعة منذ عام 2016، مما يتيح لنا تقديم حلول مبتكرة
-        </p>
+        <p className="text-gray-700  leading-loose">{t("hero.11")}</p>
       </div>
 
       {/* Stats */}
@@ -89,24 +80,20 @@ export default function heroAbout() {
         {stats.map((stat, idx) => {
           const rawNumber = parseInt(stat.number.replace(/[^\d]/g, ""));
           return (
-            <div
-              key={idx}
-              className="flex  justify-center items-center text-center m-auto gap-2"
-            >
-              <div className="flex justify-between m-auto ">
-                <img
-                  src="/assets/logos/logo-tajhouse.png"
-                  className=" w-44 "
-                  alt=""
-                />
+            <div key={idx} className="flex flex-col items-center text-center">
+              <div className="w-20 h-20 flex justify-center items-center mb-2">
+                {stat?.animationData &&
+                  typeof stat.animationData === "object" && (
+                    <Lottie animationData={stat.animationData} loop autoplay />
+                  )}
               </div>
-              <div>
-                <p className="text-black text-[30px] font-[700] ">
-                  <CountUp end={rawNumber} duration={2} separator="," />
-                  <span>+</span>
-                </p>
-                <p className="text-black text-xs font-bold ">{stat.label}</p>
-              </div>
+
+              <p className="text-black text-[30px] font-bold">
+                <CountUp end={rawNumber} duration={2} separator="," />
+                <span>+</span>
+              </p>
+
+              <p className="text-black text-xs font-bold mt-1">{stat.label}</p>
             </div>
           );
         })}

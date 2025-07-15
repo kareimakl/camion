@@ -2,14 +2,16 @@
 import React from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import Lottie from "lottie-react";
 export default function hero() {
   const t = useTranslations("HomePage");
   const heroTexts = t.raw("hero");
+
   return (
     <div className=" md:w-[ 1200px] m-auto mt-8 w-[95%] flex flex-col gap-1 justify-center items-center text-center">
-      <h1 className="text-[#0000ff] flex gap-2 md:text-[60px] text-[26px] font-[700]">
+      <h1 className="text-[#0000ff] flex md:gap-2  gap-1 md:text-[60px] text-[20px] font-[700]">
         {heroTexts[0]}
-        <span className="text-[#000] md:text-[60px] text-[26px]  ">
+        <span className="text-[#000] md:text-[60px] text-[20px]  ">
           {heroTexts[1]}
         </span>
       </h1>

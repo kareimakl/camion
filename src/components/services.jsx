@@ -1,5 +1,5 @@
 "use client";
-
+import Lottie from "lottie-react";
 import React from "react";
 import { allServices } from "@/app/[locale]/services/_data/servicesData"; // adjust if needed
 import { useTranslations, useLocale } from "next-intl";
@@ -30,13 +30,23 @@ export default function Services() {
                   item?.title.replace(/\s+/g, "-")
                 )}`}
               ></Link>
-              <div className="w-20 h-20 mx-auto mb-4">
-                <img
-                  src={item?.img}
-                  alt={item?.title}
-                  className="w-full h-full object-contain"
-                />
+              <div className="w-26 h-26 mx-auto mb-4">
+                {item?.img && typeof item.img === "object" ? (
+                  <Lottie
+                    animationData={item.img}
+                    loop
+                    autoplay
+                    style={{ width: 100, height: 100 }}
+                  />
+                ) : (
+                  <img
+                    src={item?.img}
+                    alt={item?.title}
+                    className="w-20 h-20 object-contain mx-auto"
+                  />
+                )}
               </div>
+
               <h3 className="text-blue-700 text-md font-bold mb-2">
                 {item?.title}
               </h3>

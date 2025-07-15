@@ -3,40 +3,13 @@
 import { useState } from "react";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 import ReCAPTCHA from "react-google-recaptcha";
-const countries = [
-  { code: "EG", name: "مصر", dialCode: "+20", flag: "🇪🇬" },
-  { code: "SA", name: "السعودية", dialCode: "+966", flag: "🇸🇦" },
-  { code: "AE", name: "الإمارات", dialCode: "+971", flag: "🇦🇪" },
-  { code: "QA", name: "قطر", dialCode: "+974", flag: "🇶🇦" },
-  { code: "KW", name: "الكويت", dialCode: "+965", flag: "🇰🇼" },
-  { code: "OM", name: "عمان", dialCode: "+968", flag: "🇴🇲" },
-  { code: "BH", name: "البحرين", dialCode: "+973", flag: "🇧🇭" },
-  { code: "JO", name: "الأردن", dialCode: "+962", flag: "🇯🇴" },
-  { code: "IQ", name: "العراق", dialCode: "+964", flag: "🇮🇶" },
-  { code: "LB", name: "لبنان", dialCode: "+961", flag: "🇱🇧" },
-  { code: "SY", name: "سوريا", dialCode: "+963", flag: "🇸🇾" },
-  { code: "YE", name: "اليمن", dialCode: "+967", flag: "🇾🇪" },
-  { code: "SD", name: "السودان", dialCode: "+249", flag: "🇸🇩" },
-  { code: "MA", name: "المغرب", dialCode: "+212", flag: "🇲🇦" },
-  { code: "DZ", name: "الجزائر", dialCode: "+213", flag: "🇩🇿" },
-  { code: "TN", name: "تونس", dialCode: "+216", flag: "🇹🇳" },
-  { code: "LY", name: "ليبيا", dialCode: "+218", flag: "🇱🇾" },
-  { code: "FR", name: "فرنسا", dialCode: "+33", flag: "🇫🇷" },
-  { code: "US", name: "الولايات المتحدة", dialCode: "+1", flag: "🇺🇸" },
-  { code: "GB", name: "بريطانيا", dialCode: "+44", flag: "🇬🇧" },
-  { code: "DE", name: "ألمانيا", dialCode: "+49", flag: "🇩🇪" },
-  { code: "TR", name: "تركيا", dialCode: "+90", flag: "🇹🇷" },
-  { code: "IN", name: "الهند", dialCode: "+91", flag: "🇮🇳" },
-  { code: "PK", name: "باكستان", dialCode: "+92", flag: "🇵🇰" },
-  { code: "CN", name: "الصين", dialCode: "+86", flag: "🇨🇳" },
-  { code: "CA", name: "كندا", dialCode: "+1", flag: "🇨🇦" },
-  { code: "RU", name: "روسيا", dialCode: "+7", flag: "🇷🇺" },
-  { code: "ES", name: "إسبانيا", dialCode: "+34", flag: "🇪🇸" },
-  { code: "IT", name: "إيطاليا", dialCode: "+39", flag: "🇮🇹" },
-  { code: "AU", name: "أستراليا", dialCode: "+61", flag: "🇦🇺" },
-];
+import { useTranslations } from "next-intl";
 
 export default function ContactPage() {
+  const t = useTranslations("HomePage.contact");
+
+  const countries = t.raw("countries");
+
   const [selectedCountry, setSelectedCountry] = useState(countries[0]);
   const [phone, setPhone] = useState("");
   const [formData, setFormData] = useState({
@@ -49,70 +22,58 @@ export default function ContactPage() {
 
   const handleCaptchaChange = (value) => {
     setCaptchaValue(value);
-    console.log("CAPTCHA value:", value);
   };
+
   const handleValidation = () => {
     const fullNumber = selectedCountry.dialCode + phone;
     const parsed = parsePhoneNumberFromString(fullNumber);
     if (parsed?.isValid()) {
-      alert(`✅ رقم صحيح: ${parsed.formatInternational()}`);
+      alert(`✅ ${t("valid")} ${parsed.formatInternational()}`);
     } else {
-      alert("❌ رقم غير صالح");
+      alert(`❌ ${t("invalid")}`);
     }
   };
 
-  const handleChange = () => {
+  const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     handleValidation();
-    console.log({ ...formData, phone: selectedCountry.dialCode + phone });
-    e.preventDefault();
     if (!captchaValue) {
-      alert("من فضلك أكّد أنك لست روبوتاً");
+      alert(t("captchaWarning"));
       return;
     }
-
-    // إرسال البيانات مع قيمة captcha
     console.log("Form submitted with CAPTCHA:", captchaValue);
   };
 
   return (
     <div className="min-h-screen bg-[#f7f9ff] flex flex-col items-center justify-center p-4">
       <div className="rounded-lg max-w-[1200px] w-full grid grid-cols-1 md:grid-cols-2 overflow-hidden">
-        {/* Side Text Section (Badge) */}
-        <div className="flex flex-col items-start justify-start p-8 bg-[#f5f9ff] text-right">
-          <p className="text-sm font-bold mb-10  text-black">
-            احجز استشارتك...
-          </p>
+        {/* Side Text Section */}
+        <div className="flex flex-col items-start justify-start p-8 bg-[#f5f9ff] text-start">
+          <p className="text-sm font-bold mb-10  text-black">{t("book")}</p>
           <h2 className="text-2xl md:text-3xl font-bold mb-2">
-            كيف يمكننا <span className="text-blue-700">مساعدتك</span> في تاج
-            هاوس؟
+            {t("title")} <span className="text-blue-700">{t("title2")}</span>
           </h2>
-          <p className="text-gray-700 mt-4 leading-loose">
-            في <span className="font-bold">تاج هاوس</span>، نحن أكثر من مجرد
-            مزود خدمات، نحن
-            <span className="font-bold"> شريكك الرقمي</span> الذي يساعدك على
-            تحقيق أهدافك وتنمية أعمالك من خلال حلول مبتكرة وتقنيات حديثة.
-          </p>
+          <p className="text-gray-700 mt-4 text-start leading-loose">{t("subtitle")}</p>
         </div>
+
         {/* Form Section */}
         <div className="p-6">
-          <form className="space-y-4" onSubmit={handleSubmit}>
-            {/* الاسم */}
+          <form className="space-y-4 text-start" onSubmit={handleSubmit}>
             <input
               type="text"
               name="name"
-              placeholder="الاسم"
+              placeholder={t("placeholders.name")}
               value={formData.name}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded p-2 text-right"
+              className="w-full border border-gray-300 rounded p-2 text-start"
             />
 
             {/* الهاتف */}
-            <div className="flex  space-x-2">
+            <div className="flex space-x-2">
               <select
                 value={selectedCountry.code}
                 onChange={(e) =>
@@ -121,7 +82,7 @@ export default function ContactPage() {
                       countries[0]
                   )
                 }
-                className="border border-gray-300 rounded p-2 text-right"
+                className="border border-gray-300 rounded p-2 text-start"
               >
                 {countries.map((country) => (
                   <option key={country.code} value={country.code}>
@@ -133,8 +94,8 @@ export default function ContactPage() {
               <div className="flex w-full items-center border border-gray-300 rounded p-2">
                 <input
                   type="tel"
-                  className="w-full outline-none text-right"
-                  placeholder="رقم الهاتف بدون كود الدولة"
+                  className="w-full outline-none text-start"
+                  placeholder={t("placeholders.phone")}
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                 />
@@ -142,48 +103,39 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* البريد الإلكتروني */}
             <input
               type="email"
               name="email"
-              placeholder="البريد الإلكتروني"
+              placeholder={t("placeholders.email")}
               value={formData.email}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded p-2 text-right"
+              className="w-full border border-gray-300 rounded p-2 text-start"
             />
 
-            {/* الخدمة المطلوبة */}
             <input
               type="text"
               name="service"
-              placeholder="الخدمة المطلوبة"
+              placeholder={t("placeholders.service")}
               value={formData.service}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded p-2 text-right"
+              className="w-full border border-gray-300 rounded p-2 text-start"
             />
 
-            {/* ملاحظات */}
             <textarea
               name="notes"
-              placeholder="ملاحظات"
+              placeholder={t("placeholders.notes")}
               value={formData.notes}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded p-2 text-right h-24 resize-none"
+              className="w-full border border-gray-300 rounded p-2 text-start h-24 resize-none"
             />
 
-            <div className="">
-              <ReCAPTCHA
-                sitekey="YOUR_SITE_KEY" // استبدله بمفتاحك
-                onChange={handleCaptchaChange}
-              />
-            </div>
+            <ReCAPTCHA sitekey="YOUR_SITE_KEY" onChange={handleCaptchaChange} />
 
-            {/* زر الإرسال */}
             <button
               type="submit"
               className="w-full bg-blue-700 text-white py-2 mt-4 rounded hover:bg-blue-800 transition"
             >
-              إرسال
+              {t("send")}
             </button>
           </form>
         </div>
