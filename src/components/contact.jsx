@@ -4,12 +4,14 @@ import { useState } from "react";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useTranslations } from "next-intl";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function ContactPage() {
   const t = useTranslations("HomePage.contact");
 
   const countries = t.raw("countries");
-
+  const [loading, setLoading] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(countries[0]);
   const [phone, setPhone] = useState("");
   const [formData, setFormData] = useState({
@@ -28,9 +30,8 @@ export default function ContactPage() {
     const fullNumber = selectedCountry.dialCode + phone;
     const parsed = parsePhoneNumberFromString(fullNumber);
     if (parsed?.isValid()) {
-      alert(`✅ ${t("valid")} ${parsed.formatInternational()}`);
     } else {
-      alert(`❌ ${t("invalid")}`);
+      toast.error(`${t("invalid")}`);
     }
   };
 
@@ -38,14 +39,43 @@ export default function ContactPage() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     handleValidation();
+
     if (!captchaValue) {
-      alert(t("captchaWarning"));
+      toast.error(t("captchaWarning"));
       return;
     }
-    console.log("Form submitted with CAPTCHA:", captchaValue);
+
+    try {
+      const res = await fetch("https://formspree.io/f/xdkdazde", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          service: formData.service,
+          message: formData.notes,
+          phone: selectedCountry.dialCode + phone,
+        }),
+      });
+
+      if (res.ok) {
+        toast.success(t("done"));
+        setFormData({ name: "", email: "", service: "", notes: "" });
+        setPhone("");
+        setCaptchaValue(null);
+      } else {
+        toast.error(t("notdone"));
+      }
+    } catch (err) {
+      console.error("Send error", err);
+      toast.error("");
+    }
   };
 
   return (
@@ -57,7 +87,9 @@ export default function ContactPage() {
           <h2 className="text-2xl md:text-3xl font-bold mb-2">
             {t("title")} <span className="text-blue-700">{t("title2")}</span>
           </h2>
-          <p className="text-gray-700 mt-4 text-start leading-loose">{t("subtitle")}</p>
+          <p className="text-gray-700 mt-4 text-start leading-loose">
+            {t("subtitle")}
+          </p>
         </div>
 
         {/* Form Section */}
@@ -71,8 +103,6 @@ export default function ContactPage() {
               onChange={handleChange}
               className="w-full border border-gray-300 rounded p-2 text-start"
             />
-
-            {/* الهاتف */}
             <div className="flex space-x-2">
               <select
                 value={selectedCountry.code}
@@ -129,17 +159,32 @@ export default function ContactPage() {
               className="w-full border border-gray-300 rounded p-2 text-start h-24 resize-none"
             />
 
-            <ReCAPTCHA sitekey="YOUR_SITE_KEY" onChange={handleCaptchaChange} />
+            <ReCAPTCHA
+              sitekey="6LdfQIkrAAAAAKz86mlqpcyfLvB_W_wxrcokxaD2"
+              onChange={handleCaptchaChange}
+            />
 
             <button
               type="submit"
-              className="w-full bg-blue-700 text-white py-2 mt-4 rounded hover:bg-blue-800 transition"
+              className="w-full cursor-pointer bg-blue-700 text-white py-2 mt-4 rounded hover:bg-blue-800 transition"
             >
-              {t("send")}
+              {loading ? t("send2") : t("send")}
             </button>
           </form>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={4000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={true}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </div>
   );
 }

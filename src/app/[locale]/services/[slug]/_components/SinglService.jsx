@@ -24,15 +24,15 @@ export default function FeaturesGrid({ id, service }) {
             {service?.features?.map((feature, index) => (
               <div
                 key={index}
-                className="flex bg-white border h-[150px] justify-between    md:w-[100%]  w-[80%]  m-auto border-gray-200  flex-col items-center text-center p-4  rounded-lg hover:shadow-md transition"
+                className="flex bg-white border h-[180px] justify-between    md:w-[100%]  w-[80%]  m-auto border-gray-200  flex-col items-center text-center p-4  rounded-lg hover:shadow-md transition"
               >
-                <div className="w-26 h-26 mx-auto mb-4">
+                <div className="w-26 h-26 mx-auto mb-1">
                   {feature?.icon && typeof feature?.icon === "object" ? (
                     <Lottie
                       animationData={feature?.icon}
                       loop
                       autoplay
-                      style={{ width: 70, height: 70 }}
+                      style={{ width: 100, height: 100 }}
                     />
                   ) : (
                     <img

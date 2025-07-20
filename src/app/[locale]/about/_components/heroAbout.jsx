@@ -3,10 +3,11 @@ import React from "react";
 import CountUp from "react-countup";
 import { useTranslations } from "next-intl";
 import Lottie from "lottie-react";
-import animation1 from "@/animations/Animation-1742807046585.json";
-import animation2 from "@/animations/81XZmbnTn2.json";
-import animation3 from "@/animations/9cnqOoyb9e.json";
-import animation4 from "@/animations/fsj75yBjta.json";
+import loding from "@/animations/loding.json";
+import animation1 from "@/animations/love.json";
+import animation2 from "@/animations/srar.json";
+import animation3 from "@/animations/build.json";
+import animation4 from "@/animations/website.json";
 
 export default function heroAbout() {
   const t = useTranslations("About");
@@ -36,7 +37,7 @@ export default function heroAbout() {
         <section className="bg-gradient-to-r relative md:w-[50%] w-[95%] m-auto  md:py-20 md:px-4 flex justify-center items-center">
           <div className=" absolute z-0 w-[300px] bottom-0  h-[200px] "></div>
           <div className=" md:h-[350px] rounded-2xl flex justify-center items-center m-auto h-[100px] bg-[#FFF]     shadow-lg md:w-[400px] w-[200px] ">
-            <Lottie animationData={animation1} loop autoplay />
+            <Lottie animationData={loding} loop autoplay />
           </div>
         </section>
       </div>
@@ -76,7 +77,7 @@ export default function heroAbout() {
 
       {/* Stats */}
 
-      <div className="grid max-w-[1200px] justify-between  m-auto grid-cols-2 md:grid-cols-4 md:gap-8 md:mt-16 mt-8 text-center">
+      <div className="grid w-full justify-around max-w-[1000px]  m-auto  md:grid-cols-4 grid-cols-2  md:mt-16 mt-8 text-center">
         {stats.map((stat, idx) => {
           const rawNumber = parseInt(stat.number.replace(/[^\d]/g, ""));
           return (

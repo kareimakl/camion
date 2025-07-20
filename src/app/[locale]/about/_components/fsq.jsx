@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import { FiPlus, FiMinus } from "react-icons/fi";
-import Image from "next/image";
 import { useTranslations } from "next-intl";
-
+import animation1 from "@/animations/androud.json";
+import animation2 from "@/animations/sll.json";
+import animation3 from "@/animations/crm";
+import Lottie from "lottie-react";
 export default function FaqSection() {
   const [openIndex, setOpenIndex] = useState(null);
   const t = useTranslations("About.Fsq");
@@ -20,60 +22,50 @@ export default function FaqSection() {
 
     return (
       <div>
-        <p className="mb-4 font-medium">
-          We offer a comprehensive set of{" "}
-          <span className="text-purple-600 font-bold">services</span> to help
-          you achieve your digital goals:
-        </p>
+        <p className="mb-4 font-medium">{t("sub")}</p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="border border-gray-300 rounded-lg p-4 flex justify-between items-center">
-            <div className="text-right">
-              <h3 className="font-bold text-lg text-gray-800">
-                Software Solutions
-              </h3>
-              <a href="#" className="text-sm text-blue-600">
-                More →
+            <div className="text-start">
+              <h3 className="font-bold text-lg text-gray-800">{t("col1")}</h3>
+              <a href="/services" className="text-sm text-blue-600">
+                {t("more")}
               </a>
             </div>
-            <Image
-              src="/assets/icons/dev-icon.svg"
-              alt="dev"
-              width={50}
-              height={50}
+            <Lottie
+              animationData={animation1}
+              loop
+              autoplay
+              className="w-[100px]"
             />
           </div>
 
           <div className="border border-gray-300 rounded-lg p-4 flex justify-between items-center">
-            <div className="text-right">
-              <h3 className="font-bold text-lg text-gray-800">
-                Marketing Solutions
-              </h3>
-              <a href="#" className="text-sm text-blue-600">
-                More →
+            <div className="text-start">
+              <h3 className="font-bold text-lg text-gray-800">{t("col2")}</h3>
+              <a href="/services" className="text-sm text-blue-600">
+                {t("more")}
               </a>
             </div>
-            <Image
-              src="/assets/icons/marketing-icon.svg"
-              alt="marketing"
-              width={50}
-              height={50}
+            <Lottie
+              animationData={animation2}
+              loop
+              autoplay
+              className="w-[100px]"
             />
           </div>
 
           <div className="border border-gray-300 rounded-lg p-4 flex justify-between items-center">
-            <div className="text-right">
-              <h3 className="font-bold text-lg text-gray-800">
-                Digital Consulting
-              </h3>
-              <a href="#" className="text-sm text-blue-600">
-                More →
+            <div className="text-start">
+              <h3 className="font-bold text-lg text-gray-800">{t("col3")}</h3>
+              <a href="/services" className="text-sm text-blue-600">
+                {t("more")}
               </a>
             </div>
-            <Image
-              src="/assets/icons/consult-icon.svg"
-              alt="consult"
-              width={50}
-              height={50}
+            <Lottie
+              animationData={animation3}
+              loop
+              autoplay
+              className="w-[100px]"
             />
           </div>
         </div>

@@ -3,9 +3,7 @@ import React from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import Lottie from "lottie-react";
-import animation1 from "@/animations/Animation-1742807046585.json";
-import animation2 from "@/animations/81XZmbnTn2.json";
-import animation4 from "@/animations/fsj75yBjta.json";
+import animation1 from "@/animations/website.json";
 export default function heroAbout({ id, service }) {
   const t = useTranslations("HomePage");
   const heroTexts = t.raw("hero");
@@ -36,9 +34,14 @@ export default function heroAbout({ id, service }) {
           </div>
         </div>
         <section className="bg-gradient-to-r relative md:w-[50%] w-[100%] m-auto  md:py-20 md:px-4 flex justify-center items-center">
-          <div className=" absolute md:h-[274px] h-[174px] w-[100%] !z-0    md:translate-y-[156px] left-0 top-0 bg-[#2B00FF]  "></div>
+          <div className=" absolute md:h-[294px] h-[174px] w-[80%] !z-0    md:translate-y-[136px] left-0 top-0 bg-[#2B00FF]  "></div>
           <div className=" md:h-[300px] z-50 border-8 border-[#fff] md:mt-0 mt-3  rounded-2xl flex justify-center items-center m-auto h-[150px] bg-[#FFF]     shadow-xl md:w-[400px] w-[60%] ">
-            <Lottie animationData={animation1} loop autoplay />
+            <Lottie
+              animationData={service?.img}
+              loop
+              autoplay
+              className="w-[100%] h-[90%]"
+            />
           </div>
         </section>
       </div>

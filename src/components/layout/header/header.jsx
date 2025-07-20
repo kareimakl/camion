@@ -32,9 +32,12 @@ const Header = () => {
       <div className="md:max-w-[1200px]  w-full rounded-sm md:h-[105px] h-[50px] p-4 bg-white  z-[99] shadow-[0px_10px_40px_rgba(0,0,0,0.04)] transition-all duration-300 mx-auto px-4 py-4 flex justify-between items-center">
         {/* CTA + Search */}
         <div className="flex items-center gap-3">
-          <button className="hidden cursor-pointer md:block bg-[#0000ff] text-white px-5 py-3 rounded-sm hover:bg-[#8700FF] transition text-xs  font[600] shadow-sm">
+          <Link
+            href="/contact"
+            className="hidden cursor-pointer md:block bg-[#0000ff] text-white px-5 py-3 rounded-sm hover:bg-[#8700FF] transition text-xs  font[600] shadow-sm"
+          >
             {t("connectWithUs")}
-          </button>
+          </Link>
           <button
             className="md:hidden text-2xl text-gray-700"
             onClick={() => setMobileMenuOpen(true)}
@@ -196,9 +199,12 @@ const Header = () => {
             </li>
 
             <li>
-              <button className="w-full bg-[#0000ff] text-white py-2 rounded-full mt-4 hover:bg-[#8700FF] transition shadow-sm text-sm">
+              <Link
+                href="/contact"
+                className="w-full bg-[#0000ff] text-white py-2 rounded-full mt-4 hover:bg-[#8700FF] transition shadow-sm text-sm"
+              >
                 {t("connectWithUs")}
-              </button>
+              </Link>
             </li>
           </ul>
         </div>

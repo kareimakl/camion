@@ -98,9 +98,13 @@
       "title2": "Help You",
       "subtitle": "At Taj House, we’re more than just a service provider — we’re your digital partner helping you achieve your goals and grow your business through innovative solutions and modern technologies.",
       "send": "Send",
+      "done": "Your message has been sent successfully! We will contact you soon.",
+      "notdone": "An error occurred while submitting the form. Please try again.",
+      "error": "Unable to connect to the server.",
+      "send2": "Sending...",
       "captchaWarning": "Please confirm you're not a robot",
-      "valid": "✅ Valid number:",
-      "invalid": "❌ Invalid number",
+      "valid": "Valid number:",
+      "invalid": "Invalid number",
       "placeholders": {
         "name": "Name",
         "email": "Email",
@@ -190,6 +194,11 @@
     "Fsq": {
       "sectionTitle": "FAQs",
       "sectionSubtitle": "Common Questions",
+      "sub": "We offer a comprehensive set of services to help you achieve your digital goals:",
+      "col1": "Software Solutions",
+      "col2": "Marketing Solutions",
+      "col3": "Digital Consulting",
+      "more": "More →",
       "intro": "From our clients",
       "questions": [
         {

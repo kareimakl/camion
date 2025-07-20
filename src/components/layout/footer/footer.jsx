@@ -7,6 +7,7 @@ import {
   faLinkedin,
   faSquareInstagram,
 } from "@fortawesome/free-brands-svg-icons";
+import Link from "next/link";
 
 export default function Footer() {
   const [show, setShow] = useState(false);
@@ -61,7 +62,9 @@ export default function Footer() {
           </h4>
           <ul className="space-y-2 text-start text-sm leading-6">
             {t.raw("services").map((item, i) => (
-              <li key={i}>{item}</li>
+              <li key={i}>
+                <Link href="/services">{item}</Link>
+              </li>
             ))}
           </ul>
         </div>

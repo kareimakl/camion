@@ -33,9 +33,12 @@ const Nav = () => {
       <div className="md:max-w-[1200px] z-50 relative   w-full rounded-sm md:h-[90px] h-[50px] p-4 bg-white   transition-all duration-300 mx-auto px-4 py-4 flex justify-between items-center">
         {/* CTA + Search */}
         <div className="flex items-center gap-3">
-          <button className="hidden cursor-pointer md:block bg-[#0000ff] text-white px-5 py-3 rounded-sm hover:bg-[#8700FF] transition text-xs  font[600] ">
+          <Link
+            href="/contact"
+            className="hidden cursor-pointer md:block bg-[#0000ff] text-white px-5 py-3 rounded-sm hover:bg-[#8700FF] transition text-xs  font[600] "
+          >
             {t("connectWithUs")}
-          </button>
+          </Link>
           <button
             className="md:hidden text-2xl text-gray-700"
             onClick={() => setMobileMenuOpen(true)}
@@ -197,9 +200,12 @@ const Nav = () => {
             </li>
 
             <li>
-              <button className="w-full bg-[#0000ff] text-white py-2 rounded-full mt-4 hover:bg-[#8700FF] transition shadow-sm text-sm">
+              <Link
+                href="/contact"
+                className="w-full bg-[#0000ff] text-white py-2 rounded-full mt-4 hover:bg-[#8700FF] transition shadow-sm text-sm"
+              >
                 {t("connectWithUs")}
-              </button>
+              </Link>
             </li>
           </ul>
         </div>

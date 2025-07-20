@@ -98,7 +98,7 @@ export default function ProjectsGallery() {
           <button
             key={cat}
             onClick={() => setSelectedCategory(cat)}
-            className={`md:px-4 px-2 py-2 md:text-2xl text-xs hover:bg-[#2B00FF] hover:text-[#fff] cursor-pointer rounded font-semibold border transition-all duration-200 ${
+            className={`md:px-4 px-2 py-2 md:text-lg text-xs hover:bg-[#2B00FF] hover:text-[#fff] cursor-pointer rounded font-semibold border transition-all duration-200 ${
               selectedCategory === cat
                 ? "bg-[#2B00FF] text-white"
                 : "bg-white text-black border-gray-300"

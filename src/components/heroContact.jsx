@@ -3,9 +3,9 @@ import React from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import Lottie from "lottie-react";
-import animation1 from "@/animations/Animation-1742807046585.json";
-import animation2 from "@/animations/81XZmbnTn2.json";
-import animation4 from "@/animations/fsj75yBjta.json";
+import animation1 from "@/animations/androud.json";
+import animation2 from "@/animations/email.json";
+import animation4 from "@/animations/an.json";
 
 export default function heroContact() {
   const t = useTranslations("Contact");
@@ -53,7 +53,7 @@ export default function heroContact() {
               </h3>
               <p className="text-sm text-gray-700">01000447398</p>
             </div>
-            <Lottie animationData={animation1} loop autoplay />
+            <Lottie animationData={animation1} loop autoplay className="w-[150px]" />
           </a>
 
           <a
@@ -66,7 +66,7 @@ export default function heroContact() {
               </h3>
               <div className="text-sm text-gray-700">info@tajhouse.com</div>
             </div>
-            <Lottie animationData={animation2} loop autoplay />
+            <Lottie animationData={animation2} loop autoplay className="w-[150px]" />
           </a>
           <a
             href="https://www.google.com/maps?ll=30.054505,31.347437&z=13&t=h&hl=en&gl=US&mapclient=embed&cid=9084596326462050213"
@@ -80,7 +80,7 @@ export default function heroContact() {
                 {heroTexts[6]}
               </p>
             </div>
-            <Lottie animationData={animation4} loop autoplay />
+            <Lottie animationData={animation4} loop autoplay  className="w-[150px]"/>
           </a>
         </div>
       </div>
