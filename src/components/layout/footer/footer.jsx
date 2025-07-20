@@ -90,7 +90,7 @@ export default function Footer() {
       </div>
 
       <a
-        href="https://wa.me/201000447398"
+        href="https://web.whatsapp.com/send?phone=201000447398"
         target="_blank"
         className={`fixed bottom-4 right-4 z-50 flex items-center gap-2 text-sm transition-all duration-700 ${
           show ? "animate-slide-up" : "opacity-0"

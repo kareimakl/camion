@@ -9,13 +9,13 @@ export default function hero() {
 
   return (
     <div className=" md:w-[ 1200px] m-auto mt-8 w-[95%] flex flex-col gap-1 justify-center items-center text-center">
-      <h1 className="text-[#0000ff] flex md:gap-2  gap-1 md:text-[60px] text-[20px] font-[700]">
+      <h1 className="text-[#0000ff] flex md:gap-2  gap-1 md:text-[60px] text-[18px] font-[700]">
         {heroTexts[0]}
-        <span className="text-[#000] md:text-[60px] text-[20px]  ">
+        <span className="text-[#000] md:text-[60px] text-[18px]  ">
           {heroTexts[1]}
         </span>
       </h1>
-      <h2 className="md:text-[20px]  text-[16px] mb-6  text-[#50595f]">
+      <h2 className="md:text-[20px]  text-[12px] mb-6  text-[#50595f]">
         {heroTexts[2]}
       </h2>
       <div className="flex md:gap-10 gap-2 w-full   justify-center items-center m-auto">

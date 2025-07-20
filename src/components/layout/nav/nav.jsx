@@ -202,7 +202,7 @@ const Nav = () => {
             <li>
               <Link
                 href="/contact"
-                className="w-full bg-[#0000ff] text-white py-2 rounded-full mt-4 hover:bg-[#8700FF] transition shadow-sm text-sm"
+                className="w-full p-4 bg-[#0000ff] text-white py-2 rounded-full mt-4 hover:bg-[#8700FF] transition shadow-sm text-sm"
               >
                 {t("connectWithUs")}
               </Link>
