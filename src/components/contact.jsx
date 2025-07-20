@@ -29,10 +29,23 @@ export default function ContactPage() {
   const handleValidation = () => {
     const fullNumber = selectedCountry.dialCode + phone;
     const parsed = parsePhoneNumberFromString(fullNumber);
-    if (parsed?.isValid()) {
-    } else {
-      toast.error(`${t("invalid")}`);
+
+    if (
+      !formData.name ||
+      !formData.email ||
+      !formData.service ||
+      !formData.notes
+    ) {
+      toast.error(t("fillAllFields") || "Please fill in all required fields");
+      return false;
     }
+
+    if (!parsed?.isValid()) {
+      toast.error(t("invalidPhone") || "Invalid phone number");
+      return false;
+    }
+
+    return true;
   };
 
   const handleChange = (e) => {
@@ -41,12 +54,15 @@ export default function ContactPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    handleValidation();
+
+    if (!handleValidation()) return;
 
     if (!captchaValue) {
-      toast.error(t("captchaWarning"));
+      toast.error(t("captchaWarning") || "Please complete the CAPTCHA");
       return;
     }
+
+    setLoading(true);
 
     try {
       const res = await fetch("https://formspree.io/f/xdkdazde", {
@@ -65,16 +81,18 @@ export default function ContactPage() {
       });
 
       if (res.ok) {
-        toast.success(t("done"));
+        toast.success(t("done") || "Message sent successfully");
         setFormData({ name: "", email: "", service: "", notes: "" });
         setPhone("");
         setCaptchaValue(null);
       } else {
-        toast.error(t("notdone"));
+        toast.error(t("notdone") || "Failed to send message");
       }
     } catch (err) {
       console.error("Send error", err);
-      toast.error("");
+      toast.error(t("error") || "An error occurred");
+    } finally {
+      setLoading(false);
     }
   };
 
