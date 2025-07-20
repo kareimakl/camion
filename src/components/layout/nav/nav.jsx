@@ -153,9 +153,9 @@ const Nav = () => {
             <li>
               <div
                 onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
-                className="flex items-center justify-between cursor-pointer"
+                className="flex items-center justify-between text-start cursor-pointer"
               >
-                <Link href="/services" className="text-[15px] font-[500]">
+                <Link href="/services" className="text-[15px] text-start font-[500]">
                   {t("services")}
                 </Link>
                 <FaChevronDown
@@ -165,7 +165,7 @@ const Nav = () => {
                 />
               </div>
               {mobileServicesOpen && (
-                <ul className="mt-2 space-y-2 pr-3 text-sm">
+                <ul className="mt-2 text-start space-y-2 pr-3 text-sm">
                   {options.map((option) => (
                     <li key={option.id}>
                       <Link

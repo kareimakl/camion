@@ -144,7 +144,7 @@ const Header = () => {
             />
           </div>
 
-          <ul className="space-y-4 text-gray-800 font-medium">
+          <ul className="space-y-4 text-start text-gray-800 font-medium">
             <li>
               <Link href="/">{t("home")}</Link>
             </li>
@@ -152,9 +152,12 @@ const Header = () => {
             <li>
               <div
                 onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
-                className="flex items-center justify-between cursor-pointer"
+                className="flex text-start items-center justify-between cursor-pointer"
               >
-                <Link href="/services" className="text-[15px] font-[500]">
+                <Link
+                  href="/services"
+                  className="text-[15px] text-start font-[500]"
+                >
                   {t("services")}
                 </Link>
                 <FaChevronDown
@@ -164,14 +167,14 @@ const Header = () => {
                 />
               </div>
               {mobileServicesOpen && (
-                <ul className="mt-2 space-y-2 pr-3 text-sm">
+                <ul className="mt-2 space-y-2 text-start pr-3 text-sm">
                   {options.map((option) => (
                     <li key={option.id}>
                       <Link
                         href={`/services/${option.id}-${encodeURIComponent(
                           option.title.replace(/\s+/g, "-")
                         )}`}
-                        className="block hover:text-[#8700FF] transition"
+                        className="block text-start hover:text-[#8700FF] transition"
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         {option.title}
