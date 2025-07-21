@@ -1,22 +1,59 @@
 "use client";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFacebook,
   faLinkedin,
   faSquareInstagram,
 } from "@fortawesome/free-brands-svg-icons";
-import Link from "next/link";
 
-export default function Footer() {
-  const [show, setShow] = useState(false);
+export default function NewsletterForm() {
   const t = useTranslations("Footer");
+
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     const timeout = setTimeout(() => setShow(true), 1000);
     return () => clearTimeout(timeout);
   }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!email || !email.includes("@")) {
+      toast.error(t("invalidEmail") || "من فضلك أدخل بريد إلكتروني صحيح");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const res = await fetch("https://formspree.io/f/xdkdazde", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (res.ok) {
+        toast.success(t("subscribed") || "تم الاشتراك بنجاح ");
+        setEmail("");
+      } else {
+        toast.error(t("subscribeError") || "حدث خطأ أثناء الاشتراك ");
+      }
+    } catch (error) {
+      toast.error(t("error") || "فشل الاتصال بالخادم");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <footer className="bg-[#f5f7fe] border-t border-[#343333] text-right text-gray-700 pt-12 pb-6 px-4 rtl">
@@ -74,14 +111,24 @@ export default function Footer() {
             {t("newsletterTitle")}
           </h4>
           <p className="text-sm mb-4 text-start">{t("newsletterText")}</p>
-          <input
-            type="email"
-            placeholder={t("emailPlaceholder")}
-            className="w-full px-4 py-2 rounded-md border border-gray-300 mb-3 text-sm"
-          />
-          <button className="w-full  bg-blue-700 text-white py-2 rounded-md hover:bg-blue-800 text-sm font-semibold">
-            {t("subscribe")}
-          </button>
+          <form onSubmit={handleSubmit} className="space-y-3">
+            <input
+              type="email"
+              name="email"
+              placeholder={t("emailPlaceholder")}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-2 rounded-md border border-gray-300 text-sm"
+            />
+            <button
+              type="submit"
+              className="w-full cursor-pointer bg-blue-700 text-white py-2 rounded-md hover:bg-blue-800 text-sm font-semibold"
+            >
+              {loading
+                ? t("subscribing") || "جاري الاشتراك..."
+                : t("subscribe")}
+            </button>
+          </form>
         </div>
       </div>
 
@@ -127,6 +174,18 @@ export default function Footer() {
           ></path>
         </svg>
       </a>
+      <ToastContainer
+        position="top-right"
+        autoClose={4000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={true}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </footer>
   );
 }

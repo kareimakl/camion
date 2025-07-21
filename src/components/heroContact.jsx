@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import Image from "next/image";
 import { useTranslations } from "next-intl";
 import Lottie from "lottie-react";
 import animation1 from "@/animations/androud.json";

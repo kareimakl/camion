@@ -266,8 +266,13 @@
     "newsletterText": "Subscribe to our newsletter to get the latest updates...",
     "emailPlaceholder": "Email",
     "subscribe": "Subscribe",
-    "copyright": "Copyright © 2022 Made with love, Taj House. All rights reserved.",
-    "whatsapp": "Contact us"
+    "copyright": "Copyright © 2025 Made with love, Taj House. All rights reserved.",
+    "whatsapp": "Contact us",
+    "subscribing": "Subscribing...",
+    "subscribed": "Successfully subscribed",
+    "subscribeError": "Subscription failed, please try again",
+    "invalidEmail": "Invalid email address",
+    "error": "A connection error occurred"
   },
   "Services": {
     "title": "Website Creation and Development Service Components...",

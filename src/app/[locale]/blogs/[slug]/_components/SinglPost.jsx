@@ -1,14 +1,15 @@
 "use client";
 
 import Image from "next/image";
-
+import CommentForm from "./CommentForm";
+import { Link } from "@/i18n/navigation";
 export default function Home({ id, service }) {
   return (
     <main className="bg-[#eff5fe] text-[#222] font-sans leading-relaxed">
       {/* Hero Section */}
       <section className="max-w-[1200px] justify-center items-center text-center mx-auto grid md:grid-cols-2 gap-10 py-12 px-4 md:px-0">
-        <div className="justify-center items-center text-start">
-          <h1 className="text-2xl font-bold text-[#2b00ff] mb-4">
+        <div className="justify-start flex flex-col items-start text-start">
+          <h1 className="text-2xl text-start font-bold text-[#2b00ff] mb-4">
             {service.title}
           </h1>
           <p className="text-gray-700 mt-4 leading-loose">{service.desc}</p>
@@ -83,57 +84,34 @@ export default function Home({ id, service }) {
           <ul className="list-disc ml-6 text-gray-700 mt-4">
             <li>
               {service.content.emailLabel}{" "}
-              <a className="font-bold text-[#2b00ff]" href={`mailto:${service.content.email}`}>
+              <a
+                className="font-bold text-[#2b00ff]"
+                href={`mailto:${service.content.email}`}
+              >
                 {service.content.email}
               </a>
             </li>
             <li>
-              {service.content.phoneLabel}{" "}
-              <a className="font-bold text-[#2b00ff]" href={`tel:${service.content.phone}`}>
+              {service.content.phoneLabel}
+              <a
+                className="font-bold text-[#2b00ff]"
+                href={`tel:${service.content.phone}`}
+              >
                 {service.content.phone}
               </a>
             </li>
             <li>
               {service.content.contactFormText}{" "}
-              <span className="font-bold text-[#2b00ff]">{service.content.hereText}</span>
+              <Link href="/contact" className="font-bold text-[#2b00ff]">
+                {service.content.hereText}
+              </Link>
             </li>
           </ul>
         </div>
       </section>
 
       {/* Contact Form */}
-      <section className="bg-[#f4f6fa] py-10">
-        <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-xl font-bold mb-4">
-            {service.content.commentTitle}
-          </h2>
-          <form className="space-y-4">
-            <textarea
-              placeholder={service.content.commentPlaceholder}
-              className="w-full p-3 border border-gray-300 rounded"
-              rows={5}
-            />
-            <input
-              type="text"
-              placeholder={service.content.namePlaceholder}
-              className="w-full p-3 border border-gray-300 rounded"
-            />
-            <input
-              type="email"
-              placeholder={service.content.emailPlaceholder}
-              className="w-full p-3 border border-gray-300 rounded"
-            />
-            <input
-              type="text"
-              placeholder={service.content.phonePlaceholder}
-              className="w-full p-3 border border-gray-300 rounded"
-            />
-            <button className="bg-[#1f3ff5] text-white py-3 px-8 rounded hover:bg-[#172fc4] transition">
-              {service.content.submitButton}
-            </button>
-          </form>
-        </div>
-      </section>
+      {/* <CommentForm service={service} id={id} /> */}
     </main>
   );
 }

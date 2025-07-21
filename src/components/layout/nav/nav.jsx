@@ -112,7 +112,9 @@ const Nav = () => {
           <GlobalLanguage />
         </nav>
         {/* Logo */}
-        <div className="md:w-40 w-26 items-start flex justify-start  ">
+        <div className="md:w-40 w-26 relative items-start flex justify-start  ">
+          <Link href="/" className=" absolute w-full h-full"></Link>
+
           <img
             src="/assets/logos/logo-tajhouse.png"
             alt="Logo"
@@ -133,7 +135,9 @@ const Nav = () => {
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="fixed top-0 right-0 w-72 h-full bg-[#eff4fe] shadow-xl z-50 transition-transform duration-300 p-5 text-right flex flex-col">
-          <div className="flex justify-between items-center mb-6">
+          <div className="flex relative justify-between items-center mb-6">
+            <Link href="/" className=" absolute w-full h-full"></Link>
+
             <img
               src="/assets/logos/logo-tajhouse.png"
               alt="Logo"
@@ -155,7 +159,10 @@ const Nav = () => {
                 onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
                 className="flex items-center justify-between text-start cursor-pointer"
               >
-                <Link href="/services" className="text-[15px] text-start font-[500]">
+                <Link
+                  href="/services"
+                  className="text-[15px] text-start font-[500]"
+                >
                   {t("services")}
                 </Link>
                 <FaChevronDown

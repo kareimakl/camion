@@ -2,7 +2,6 @@
 import React from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import Lottie from "lottie-react";
 export default function hero() {
   const t = useTranslations("HomePage");
   const heroTexts = t.raw("hero");

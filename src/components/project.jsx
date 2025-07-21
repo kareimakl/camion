@@ -7,7 +7,7 @@ export default function ProjectsGallery() {
   const t = useTranslations("HomePage.project");
 
   const categories = [
-    t("categories.all"),
+    // t("categories.all"),
     t("categories.informational"),
     t("categories.ecommerce"),
   ];
@@ -22,7 +22,7 @@ export default function ProjectsGallery() {
     {
       id: 2,
       title: "مشروع 2",
-      category: t("categories.ecommerce"),
+      category: t("categories.informational"),
       image: "/assets/images/project-2.avif",
     },
     {
@@ -34,7 +34,7 @@ export default function ProjectsGallery() {
     {
       id: 4,
       title: "مشروع 4",
-      category: t("categories.ecommerce"),
+      category: t("categories.informational"),
       image: "/assets/images/project-4.avif",
     },
     {
@@ -52,23 +52,73 @@ export default function ProjectsGallery() {
     {
       id: 7,
       title: "مشروع 7",
-      category: t("categories.ecommerce"),
+      category: t("categories.informational"),
       image: "/assets/images/project-7.avif",
     },
     {
       id: 8,
       title: "مشروع 8",
-      category: t("categories.ecommerce"),
+      category: t("categories.informational"),
       image: "/assets/images/project-8.avif",
+    },
+    {
+      id: 9,
+      title: "مشروع 9",
+      category: t("categories.ecommerce"),
+      image: "/assets/images/project-9.avif",
+    },
+    {
+      id: 10,
+      title: "مشروع 10",
+      category: t("categories.ecommerce"),
+      image: "/assets/images/project-10.avif",
+    },
+    {
+      id: 11,
+      title: "مشروع 11",
+      category: t("categories.ecommerce"),
+      image: "/assets/images/project-11.avif",
+    },
+    {
+      id: 12,
+      title: "مشروع 12",
+      category: t("categories.ecommerce"),
+      image: "/assets/images/project-12.avif",
+    },
+    {
+      id: 13,
+      title: "مشروع 13",
+      category: t("categories.ecommerce"),
+      image: "/assets/images/project-13.avif",
+    },
+    {
+      id: 14,
+      title: "مشروع 14",
+      category: t("categories.ecommerce"),
+      image: "/assets/images/project-14.avif",
+    },
+    {
+      id: 15,
+      title: "مشروع 15",
+      category: t("categories.ecommerce"),
+      image: "/assets/images/project-15.avif",
+    },
+    {
+      id: 16,
+      title: "16",
+      category: t("categories.ecommerce"),
+      image: "/assets/images/project-16.webp",
     },
   ];
 
-  const [selectedCategory, setSelectedCategory] = useState(t("categories.all"));
+  const [selectedCategory, setSelectedCategory] = useState(
+    t("categories.informational")
+  );
   const [activeProjectId, setActiveProjectId] = useState(null);
 
   const filteredProjects =
-    selectedCategory === t("categories.all")
-      ? projects
+    selectedCategory === t("categories.informational")
+      ? projects.filter((p) => p.category === selectedCategory)
       : projects.filter((p) => p.category === selectedCategory);
 
   const handleClick = (id) => {

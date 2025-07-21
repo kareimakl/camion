@@ -37,7 +37,7 @@ export default function Client() {
       <h2 className="text-[#2B00FF] mb-8 text-3xl font-bold">
         {t("client.0")}
       </h2>
-      <div className="max-w-[1200px] grid md:grid-cols-8 grid-cols-4  mx-auto">
+      <div className="max-w-[1200px] grid md:grid-cols-8 grid-cols-3 mx-auto">
         {clientLogos.map((src, index) => (
           <div
             key={index}

@@ -4,65 +4,6 @@ import { useState } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 
-const projects = [
-  {
-    id: 1,
-    title: "مشروع 1",
-    category: "المواقع التعريفية",
-    categoryTwo: "مصر",
-    image: "/assets/images/project-1.avif",
-  },
-  {
-    id: 2,
-    title: "مشروع 2",
-    category: "المتاجر الإلكترونية",
-    categoryTwo: "السعودية",
-    image: "/assets/images/project-2.avif",
-  },
-  {
-    id: 3,
-    title: "مشروع 3",
-    category: "المتاجر الإلكترونية",
-    categoryTwo: "الإمارات",
-    image: "/assets/images/project-3.avif",
-  },
-  {
-    id: 4,
-    title: "مشروع 4",
-    category: "المتاجر الإلكترونية",
-    categoryTwo: "الإمارات",
-    image: "/assets/images/project-4.avif",
-  },
-  {
-    id: 5,
-    title: "مشروع 5",
-    category: "المتاجر الإلكترونية",
-    categoryTwo: "السعودية",
-    image: "/assets/images/project-5.avif",
-  },
-  {
-    id: 6,
-    title: "مشروع 6",
-    category: "المتاجر الإلكترونية",
-    categoryTwo: "مصر",
-    image: "/assets/images/project-6.avif",
-  },
-  {
-    id: 7,
-    title: "مشروع 7",
-    category: "المتاجر الإلكترونية",
-    categoryTwo: "مصر",
-    image: "/assets/images/project-7.avif",
-  },
-  {
-    id: 8,
-    title: "مشروع 8",
-    category: "المتاجر الإلكترونية",
-    categoryTwo: "مصر",
-    image: "/assets/images/project-8.avif",
-  },
-];
-
 export default function ProjectsGallery() {
   const t = useTranslations("HomePage.projects");
 
@@ -78,7 +19,120 @@ export default function ProjectsGallery() {
     t("countries.sa"),
     t("countries.ae"),
   ];
-
+  const projects = [
+    {
+      id: 1,
+      title: "مشروع 1",
+      category: t("categories.informational"),
+      categoryTwo: "السعودية",
+      image: "/assets/images/project-1.avif",
+    },
+    {
+      id: 2,
+      title: "مشروع 2",
+      category: t("categories.informational"),
+      categoryTwo: "السعودية",
+      image: "/assets/images/project-2.avif",
+    },
+    {
+      id: 3,
+      title: "مشروع 3",
+      category: t("categories.informational"),
+      categoryTwo: "السعودية",
+      image: "/assets/images/project-3.avif",
+    },
+    {
+      id: 4,
+      title: "مشروع 4",
+      category: t("categories.informational"),
+      categoryTwo: "السعودية",
+      image: "/assets/images/project-4.avif",
+    },
+    {
+      id: 5,
+      title: "مشروع 5",
+      category: t("categories.informational"),
+      categoryTwo: "السعودية",
+      image: "/assets/images/project-5.avif",
+    },
+    {
+      id: 6,
+      title: "مشروع 6",
+      category: t("categories.informational"),
+      categoryTwo: "الإمارات",
+      image: "/assets/images/project-6.avif",
+    },
+    {
+      id: 7,
+      title: "مشروع 7",
+      category: t("categories.informational"),
+      categoryTwo: "الإمارات",
+      image: "/assets/images/project-7.avif",
+    },
+    {
+      id: 8,
+      title: "مشروع 8",
+      category: t("categories.informational"),
+      categoryTwo: "الإمارات",
+      image: "/assets/images/project-8.avif",
+    },
+    {
+      id: 9,
+      title: "مشروع 9",
+      category: t("categories.ecommerce"),
+      categoryTwo: "الإمارات",
+      image: "/assets/images/project-9.avif",
+    },
+    {
+      id: 10,
+      title: "مشروع 10",
+      category: t("categories.ecommerce"),
+      categoryTwo: "الإمارات",
+      image: "/assets/images/project-10.avif",
+    },
+    {
+      id: 11,
+      title: "مشروع 11",
+      category: t("categories.ecommerce"),
+      categoryTwo: "الإمارات",
+      image: "/assets/images/project-11.avif",
+    },
+    {
+      id: 12,
+      title: "مشروع 12",
+      categoryTwo: "مصر",
+      category: t("categories.ecommerce"),
+      image: "/assets/images/project-12.avif",
+    },
+    {
+      id: 13,
+      title: "مشروع 13",
+      categoryTwo: "مصر",
+      category: t("categories.ecommerce"),
+      image: "/assets/images/project-13.avif",
+    },
+    {
+      id: 14,
+      title: "مشروع 14",
+      categoryTwo: "مصر",
+      category: t("categories.ecommerce"),
+      image: "/assets/images/project-14.avif",
+    },
+    {
+      id: 15,
+      title: "مشروع 15",
+      categoryTwo: "مصر",
+      category: t("categories.ecommerce"),
+      image: "/assets/images/project-15.avif",
+    },
+    {
+      id: 16,
+      title: "16",
+      categoryTwo: "مصر",
+      category: t("categories.ecommerce"),
+      image: "/assets/images/project-16.webp",
+    },
+  ];
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
   const [selectedCountry, setSelectedCountry] = useState(countries[0]);
   const [activeProjectId, setActiveProjectId] = useState(null);
@@ -112,7 +166,7 @@ export default function ProjectsGallery() {
           <button
             key={cat}
             onClick={() => setSelectedCategory(cat)}
-            className={`md:px-4 px-2 py-2 md:text-lg text-xs rounded font-semibold transition-all duration-200 ${
+            className={`md:px-4 cursor-pointer px-2 py-2 md:text-lg text-xs rounded font-semibold transition-all duration-200 ${
               selectedCategory === cat
                 ? "bg-[#2B00FF] text-white"
                 : "bg-[#f1f2f3] text-black hover:bg-[#2B00FF] hover:text-white"
@@ -129,7 +183,7 @@ export default function ProjectsGallery() {
           <button
             key={country}
             onClick={() => setSelectedCountry(country)}
-            className={`md:px-4 px-2 py-2 md:text-lg text-xs rounded font-semibold transition-all duration-200 ${
+            className={`md:px-4 px-2 py-2 cursor-pointer md:text-lg text-xs rounded font-semibold transition-all duration-200 ${
               selectedCountry === country
                 ? "bg-[#2B00FF] text-white"
                 : "bg-[#f1f2f3] text-black hover:bg-[#2B00FF] hover:text-white"
