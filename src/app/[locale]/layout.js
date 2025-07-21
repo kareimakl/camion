@@ -13,6 +13,54 @@ const almarai = Almarai({
   variable: "--font-almarai",
   weight: ["300", "400", "700"],
 });
+export const metadata = {
+  title: "Taj House – Software Solutions & Web Development Company",
+
+  description:
+    "Taj House is a software solutions and web development company delivering modern, scalable digital products using React, Next.js, and Node.js.",
+  keywords:
+    "Taj House, Software Solutions, Web Development, React Developer, Next.js Developer, Node.js Developer, Egypt, Full Stack Developer",
+  authors: [{ name: "Taj House", url: "https://tajhouse.com" }],
+  creator: "Taj House",
+  viewport: "width=device-width, initial-scale=1",
+  icons: {
+    icon: "/favicon.ico",
+  },
+  openGraph: {
+    title: "Taj House – Software Solutions & Web Development Company",
+    description:
+      "Taj House builds fast and scalable digital solutions using modern technologies like React and Node.js.",
+    url: "https://tajhouse.com",
+    siteName: "Taj House",
+    images: [
+      {
+        url: "https://tajhouse.com/assets/logos/apple-touch-icon.png",
+        width: 1200,
+        height: 630,
+        alt: "Taj House Open Graph Image",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    handle: "@tajhouse",
+    site: "@tajhouse",
+    cardType: "summary_large_image",
+  },
+  openGraph: {
+    title: "Taj House – Software Solutions & Web Development Company",
+    description:
+      "Custom software solutions and modern web development by Taj House.",
+    images: [
+      {
+        url: "https://tajhouse.com/assets/logos/apple-touch-icon.png",
+        width: 1200,
+        height: 628,
+        alt: "Taj House Logo",
+      },
+    ],
+  },
+};
 
 export default async function LocaleLayout({ children, params }) {
   // Ensure that the incoming `locale` is valid
