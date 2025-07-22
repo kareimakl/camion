@@ -7,7 +7,7 @@ export default function Head() {
       <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       <meta name="theme-color" content="#000000" />
       <link rel="manifest" href="/manifest.json" />
-      <link rel="apple-touch-icon" href="/assets/logos/icon-192x192.png" />
+      <link rel="apple-touch-icon" href="/assets/icons/apple-icon.png" />
       <link rel="icon" href="/favicon.ico" />
     </>
   );

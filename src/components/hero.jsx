@@ -1,36 +1,81 @@
-"use client";
 import React from "react";
-import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
-export default function hero() {
-  const t = useTranslations("HomePage");
-  const heroTexts = t.raw("hero");
 
+function Hero() {
   return (
-    <div className=" md:w-[ 1200px] m-auto mt-8 w-[95%] flex flex-col gap-1 justify-center items-center text-center">
-      <h1 className="text-[#0000ff] flex md:gap-2  gap-1 md:text-[60px] text-[18px] font-[700]">
-        {heroTexts[0]}
-        <span className="text-[#000] md:text-[60px] text-[18px]  ">
-          {heroTexts[1]}
-        </span>
-      </h1>
-      <h2 className="md:text-[20px]  text-[12px] mb-6  text-[#50595f]">
-        {heroTexts[2]}
-      </h2>
-      <div className="flex md:gap-10 gap-2 w-full   justify-center items-center m-auto">
-        <Link
-          href="/projects"
-          className="cursor-pointer font-bold md:block md:text-[16px] text-[12px] bg-[#0000ff] hover:bg-[#8700FF] text-white md:px-[45px] px-[20px] py-[6px] rounded-[3px]  transition   font[600] shadow-sm"
-        >
-          {heroTexts[3]}
-        </Link>
-        <Link
-          href="/contact"
-          className=" cursor-pointer md:text-[16px] text-[12px]  font-bold md:block bg-[#0000ff] hover:bg-[#8700FF] text-white md:px-[45px] px-[20px] py-[6px]  rounded-[3px]  transition  font[600] shadow-sm"
-        >
-          {heroTexts[4]}
-        </Link>
+    <main className="mt-4 container mx-auto flex flex-col lg:flex-row gap-4 ">
+      {/* Left Section - 40% */}
+      <div className="w-full lg:w-[40%]">
+        <img
+          src="/assets/images/mplc-slider-slide-2-opt.jpg"
+          alt="Redmi Buds"
+          className="w-full h-full rounded-xl object-cover"
+        />
       </div>
-    </div>
+
+      {/* Right Section - 60% */}
+      <div className="w-full lg:w-[60%] flex flex-col gap-4">
+        {/* Top Part (Washing Machine + Categories) */}
+        <div className="flex flex-col md:flex-row gap-4">
+          {/* Washing Machine */}
+          <div className="w-full md:w-[40%]">
+            <img
+              src="/assets/images/banner-l-washmachine-opt.jpg"
+              alt="Washing Machine"
+              className="w-full h-full rounded-xl object-cover"
+            />
+          </div>
+
+          {/* Hot Categories */}
+          <div className="w-full md:w-[60%] pb-2">
+            <h2 className="font-semibold text-xl mb-2">Hot categories</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 h-full gap-4">
+              {[...Array(8)].map((_, i) => (
+                <div
+                  key={i}
+                  className="flex flex-col items-center text-center gap-4"
+                >
+                  <img
+                    src="/assets/images/Laptops.jpg"
+                    alt="Category"
+                    className=" w-[150px] h-[150px rounded-full shadow-xl"
+                  />
+                  <p className="text-sm font-semibold">Laptops</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Best Pick of the Week */}
+        <div className="bg-white rounded-xl p-4">
+          <div className="flex justify-between items-center mb-2">
+            <h2 className="text-lg font-medium">Best pick of the week</h2>
+            <span className="text-sm text-blue-600 cursor-pointer">
+              Show all
+            </span>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[...Array(4)].map((_, i) => (
+              <div
+                key={i}
+                className="flex items-center gap-3 bg-gray-50 p-2 rounded-lg"
+              >
+                <img
+                  src="/assets/images/Laptops.jpg"
+                  alt="Product"
+                  className="w-[60px] h-[60px] object-cover rounded-full"
+                />
+                <div>
+                  <p className="text-sm font-medium">Oculus Quest 2</p>
+                  <p className="text-red-500 text-sm">$800</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </main>
   );
 }
+
+export default Hero;

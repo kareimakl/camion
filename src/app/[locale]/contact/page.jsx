@@ -1,14 +1,9 @@
-import Footer from "@/components/layout/footer/footer";
-import Nav from "@/components/layout/nav/nav";
-import ContactComp from "@/components/contact";
-import HeroContact from "@/components/heroContact";
-export default function Contact() {
+import React from 'react'
+
+function Conatct() {
   return (
-    <div className="overflow-hidden">
-      <Nav />
-      <HeroContact />
-      <ContactComp />
-      <Footer />
-    </div>
-  );
+    <div>Conatct</div>
+  )
 }
+
+export default Conatct

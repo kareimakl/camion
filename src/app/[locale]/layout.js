@@ -14,30 +14,30 @@ const almarai = Almarai({
   weight: ["300", "400", "700"],
 });
 export const metadata = {
-  title: "Taj House – Software Solutions & Web Development Company",
+  title: "Camion – Software Solutions & Web Development Company",
 
   description:
-    "Taj House is a software solutions and web development company delivering modern, scalable digital products using React, Next.js, and Node.js.",
+    "Camion is a software solutions and web development company delivering modern, scalable digital products using React, Next.js, and Node.js.",
   keywords:
-    "Taj House, Software Solutions, Web Development, React Developer, Next.js Developer, Node.js Developer, Egypt, Full Stack Developer",
-  authors: [{ name: "Taj House", url: "https://tajhouse.com" }],
-  creator: "Taj House",
+    "Camion, Software Solutions, Web Development, React Developer, Next.js Developer, Node.js Developer, Egypt, Full Stack Developer",
+  authors: [{ name: "Camion", url: "https://tajhouse.com" }],
+  creator: "Camion",
   viewport: "width=device-width, initial-scale=1",
   icons: {
     icon: "/favicon.ico",
   },
   openGraph: {
-    title: "Taj House – Software Solutions & Web Development Company",
+    title: "Camion – Software Solutions & Web Development Company",
     description:
-      "Taj House builds fast and scalable digital solutions using modern technologies like React and Node.js.",
+      "Camion builds fast and scalable digital solutions using modern technologies like React and Node.js.",
     url: "https://tajhouse.com",
-    siteName: "Taj House",
+    siteName: "Camion",
     images: [
       {
-        url: "https://tajhouse.com/assets/logos/apple-touch-icon.png",
+        url: "https://tajhouse.com/assets/icons/apple-icon.png",
         width: 1200,
         height: 630,
-        alt: "Taj House Open Graph Image",
+        alt: "Camion Open Graph Image",
       },
     ],
     type: "website",
@@ -48,15 +48,15 @@ export const metadata = {
     cardType: "summary_large_image",
   },
   openGraph: {
-    title: "Taj House – Software Solutions & Web Development Company",
+    title: "Camion – Software Solutions & Web Development Company",
     description:
-      "Custom software solutions and modern web development by Taj House.",
+      "Custom software solutions and modern web development by Camion.",
     images: [
       {
-        url: "https://tajhouse.com/assets/logos/apple-touch-icon.png",
+        url: "https://tajhouse.com/assets/icons/apple-icon.png",
         width: 1200,
         height: 628,
-        alt: "Taj House Logo",
+        alt: "Camion Logo",
       },
     ],
   },

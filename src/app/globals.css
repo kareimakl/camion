@@ -1,6 +1,4 @@
-/* @import url("https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700&display=swap"); */
 @import "tailwindcss";
-
 :root {
   --font-primary: var(--font-geist-sans);
   --font-secondary: var(--font-almarai);
@@ -9,6 +7,7 @@
 
 body {
   font-family: var(--font-secondary);
+  background: #f6f5f8;
 }
 * {
   font-family: var(--font-secondary);
@@ -19,4 +18,22 @@ body {
   src: url("/fonts/Almarai/Almarai-Regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
+}
+.container {
+  max-width: 1400px;
+  width: 100%;
+  margin-inline: auto;
+}
+
+@media only screen and (width < 780px) {
+  .container {
+    width: 90%;
+  }
+}
+.bg-dynamic {
+  background-image: url("/assets/images/apple-ipad-w-silver-1.jpg");
+}
+
+.bg-dynamic:hover {
+  background-image: url("/assets/images/apple-ipad-w-silver-2-212x242.jpg");
 }

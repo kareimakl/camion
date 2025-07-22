@@ -81,7 +81,7 @@ export default function Document() {
         />
         <meta
           property="og:image"
-          content="https://tajhouse.com/assets/logos/logo-tajhouse.png"
+          content="https://tajhouse.com/assets/icons/apple-icon.png"
         />
 
         {/* Twitter */}
@@ -97,7 +97,7 @@ export default function Document() {
         />
         <meta
           name="twitter:image"
-          content="https://tajhouse.com/assets/logos/logo-tajhouse.png"
+          content="https://tajhouse.com/assets/icons/apple-icon.png"
         />
 
         {/* Structured Data: Organization */}
@@ -109,7 +109,7 @@ export default function Document() {
               "@type": "Organization",
               name: "Taj House",
               url: "https://tajhouse.com",
-              logo: "https://tajhouse.com/logo.png",
+              logo: "https://tajhouse.com/",
               description:
                 "Software development, web solutions, and digital transformation services.",
               sameAs: [
