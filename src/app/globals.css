@@ -37,3 +37,58 @@ body {
 .bg-dynamic:hover {
   background-image: url("/assets/images/apple-ipad-w-silver-2-212x242.jpg");
 }
+.swiper-button-next,
+.swiper-button-prev {
+  color: #000 !important;
+  background: rgba(255, 255, 255, 0.8) !important;
+  border-radius: 999px !important;
+  width: 40px !important;
+  height: 40px !important;
+  top: 45% !important;
+  z-index: 1000;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 20px !important;
+  font-weight: bold !important;
+}
+
+.swiper-pagination-bullet {
+  width: 12px !important;
+  height: 12px !important;
+  background-color: gray !important;
+  opacity: 0.5 !important;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #000 !important;
+  /* width: 90px !important; */
+  border-radius: 20px !important;
+  opacity: 1 !important;
+}
+.swiper-pagination-fraction,
+.swiper-pagination-custom,
+.swiper-horizontal > .swiper-pagination-bullets,
+.swiper-pagination-bullets.swiper-pagination-horizontal {
+  width: auto !important;
+  max-width: 50px !important;
+  right: 5px !important;
+  left: auto !important;
+  background: #fff !important;
+  border-radius: 20px !important;
+  padding-inline: 5px !important;
+}
+
+.main-slider-container .swiper-button-next,
+.main-slider-container .swiper-button-prev {
+  opacity: 0 !important;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.main-slider-container:hover .swiper-button-next,
+.main-slider-container:hover .swiper-button-prev {
+  opacity: 1 !important;
+  pointer-events: auto;
+}

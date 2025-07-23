@@ -15,8 +15,7 @@ const almarai = Almarai({
 });
 export const metadata = {
   title: "Camion – Software Solutions & Web Development Company",
-  
-  
+
   description:
     "Camion is a software solutions and web development company delivering modern, scalable digital products using React, Next.js, and Node.js.",
   keywords:

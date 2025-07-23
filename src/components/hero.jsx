@@ -1,15 +1,13 @@
+
 import React from "react";
+import SliderHero from "./SliderHero";
 
 function Hero() {
   return (
     <main className="mt-4 container mx-auto flex flex-col lg:flex-row gap-4 ">
       {/* Left Section - 40% */}
       <div className="w-full lg:w-[40%]">
-        <img
-          src="/assets/images/mplc-slider-slide-2-opt.jpg"
-          alt="Redmi Buds"
-          className="w-full h-full rounded-xl object-cover"
-        />
+      <SliderHero/>
       </div>
 
       {/* Right Section - 60% */}
@@ -27,7 +25,9 @@ function Hero() {
 
           {/* Hot Categories */}
           <div className="w-full md:w-[60%] pb-2">
-            <h2 className="font-semibold text-xl mb-2">Hot categories</h2>
+            <h2 className="font-semibold text-xl flex gap-2 text-center justify-start items-center  mb-2">
+              <img src="/assets/icons/mp2-fire.svg" alt="" className="w-5 h-5"/>
+              Hot categories</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 h-full gap-4">
               {[...Array(8)].map((_, i) => (
                 <div

@@ -12,7 +12,7 @@ export default function ProductTabs() {
 
   return (
     <main className="flex flex-col lg:flex-row gap-4 p-4 lg:p-6 mt-10">
-      <RecentlyViewed  />
+      <RecentlyViewed />
 
       <div className="flex-1 w-full">
         {/* Tabs */}
@@ -54,25 +54,34 @@ export default function ProductTabs() {
               return (
                 <div
                   key={idx}
-                  className="bg-white text-center cursor-pointer p-4 rounded-xl shadow-sm hover:shadow-md transition-all relative"
+                  className="bg-white group text-center cursor-pointer p-4 rounded-xl shadow-sm hover:shadow-md transition-all relative"
                   onMouseEnter={() => setHoveredProductId(product.id)}
                   onMouseLeave={() => setHoveredProductId("")}
                 >
                   {product.hot && (
-                    <span className="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+                    <span className="absolute  z-10 top-2 left-2 bg-[#e14a5c] text-white text-xs px-2 py-1 rounded-full">
                       HOT
                     </span>
                   )}
                   {product.discount && (
-                    <span className="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
+                    <span
+                      className={`absolute ${
+                        product.hot ? "top-9" : "top-2"
+                      }  z-10 left-2 bg-[#8cbc67] text-white text-xs px-2 py-1 rounded-full`}
+                    >
                       {product.discount}
                     </span>
                   )}
 
-                  <div
-                    className="h-40 bg-center bg-contain bg-no-repeat mb-3"
+                  <motion.div
+                    className="h-32  rounded-2xl sm:h-36 md:h-40 bg-center bg-contain bg-no-repeat mb-3"
                     style={{ backgroundImage: `url(${bgImage})` }}
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ duration: 0.3 }}
                   />
+                  <button className="bg-[#e14a5c]  cursor-pointer rounded-b-2xl text-white text-sm font-bold px-4 py-2 w-[90%] opacity-0 group-hover:opacity-85 m-auto transition-opacity duration-300 absolute bottom-[110px] right-0 left-0 rounded-t-none">
+                    Add To Cart
+                  </button>
 
                   <h3 className="font-semibold text-sm">{product.title}</h3>
                   <p className="text-gray-400 text-xs">{product.category}</p>
@@ -80,8 +89,15 @@ export default function ProductTabs() {
                     {"★".repeat(Math.floor(product.rating))}
                     {product.rating % 1 !== 0 && "½"}
                   </div>
-                  <p className="text-red-600 font-semibold mt-1">
-                    {product.price}
+                  <p className="text-red-600 space-x-1  font-semibold mt-1">
+                    <span
+                      className={`text-gray-400 ${
+                        product.sale ? "line-through mr-1" : "text-red-600"
+                      }  ml-2`}
+                    >
+                      {product.price}
+                    </span>
+                    {product.sale}
                   </p>
                 </div>
               );

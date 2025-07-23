@@ -5,6 +5,8 @@ import Banner from "@/components/banner";
 import Head from "next/head";
 import Categories from "@/components/categories";
 import FeaturedProducts from "@/components/FeaturedProducts";
+import RecommendedProducts from "@/components/RecommendedProducts";
+import ProductCardHome from "@/components/ProductCardHome";
 export async function generateStaticParams() {
   return [{ locale: "en" }, { locale: "ar" }];
 }
@@ -64,6 +66,8 @@ export default async function HomePage() {
       <Banner />
       <FeaturedProducts />
       <Categories />
+      <ProductCardHome />
+      <RecommendedProducts />
       <Footer />
     </div>
   );
