@@ -1,8 +1,8 @@
 "use client";
-import { products } from "./productsTab";
+import { products } from "../../../../components/productsTab";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-export default function RecommendedProducts() {
+export default function AllProduct() {
   const [hoveredProductId, setHoveredProductId] = useState("");
   return (
     <div className="flex-1 mt-10 container flex flex-col gap-4   w-full">

@@ -1,12 +1,13 @@
 "use client";
-import { products } from "./productsTab";
+import { Link } from "@/i18n/navigation";
+import { products } from "../../../../../components/productsTab";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-export default function RecommendedProducts() {
+export default function Youmayalsolike() {
   const [hoveredProductId, setHoveredProductId] = useState("");
   return (
     <div className="flex-1 mt-10 container flex flex-col gap-4   w-full">
-      <p className="text-lg font-semibold mb-8 lg:mb-0">Featured products</p>
+      <p className="text-lg font-semibold mb-8 lg:mb-0">You may also like</p>
       <AnimatePresence mode="wait">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
@@ -15,7 +16,7 @@ export default function RecommendedProducts() {
           transition={{ duration: 0.4 }}
           className="grid grid-cols-2 md:grid-cols-6 md:gap-6 gap-2"
         >
-          {products.map((product, idx) => {
+          {products.slice(0, 6).map((product, idx) => {
             const isHovered = hoveredProductId === product.id;
             const bgImage = isHovered ? product.image2 : product.image;
 
@@ -26,6 +27,13 @@ export default function RecommendedProducts() {
                 onMouseEnter={() => setHoveredProductId(product.id)}
                 onMouseLeave={() => setHoveredProductId("")}
               >
+                <Link
+                  className="absolute w-full h-full"
+                  href={`/product/${product.title
+                    .toLowerCase()
+                    .replace(/\s+/g, "-")}`}
+                ></Link>
+
                 {product.hot && (
                   <span className="absolute  z-10 top-2 left-2 bg-[#e14a5c] text-white text-xs px-2 py-1 rounded-full">
                     HOT
