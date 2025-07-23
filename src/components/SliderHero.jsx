@@ -11,8 +11,8 @@ function SliderHero() {
       <Swiper
         spaceBetween={30}
         slidesPerView={1}
-        // loop={true}
-        // autoplay={{ delay: 2500, disableOnInteraction: false }}
+        loop={true}
+        autoplay={{ delay: 2500, disableOnInteraction: false }}
         pagination={{ clickable: true }}
         navigation={true}
         modules={[Navigation, Pagination, Autoplay]}
