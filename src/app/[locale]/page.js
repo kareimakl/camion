@@ -12,7 +12,7 @@ export async function generateStaticParams() {
 }
 export default async function HomePage() {
   return (
-    <div className="overflow-hidden">
+    <div className="overflow-hidden bg-[#f6f5f8]">
       <Head>
         <title>Camion – Software Solutions & Web Development Company</title>
         <meta
