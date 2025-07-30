@@ -1,8 +1,8 @@
 import React from "react";
 import ProductPage from "./_components/singleprodect";
 import Youmayalsolike from "./_components/Youmayalsolike";
-import Header from "@/components/layout/header/header";
-import Footer from "@/components/layout/footer/footer";
+import Header from "@/componentsedit/layout/header/header";
+import Footer from "@/componentsedit/layout/footer/footer";
 import ReviewSection from "./_components/ReviewSection";
 import ProductDetails from "./_components/ProductDetails";
 
@@ -15,7 +15,6 @@ function SingleProduct() {
         <ProductDetails />
         <ReviewSection />
       </div>
-
       <Youmayalsolike />
       <Footer />
     </div>

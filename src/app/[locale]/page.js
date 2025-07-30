@@ -1,12 +1,13 @@
-import Footer from "@/components/layout/footer/footer";
-import Header from "@/components/layout/header/header";
-import Hero from "@/components/hero";
-import Banner from "@/components/banner";
+import Footer from "@/componentsedit/layout/footer/footer";
+import Header from "@/componentsedit/layout/header/header";
+import Hero from "@/componentsedit/hero";
+import Banner from "@/componentsedit/banner";
 import Head from "next/head";
-import Categories from "@/components/categories";
-import FeaturedProducts from "@/components/FeaturedProducts";
-import RecommendedProducts from "@/components/RecommendedProducts";
-import ProductCardHome from "@/components/ProductCardHome";
+import Categories from "@/componentsedit/categories";
+import FeaturedProducts from "@/componentsedit/FeaturedProducts";
+import RecommendedProducts from "@/componentsedit/RecommendedProducts";
+import ProductCardHome from "@/componentsedit/ProductCardHome";
+import Offer from "@/componentsedit/offer";
 export async function generateStaticParams() {
   return [{ locale: "en" }, { locale: "ar" }];
 }
@@ -63,10 +64,11 @@ export default async function HomePage() {
       </Head>
       <Header />
       <Hero />
-      <Banner />
-      <FeaturedProducts />
+      {/* <Banner /> */}
+      {/* <FeaturedProducts /> */}
       <Categories />
-      <ProductCardHome />
+      <Offer />
+      {/* <ProductCardHome /> */}
       <RecommendedProducts />
       <Footer />
     </div>
