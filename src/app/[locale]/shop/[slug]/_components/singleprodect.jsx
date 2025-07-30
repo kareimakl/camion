@@ -19,7 +19,7 @@ export default function ProductPage() {
     const fetchProducts = async () => {
       try {
         const res = await fetch(
-          `http://18.234.158.46:3000/api/buckydrop/products/${slug}`
+          `http://54.162.75.209:3000/api/buckydrop/products/${slug}`
         );
         const data = await res.json();
         if (data.success) {

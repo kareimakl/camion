@@ -13,7 +13,7 @@ export default function Categories() {
     const fetchCategories = async () => {
       try {
         const res = await fetch(
-          "http://18.234.158.46:3000/api/buckydrop/categories"
+          "http://54.162.75.209:3000/api/buckydrop/categories"
         );
         const data = await res.json();
         if (data.success) {

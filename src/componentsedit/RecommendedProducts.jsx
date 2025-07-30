@@ -12,7 +12,7 @@ export default function RecommendedProducts() {
     const fetchProducts = async () => {
       try {
         const res = await fetch(
-          "http://18.234.158.46:3000/api/buckydrop/products?keyword=k"
+          "http://54.162.75.209:3000/api/buckydrop/products?keyword=k"
         );
         const data = await res.json();
         if (data.success) {
