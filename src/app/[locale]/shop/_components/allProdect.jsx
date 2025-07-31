@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { API_ENDPOINTS } from "../../api/api";
 
 export default function RecommendedProducts() {
   const [products, setProducts] = useState([]);
@@ -10,9 +11,7 @@ export default function RecommendedProducts() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch(
-          "http://54.162.75.209:3000/api/buckydrop/products?keyword=k"
-        );
+        const res = await fetch(API_ENDPOINTS.PRODUCT);
         const data = await res.json();
         if (data.success) {
           IsLoding(false);

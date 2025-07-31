@@ -101,7 +101,7 @@ export default function Footer() {
           >
             Taj House
           </a>{" "}
-          2025 Made with love, Taj House All Rights Reserved.
+          2025 Made , Taj House All Rights Reserved.
         </div>
       </div>
     </footer>

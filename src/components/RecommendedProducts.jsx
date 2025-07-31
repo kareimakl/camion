@@ -47,7 +47,8 @@ export default function RecommendedProducts() {
                   whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.3 }}
                 />
-                <button className="bg-[#e14a5c]  cursor-pointer rounded-b-2xl text-white text-sm font-bold px-4 py-2 w-[90%] opacity-0 group-hover:opacity-85 m-auto transition-opacity duration-300 absolute bottom-[110px] right-0 left-0 rounded-t-none">
+                <button  className="bg-[#e14a5c]  cursor-pointer rounded-b-2xl text-white text-sm font-bold px-4 py-2 w-[90%] opacity-0 group-hover:opacity-85 m-auto transition-opacity duration-300 absolute bottom-[110px] right-0 left-0 rounded-t-none">
+
                   Add To Cart
                 </button>
 

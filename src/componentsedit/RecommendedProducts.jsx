@@ -2,7 +2,8 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "@/i18n/navigation";
-
+import { API_ENDPOINTS } from "../app/[locale]/api/api";
+import { toast, ToastContainer } from "react-toastify";
 export default function RecommendedProducts() {
   const [products, setProducts] = useState([]);
   const [hoveredProductId, setHoveredProductId] = useState("");
@@ -11,14 +12,12 @@ export default function RecommendedProducts() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch(
-          "http://54.162.75.209:3000/api/buckydrop/products?keyword=k"
-        );
+        const res = await fetch(`${API_ENDPOINTS.PRODUCT}`);
         const data = await res.json();
         if (data.success) {
           IsLoding(false);
           setProducts(data.data.records);
-          // console.log("Products fetched successfully:", data.data.records);
+          console.log("Products fetched successfully:", data.data.records);
         }
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -27,8 +26,34 @@ export default function RecommendedProducts() {
     fetchProducts();
   }, []);
 
+  async function addToCart(product) {
+    try {
+      const payload = {
+        userId: "abc-123",
+        productId: product?.spuCode,
+        quantity: 1,
+      };
+
+      const res = await fetch(API_ENDPOINTS.ADD_TO_CART, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        toast.success("Product added to cart successfully");
+        console.log("Product added to cart:", data);
+      }
+    } catch (error) {
+      toast.error("Failed to add product to cart");
+    }
+  }
   return Loding ? (
     <div className="p-6 container m-auto mt-16 min-h-screen">
+      <h2 className="font-semibold text-xl mb-2">Most viewed</h2>
       <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 gap-6">
         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((index) => (
           <div
@@ -47,7 +72,7 @@ export default function RecommendedProducts() {
                 <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z"></path>
               </svg>
             </div>
-            {/* <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-400 w-48 mb-4"></div> */}
+
             <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-400 mb-2.5"></div>
             <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-400 mb-2.5"></div>
             <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-400"></div>
@@ -75,35 +100,33 @@ export default function RecommendedProducts() {
             return (
               <div
                 key={product.spuCode}
-                className="bg-white  text-center cursor-pointer group rounded-xl shadow-sm hover:shadow-md transition-all relative"
+                className="bg-white   text-center cursor-pointer group rounded-xl shadow-sm hover:shadow-md transition-all relative"
                 onMouseEnter={() => setHoveredProductId(product.spuCode)}
                 onMouseLeave={() => setHoveredProductId("")}
               >
-                <Link
-                  href={`/shop/${product.spuCode}`}
-                  className="absolute inset-0 w-full h-full  "
-                />
-                <div className="">
+                <Link href={`/shop/${product.spuCode}`} className="">
                   <motion.div
-                    className="h-32 py-2 sm:h-36 md:h-40 bg-center bg-contain bg-no-repeat mb-3 mt-2"
+                    className="h-32 py-2  sm:h-36 md:h-40 bg-center bg-contain bg-no-repeat mb-3 mt-2"
                     style={{ backgroundImage: `url(${image})` }}
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.3 }}
                   />
 
-                  <h3 className="font-semibold text-sm line-clamp-2">
-                    {product.productName}
+                  <h3 className="font-semibold px-2 text-sm line-clamp-2">
+                    {product?.productName}
                   </h3>
-                  <p className="text-gray-400 text-xs">{product.platform}</p>
+                  <p className="text-gray-400 text-xs">{product?.platform}</p>
                   <div className="text-yellow-400 mt-1">★★★★★</div>
                   <p className="text-red-600 space-x-1 font-semibold mt-1">
                     <span className="text-red-600 ml-2">
                       ${product.proPrice?.price || product.price?.price}
                     </span>
                   </p>
-                </div>
-
-                <button className="bg-[#e14a5c] cursor-pointer rounded-b-xl text-white text-sm font-bold px-4 py-2 w-[100%] opacity-0 group-hover:opacity-100 m-auto transition-opacity duration-300  rounded-t-none">
+                </Link>
+                <button
+                  onClick={() => addToCart(product)}
+                  className="bg-[#e14a5c] cursor-pointer rounded-b-xl text-white text-sm font-bold px-4 py-2 w-[100%] opacity-0 group-hover:opacity-100 m-auto transition-opacity duration-300  rounded-t-none"
+                >
                   Add To Cart
                 </button>
               </div>
@@ -111,6 +134,18 @@ export default function RecommendedProducts() {
           })}
         </motion.div>
       </AnimatePresence>
+      <ToastContainer
+        position="top-right"
+        autoClose={4000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        // rtl={true}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </div>
   );
 }

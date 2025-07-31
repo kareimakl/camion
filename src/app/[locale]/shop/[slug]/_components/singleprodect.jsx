@@ -7,7 +7,7 @@ import "swiper/css";
 import { useState, useRef, useEffect } from "react";
 import Static from "./static";
 import { ImageWithSkeleton } from "./ImageWithSkeleton";
-
+import { API_ENDPOINTS } from "../../../api/api";
 export default function ProductPage() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -19,7 +19,7 @@ export default function ProductPage() {
     const fetchProducts = async () => {
       try {
         const res = await fetch(
-          `http://54.162.75.209:3000/api/buckydrop/products/${slug}`
+          `${API_ENDPOINTS.PRODUCTDDETAILS}/${slug}` // Adjust the endpoint as needed
         );
         const data = await res.json();
         if (data.success) {
@@ -57,7 +57,7 @@ export default function ProductPage() {
           {/* Thumbnails */}
 
           {loading ? (
-            <div className="flex gap-4">
+            <div className="flex gap-4 container">
               <div className="flex  flex-col gap-2">
                 <div className="animate-pulse bg-gray-300 w-14 h-14 rounded-lg"></div>
                 <div className="animate-pulse bg-gray-300 w-14 h-14 rounded-lg"></div>
@@ -89,7 +89,7 @@ export default function ProductPage() {
           )}
 
           {/* Swiper Main Image */}
-          <div className="w-[400px] h-[400px] overflow-hidden rounded-lg">
+          <div className="w-[400px] h-[400px] md:-mt-0 -mt-10   overflow-hidden rounded-2xl">
             <Swiper
               onSwiper={(swiper) => (swiperRef.current = swiper)}
               onSlideChange={(swiper) => setCurrentIndex(swiper.activeIndex)}

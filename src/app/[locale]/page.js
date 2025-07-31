@@ -1,12 +1,9 @@
 import Footer from "@/componentsedit/layout/footer/footer";
 import Header from "@/componentsedit/layout/header/header";
 import Hero from "@/componentsedit/hero";
-import Banner from "@/componentsedit/banner";
 import Head from "next/head";
 import Categories from "@/componentsedit/categories";
-import FeaturedProducts from "@/componentsedit/FeaturedProducts";
 import RecommendedProducts from "@/componentsedit/RecommendedProducts";
-import ProductCardHome from "@/componentsedit/ProductCardHome";
 import Offer from "@/componentsedit/offer";
 export async function generateStaticParams() {
   return [{ locale: "en" }, { locale: "ar" }];

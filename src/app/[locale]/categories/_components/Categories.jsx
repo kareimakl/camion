@@ -1,15 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
+import { API_ENDPOINTS } from "../../api/api";
+
 export default function Categories() {
   const [categories, setCategories] = useState([]);
   const [Loding, IsLoding] = useState(true);
-
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await fetch(
-          "http://54.162.75.209:3000/api/buckydrop/categories"
-        );
+        const res = await fetch(API_ENDPOINTS.CAREGROES);
         const data = await res.json();
         if (data.success) {
           setCategories(data.data);
@@ -63,7 +62,9 @@ export default function Categories() {
                   alt={category.categoryName}
                   className="md:w-[120px] md:h-[120px] w-[60px] h-[60px] rounded-full shadow-xl object-cover"
                 />
-                <p className="md:text-sm text-xs font-semibold">{category.categoryName}</p>
+                <p className="md:text-sm text-xs font-semibold">
+                  {category.categoryName}
+                </p>
               </div>
             ))}
           </div>

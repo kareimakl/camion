@@ -11,8 +11,8 @@ function SliderHero() {
       <Swiper
         spaceBetween={30}
         slidesPerView={1}
-        loop={true}
-        autoplay={{ delay: 2500, disableOnInteraction: false }}
+        // loop={true}
+        // autoplay={{ delay: 2500, disableOnInteraction: false }}
         pagination={{ clickable: true }}
         navigation={true}
         modules={[Navigation, Pagination, Autoplay]}
@@ -25,7 +25,7 @@ function SliderHero() {
                 alt="Samsung Galaxy Flip5"
                 className="w-full h-full rounded-xl object-cover"
               />
-              <div className="absolute inset-0  flex flex-col pt-10 justify-start items-start px-10 text-left text-white rounded-xl">
+              <div className="absolute  inset-0  flex flex-col pb-10 bottom-0 justify-end  items-start px-10 text-left text-white rounded-xl">
                 <p className="text-md mb-2 text-[#84a3b5]">
                   Nordic inspiration for decor
                 </p>
@@ -47,7 +47,7 @@ function SliderHero() {
                 alt="Samsung Galaxy Flip5"
                 className="w-full h-full rounded-xl object-cover"
               />
-              <div className="absolute inset-0  flex flex-col pt-10 justify-start items-start px-10 text-left text-white rounded-xl">
+              <div className="absolute inset-0  flex flex-col pb-10 bottom-0 justify-end items-start px-10 text-left text-white rounded-xl">
                 <p className="text-md mb-2 text-[#ad7d61]">
                   Fresh design in an elegant case
                 </p>

@@ -30,27 +30,30 @@ export default function Categories() {
   }, []);
 
   return Loding ? (
-    <div className="p-6 container gap-4  grid md:grid-cols-10  grid-cols-3 m-auto  min-h-auto ">
-      <div className="animate-pulse  shadow-xl md:w-[120px] md:h-[120px] w-[60px] h-[60px] bg-gray-300 rounded-full"></div>
-      <div className="animate-pulse  shadow-xl md:w-[120px] md:h-[120px] w-[60px] h-[60px] bg-gray-300 rounded-full"></div>
-      <div className="animate-pulse  shadow-xl md:w-[120px] md:h-[120px] w-[60px] h-[60px] bg-gray-300 rounded-full"></div>
-      <div className="animate-pulse  shadow-xl md:w-[120px] md:h-[120px] w-[60px] h-[60px] bg-gray-300 rounded-full"></div>
-      <div className="animate-pulse  shadow-xl md:w-[120px] md:h-[120px] w-[60px] h-[60px] bg-gray-300 rounded-full"></div>
-      <div className="animate-pulse  shadow-xl md:w-[120px] md:h-[120px] w-[60px] h-[60px] bg-gray-300 rounded-full"></div>
-      <div className="animate-pulse  shadow-xl md:w-[120px] md:h-[120px] w-[60px] h-[60px] bg-gray-300 rounded-full"></div>
-      <div className="animate-pulse  shadow-xl md:w-[120px] md:h-[120px] w-[60px] h-[60px] bg-gray-300 rounded-full"></div>
-      <div className="animate-pulse  shadow-xl md:w-[120px] md:h-[120px] w-[60px] h-[60px] bg-gray-300 rounded-full"></div>
-      <div className="animate-pulse  shadow-xl md:w-[120px] md:h-[120px] w-[60px] h-[60px] bg-gray-300 rounded-full"></div>
-      <div className="animate-pulse md:flex hidden  shadow-xl md:w-[120px] md:h-[120px] w-[60px] h-[60px] bg-gray-300 rounded-full"></div>
-      <div className="animate-pulse md:flex hidden shadow-xl md:w-[120px] md:h-[120px] w-[60px] h-[60px] bg-gray-300 rounded-full"></div>
-      <div className="animate-pulse md:flex hidden shadow-xl md:w-[120px] md:h-[120px] w-[60px] h-[60px] bg-gray-300 rounded-full"></div>
-      <div className="animate-pulse md:flex hidden shadow-xl md:w-[120px] md:h-[120px] w-[60px] h-[60px] bg-gray-300 rounded-full"></div>
-      <div className="animate-pulse md:flex hidden shadow-xl md:w-[120px] md:h-[120px] w-[60px] h-[60px] bg-gray-300 rounded-full"></div>
-      <div className="animate-pulse md:flex hidden shadow-xl md:w-[120px] md:h-[120px] w-[60px] h-[60px] bg-gray-300 rounded-full"></div>
-      <div className="animate-pulse md:flex hidden shadow-xl md:w-[120px] md:h-[120px] w-[60px] h-[60px] bg-gray-300 rounded-full"></div>
-      <div className="animate-pulse md:flex hidden shadow-xl md:w-[120px] md:h-[120px] w-[60px] h-[60px] bg-gray-300 rounded-full"></div>
-      <div className="animate-pulse md:flex hidden shadow-xl md:w-[120px] md:h-[120px] w-[60px] h-[60px] bg-gray-300 rounded-full"></div>
-      <div className="animate-pulse md:flex hidden shadow-xl md:w-[120px] md:h-[120px] w-[60px] h-[60px] bg-gray-300 rounded-full"></div>
+    <div className="w-full flex flex-col container gap-4 mt-10 m-auto">
+      <h2 className="font-semibold text-xl mb-2">Shop by categories</h2>
+      <div className="p-6 gap-4  grid md:grid-cols-10  grid-cols-3 m-auto  min-h-auto ">
+        <div className="animate-pulse  shadow-xl md:w-[120px] md:h-[120px] w-[80px] h-[80px] bg-gray-300 rounded-full"></div>
+        <div className="animate-pulse  shadow-xl md:w-[120px] md:h-[120px] w-[80px] h-[80px] bg-gray-300 rounded-full"></div>
+        <div className="animate-pulse  shadow-xl md:w-[120px] md:h-[120px] w-[80px] h-[80px] bg-gray-300 rounded-full"></div>
+        <div className="animate-pulse  shadow-xl md:w-[120px] md:h-[120px] w-[80px] h-[80px] bg-gray-300 rounded-full"></div>
+        <div className="animate-pulse  shadow-xl md:w-[120px] md:h-[120px] w-[80px] h-[80px] bg-gray-300 rounded-full"></div>
+        <div className="animate-pulse  shadow-xl md:w-[120px] md:h-[120px] w-[80px] h-[80px] bg-gray-300 rounded-full"></div>
+        <div className="animate-pulse  md:flex hidden shadow-xl md:w-[120px] md:h-[120px] w-[60px] h-[60px] bg-gray-300 rounded-full"></div>
+        <div className="animate-pulse  md:flex hidden shadow-xl md:w-[120px] md:h-[120px] w-[60px] h-[60px] bg-gray-300 rounded-full"></div>
+        <div className="animate-pulse md:flex hidden  shadow-xl md:w-[120px] md:h-[120px] w-[60px] h-[60px] bg-gray-300 rounded-full"></div>
+        <div className="animate-pulse  md:flex hidden  shadow-xl md:w-[120px] md:h-[120px] w-[60px] h-[60px] bg-gray-300 rounded-full"></div>
+        <div className="animate-pulse md:flex hidden  shadow-xl md:w-[120px] md:h-[120px] w-[60px] h-[60px] bg-gray-300 rounded-full"></div>
+        <div className="animate-pulse md:flex hidden shadow-xl md:w-[120px] md:h-[120px] w-[60px] h-[60px] bg-gray-300 rounded-full"></div>
+        <div className="animate-pulse md:flex hidden shadow-xl md:w-[120px] md:h-[120px] w-[60px] h-[60px] bg-gray-300 rounded-full"></div>
+        <div className="animate-pulse md:flex hidden shadow-xl md:w-[120px] md:h-[120px] w-[60px] h-[60px] bg-gray-300 rounded-full"></div>
+        <div className="animate-pulse md:flex hidden shadow-xl md:w-[120px] md:h-[120px] w-[60px] h-[60px] bg-gray-300 rounded-full"></div>
+        <div className="animate-pulse md:flex hidden shadow-xl md:w-[120px] md:h-[120px] w-[60px] h-[60px] bg-gray-300 rounded-full"></div>
+        <div className="animate-pulse md:flex hidden shadow-xl md:w-[120px] md:h-[120px] w-[60px] h-[60px] bg-gray-300 rounded-full"></div>
+        <div className="animate-pulse md:flex hidden shadow-xl md:w-[120px] md:h-[120px] w-[60px] h-[60px] bg-gray-300 rounded-full"></div>
+        <div className="animate-pulse md:flex hidden shadow-xl md:w-[120px] md:h-[120px] w-[60px] h-[60px] bg-gray-300 rounded-full"></div>
+        <div className="animate-pulse md:flex hidden shadow-xl md:w-[120px] md:h-[120px] w-[60px] h-[60px] bg-gray-300 rounded-full"></div>
+      </div>
     </div>
   ) : (
     <div>
@@ -81,9 +84,9 @@ export default function Categories() {
                     <img
                       src={category.imageUrl}
                       alt={category.categoryName}
-                      className="w-[120px] h-[120px] rounded-full shadow-xl object-cover"
+                      className="md:w-[120px] md:h-[120px] w-[80px] h-[80px] rounded-full shadow-xl object-cover"
                     />
-                    <p className="text-sm font-semibold">
+                    <p className="md:text-sm text-xs font-semibold">
                       {category.categoryName}
                     </p>
                   </div>
@@ -111,9 +114,9 @@ export default function Categories() {
                     <img
                       src={category.imageUrl}
                       alt={category.categoryName}
-                      className="w-[120px] h-[120px] rounded-full shadow-xl object-cover"
+                      className="md:w-[120px] md:h-[120px] w-[80px] h-[80px] rounded-full shadow-xl object-cover"
                     />
-                    <p className="text-sm font-semibold">
+                    <p className="md:text-sm text-xs font-semibold">
                       {category.categoryName}
                     </p>
                   </div>
