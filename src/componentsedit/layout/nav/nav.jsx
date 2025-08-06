@@ -1,0 +1,51 @@
+"use client";
+import { useEffect, useState } from "react";
+
+export default function Categories() {
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch(
+          "http://buckydrop.camion-app.com:3000/api/categories"
+        );
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          setCategories(data);
+        }
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  return (
+    <div className="flex gap-4 overflow-x-auto py-2">
+      {loading
+        ? Array.from({ length: 3 }).map((_, i) => (
+            <div
+              key={i}
+              className="h-5 w-20 bg-gray-200 rounded-full dark:bg-gray-400 animate-pulse"
+            ></div>
+          ))
+        : categories.map((category, i) => (
+            <NavItem key={category.id || i} title={category.name} />
+          ))}
+    </div>
+  );
+}
+
+function NavItem({ title }) {
+  return (
+    <div className="flex items-center gap-1 cursor-pointer hover:text-iconHover transition whitespace-nowrap">
+      <span>{title}</span>
+      {/* <MdKeyboardArrowDown /> */}
+    </div>
+  );
+}

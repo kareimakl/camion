@@ -5,12 +5,12 @@ function Static() {
     <div>
   
       <section className="flex flex-col gap-4">
-        <div className="lg:col-span-1 border border-[#0000001f] p-6 rounded-xl space-y-6 font-sans text-sm text-gray-700 shadow-sm">
+        {/* <div className="lg:col-span-1 border border-[#0000001f] p-6 rounded-xl space-y-6 font-sans text-sm text-gray-700 shadow-sm">
           <h2 className="font-semibold text-lg text-black">
             Shipping & Delivery
           </h2>
 
-          {/* Courier Delivery */}
+
           <div className="flex items-start justify-between">
             <div className="flex items-start gap-3">
               <span className="text-rose-500 text-xl">🚚</span>
@@ -27,7 +27,7 @@ function Static() {
             </div>
           </div>
 
-          {/* DHL Delivery */}
+
           <div className="flex items-start justify-between">
             <div className="flex items-start gap-3">
               <img
@@ -54,7 +54,7 @@ function Static() {
 
           <hr className="my-2 border-gray-200" />
 
-          {/* Warranty */}
+
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="text-rose-500 text-lg">🛡️</span>
@@ -65,7 +65,7 @@ function Static() {
             </a>
           </div>
 
-          {/* Returns */}
+
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="text-rose-500 text-lg">🔄</span>
@@ -75,7 +75,7 @@ function Static() {
               More details
             </a>
           </div>
-        </div>
+        </div> */}
         <div className="relative cursor-grab w-full h-[210px]">
           <img
             src="/assets/images/banner-s-mb-cover-bf.jpg"

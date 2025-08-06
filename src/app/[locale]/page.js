@@ -1,6 +1,7 @@
 import Footer from "@/componentsedit/layout/footer/footer";
 import Header from "@/componentsedit/layout/header/header";
 import Hero from "@/componentsedit/hero";
+import Story from "@/componentsedit/story";
 import Head from "next/head";
 import Categories from "@/componentsedit/categories";
 import RecommendedProducts from "@/componentsedit/RecommendedProducts";
@@ -56,16 +57,13 @@ export default async function HomePage() {
           content="https://camionapp.com/assets/assets/icons/apple-icon.png"
         />
 
-        {/* Favicon */}
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
+      <Story />
       <Hero />
-      {/* <Banner /> */}
-      {/* <FeaturedProducts /> */}
       <Categories />
       <Offer />
-      {/* <ProductCardHome /> */}
       <RecommendedProducts />
       <Footer />
     </div>

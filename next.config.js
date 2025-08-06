@@ -6,7 +6,7 @@ const withNextIntl = createNextIntlPlugin();
 const nextConfig = {
   // output: "export",
   images: {
-    remotePatterns: [new URL("https://img.alicdn.com/bao/**")],
+    domains: ["www.7rfatk.com", "comio-artifacts.s3.us-east-1.amazonaws.com"],
   },
 };
 
