@@ -1,6 +1,57 @@
+"use client";
 import { FaInfoCircle, FaKeyboard, FaLayerGroup } from "react-icons/fa";
-
+import Image from "next/image";
+import { useParams } from "next/navigation";
+import "swiper/css";
+import { useState, useRef, useEffect } from "react";
+import { ImageWithSkeleton } from "./ImageWithSkeleton";
+import { API_ENDPOINTS } from "../../../api/api";
+import { Swiper, SwiperSlide } from "swiper/react";
 export default function ProductDetails() {
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const { slug } = useParams();
+  const swiperRef = useRef(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const res = await fetch(`${API_ENDPOINTS.PRODUCTDDETAILS}/${slug}`, {
+          headers: {
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzNDhkZGIyYy00OTYzLTQzYzEtOTMzNy1lOWQ2YjRiMmE3NzUiLCJlbWFpbCI6ImluZm9Aa2FyaW1ha2wuY29tIiwicGhvbmUiOiIrMjAxNTU4ODIwMTAzIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NTQ1Njc4NDUsImV4cCI6MTc1NTE3MjY0NX0.N1sqLvsYBiGsFOnzJO6qyZrzADhC3wf1QzFIp42vK-c`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+
+        const data = await res.json();
+        if (data) {
+          setProduct(data);
+          console.log("Product data:", data);
+        }
+      } catch (error) {
+        console.error("Error fetching product:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProduct();
+  }, [slug]);
+
+  if (!loading && !product) {
+    return (
+      <div className="text-center py-10 text-red-500">Product not found.</div>
+    );
+  }
+
+  // images from WooCommerce response
+  const images = product?.images?.map((img) => img.src) || [];
+
   return (
     <div className="max-w-4xl mx-auto p-4 space-y-10">
       {/* Specification Section */}
@@ -54,35 +105,22 @@ export default function ProductDetails() {
         <h2 className="text-lg font-semibold mb-4">Description</h2>
         <div className="bg-gray-100 rounded-xl p-6 space-y-6">
           <div className="text-center">
-            <h3 className="font-medium text-sm text-[#777777]">MacBook Pro</h3>
-            <h2 className="text-2xl font-bold mt-1">
-              Mind-blowing.
-              <br />
-              Head-turning
-            </h2>
+            <h3 className="font-medium text-sm text-[#777777]">
+              {product?.name}
+            </h3>
 
-            <img
-              src="/assets/images/description-m3-img-1-1.jpg.webp"
-              alt="MacBook Banner"
-              className="mt-6 w-full mx-auto rounded-md"
+            {product?.images?.[0]?.src && (
+              <ImageWithSkeleton
+                className="rounded-xl pt-10 h-[300px] w-full object-cover"
+                src={product.images[0].src}
+                alt={product.images[0].alt || "Main Product Image"}
+              />
+            )}
+
+            <p
+              className="mt-4 text-[#777777] max-w mx-auto"
+              dangerouslySetInnerHTML={{ __html: product?.description }}
             />
-            <p className="mt-4 text-[#777777] max-w mx-auto">
-              Processors that are designed for high–end professionals. Screens
-              on which you can create a world. Camera, sound and ports for all
-              the extra tools. Complete minced meat for those looking for a
-              reliable assistant for years to come.
-            </p>
-          </div>
-
-          <div>
-            <h3 className="text-xl font-semibold mb-2">Three giant leaps</h3>
-            <p className="text-gray-700">
-              MacBook Pro blasts forward with the M3, M3 Pro, and M3 Max chips.
-              Built on 3–nanometer technology and featuring an all–new GPU
-              architecture, they’re the most advanced chips ever built for a
-              personal computer. And each one brings more pro performance and
-              capability.
-            </p>
           </div>
         </div>
       </section>

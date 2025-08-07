@@ -1,4 +1,5 @@
 "use client";
+import { Link } from "@/i18n/navigation";
 import { useEffect, useState } from "react";
 
 export default function Categories() {
@@ -15,7 +16,7 @@ export default function Categories() {
         if (Array.isArray(data)) {
           setCategories(data);
           setLoading(false);
-          console.log("Categories fetched successfully:", data);
+          console.log("Categories Filter fetched successfully:", data);
         }
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -46,9 +47,12 @@ export default function Categories() {
       <h2 className="font-semibold text-xl mb-2">Shop by categories</h2>
       <div className="grid grid-cols-3 md:grid-cols-10 gap-6 mt-6">
         {categories.map((category, i) => (
-          <div
+          <Link
+            href={`/categories/${category?.slug}`}
+            passHref
             key={category.id || i}
-            className="flex flex-col items-center text-center gap-2"
+            className="flex cursor-pointer flex-col items-center text-center
+                    gap-2"
           >
             <img
               src={
@@ -61,7 +65,7 @@ export default function Categories() {
               loading="lazy"
             />
             <p className="md:text-sm text-xs font-semibold">{category.name}</p>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { FiSearch } from "react-icons/fi";
 import { API_ENDPOINTS } from "../app/[locale]/api/api";
 import { Link } from "@/i18n/navigation";
+import Filter from "./filter";
 
 export default function ProductSearch() {
   const [query, setQuery] = useState("");
@@ -76,10 +77,7 @@ export default function ProductSearch() {
       >
         <FiSearch />
       </button>
-      <button className="absolute cursor-pointer right-12 top-1/2 -translate-y-1/2 p-2 rounded-full text-white">
-        <img src="/assets/icons/filter.svg" alt="" />
-      </button>
-
+      <Filter />
       {loading && (
         <div className="absolute top-full mt-2 w-full bg-white shadow-lg rounded-lg p-4 text-center">
           Loading...

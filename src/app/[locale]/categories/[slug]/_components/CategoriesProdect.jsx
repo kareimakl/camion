@@ -1,14 +1,17 @@
 "use client";
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "@/i18n/navigation";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
 import { API_ENDPOINTS } from "../../../api/api";
 import { toast, ToastContainer } from "react-toastify";
+import { useParams } from "next/navigation";
 
-export default function RecommendedProducts() {
+export default function CategoriesProdect({ categories }) {
   const [products, setProducts] = useState([]);
-  const [hoveredProductId, setHoveredProductId] = useState("");
   const [loading, setLoading] = useState(true);
+  const [hoveredProductId, setHoveredProductId] = useState("");
+  const params = useParams();
+  const categorySlug = params?.slug;
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -16,8 +19,10 @@ export default function RecommendedProducts() {
         const res = await fetch(`${API_ENDPOINTS.PRODUCT}`);
         const data = await res.json();
         if (data?.products) {
-          setProducts(data.products);
-          console.log("Products fetched successfully:", data.products);
+          const filtered = data.products.filter((product) =>
+            product.categories?.some((cat) => cat.slug === categorySlug)
+          );
+          setProducts(filtered);
         }
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -25,8 +30,10 @@ export default function RecommendedProducts() {
         setLoading(false);
       }
     };
-    fetchProducts();
-  }, []);
+    if (categorySlug) {
+      fetchProducts();
+    }
+  }, [categorySlug]);
 
   async function addToCart(product) {
     try {
@@ -40,7 +47,7 @@ export default function RecommendedProducts() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-WC-Store-API-Nonce": window.wc_store_api.nonce, 
+          "X-WC-Store-API-Nonce": window.wc_store_api.nonce, // أو X-WP-Nonce حسب النوع
         },
         body: JSON.stringify(payload),
       });
@@ -56,7 +63,6 @@ export default function RecommendedProducts() {
       toast.error("Failed to add product to cart");
     }
   }
-
   return loading ? (
     // Skeleton Loader
     <div className="p-6 container m-auto mt-16 min-h-screen">
@@ -86,9 +92,21 @@ export default function RecommendedProducts() {
         ))}
       </div>
     </div>
+  ) : products.length === 0 ? (
+    <div className="container mx-auto text-center mt-16 min-h-[300px]">
+      <h2 className="text-2xl font-bold text-gray-700 mb-4">
+        No Products Found
+      </h2>
+      <p className="text-gray-500">
+        There are currently no products in this category.
+      </p>
+    </div>
   ) : (
-    <div className="flex-1 mt-10 container flex flex-col gap-4 w-full">
-      <p className="text-lg font-semibold mb-8 lg:mb-0">Most viewed</p>
+    <div className="flex-1 mt-10 container flex flex-col gap-4   w-full">
+      {/* Breadcrumb */}
+      <nav className="text-sm text-gray-500 mb-6">
+        Home / <span className="text-black font-bold">{categorySlug}</span>
+      </nav>
       <AnimatePresence mode="wait">
         <motion.div
           initial={{ opacity: 0, y: 10 }}

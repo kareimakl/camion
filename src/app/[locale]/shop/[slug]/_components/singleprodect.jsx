@@ -22,7 +22,7 @@ export default function ProductPage() {
       try {
         const res = await fetch(`${API_ENDPOINTS.PRODUCTDDETAILS}/${slug}`, {
           headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5MDUxMmIzMi01NGUzLTQ1YzUtYmYxMi1mNTFmYzVmZWExNzYiLCJlbWFpbCI6Im1vaGFtZWRAZXhhbXBsZS5jb20iLCJwaG9uZSI6IisyMDEwMDg2OTAyNjQiLCJyb2xlIjoidXNlciIsImlhdCI6MTc1NDQwMzIyNiwiZXhwIjoxNzU1MDA4MDI2fQ.Tb-cq0kWYmEq3FeSEBEPX1bFfpn-3ceqyd--eEQppU8`,
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzNDhkZGIyYy00OTYzLTQzYzEtOTMzNy1lOWQ2YjRiMmE3NzUiLCJlbWFpbCI6ImluZm9Aa2FyaW1ha2wuY29tIiwicGhvbmUiOiIrMjAxNTU4ODIwMTAzIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NTQ1Njc4NDUsImV4cCI6MTc1NTE3MjY0NX0.N1sqLvsYBiGsFOnzJO6qyZrzADhC3wf1QzFIp42vK-c`,
             "Content-Type": "application/json",
           },
         });
@@ -86,9 +86,6 @@ export default function ProductPage() {
                   spaceBetween={10}
                   slidesPerView={4}
                   className="h-[320px]"
-                  pagination={{ clickable: true }}
-                  navigation={true}
-                  modules={[Navigation, Pagination, Autoplay]}
                 >
                   {product?.images?.map((img, i) => (
                     <SwiperSlide key={i} className="rounded-xl ">
@@ -212,7 +209,6 @@ export default function ProductPage() {
           </div>
 
           <div className="flex border-t border-[#e5e5e5] pt-4 gap-6 mt-4 text-sm text-[#000]">
-            <span>🔁 Add to compare</span>
             <span>🤍 Add to wishlist</span>
           </div>
         </div>

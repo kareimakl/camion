@@ -1,4 +1,5 @@
 "use client";
+import { Link } from "@/i18n/navigation";
 import { useEffect, useState } from "react";
 
 export default function Categories() {
@@ -35,16 +36,20 @@ export default function Categories() {
             ></div>
           ))
         : categories.map((category, i) => (
-            <NavItem key={category.id || i} title={category.name} />
+            <NavItem
+              key={category.id || i}
+              to={`/categories/${category?.slug}`}
+              title={category.name}
+            />
           ))}
     </div>
   );
 }
 
-function NavItem({ title }) {
+function NavItem({ title,to }) {
   return (
     <div className="flex items-center gap-1 cursor-pointer hover:text-iconHover transition whitespace-nowrap">
-      <span>{title}</span>
+      <Link href={to}>{title}</Link>
       {/* <MdKeyboardArrowDown /> */}
     </div>
   );
