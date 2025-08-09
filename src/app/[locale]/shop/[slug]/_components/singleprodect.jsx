@@ -1,11 +1,11 @@
 "use client";
-import Image from "next/image";
-import { useParams } from "next/navigation";
-import { Navigation, Pagination, Autoplay } from "swiper/modules";
-import { motion, AnimatePresence } from "framer-motion";
 import "swiper/css";
-import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
 import Static from "./static";
+import Cookies from "js-cookie";
+import { useParams } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
 import { ImageWithSkeleton } from "./ImageWithSkeleton";
 import { API_ENDPOINTS } from "../../../api/api";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -16,18 +16,22 @@ export default function ProductPage() {
   const { slug } = useParams();
   const swiperRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-
+  const savedToken = Cookies.get("token");
   useEffect(() => {
     const fetchProduct = async () => {
+      if (!slug) return;
       try {
         const res = await fetch(`${API_ENDPOINTS.PRODUCTDDETAILS}/${slug}`, {
           headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzNDhkZGIyYy00OTYzLTQzYzEtOTMzNy1lOWQ2YjRiMmE3NzUiLCJlbWFpbCI6ImluZm9Aa2FyaW1ha2wuY29tIiwicGhvbmUiOiIrMjAxNTU4ODIwMTAzIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NTQ1Njc4NDUsImV4cCI6MTc1NTE3MjY0NX0.N1sqLvsYBiGsFOnzJO6qyZrzADhC3wf1QzFIp42vK-c`,
+            Authorization: `Bearer ${savedToken}`,
             "Content-Type": "application/json",
           },
         });
+        console.log("savedToken", savedToken);
 
         if (!res.ok) {
+          const errorText = await res.text();
+          console.error("Server response:", errorText);
           throw new Error(`HTTP error! status: ${res.status}`);
         }
 

@@ -1,8 +1,15 @@
+"use client";
 import Footer from "@/componentsedit/layout/footer/footer";
 import Header from "@/componentsedit/layout/header/header";
-import React from "react";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 function MyAccount() {
+  const router = useRouter();
+  const handleLogout = () => {
+    Cookies.remove("token");
+    router.push("/auth/login");
+  };
   return (
     <main>
       <Header />
@@ -48,11 +55,12 @@ function MyAccount() {
           </div>
           <p className="text-xs text-[#6C6C6C]">Welcome to your account page</p>
         </div>
-        <div className="flex flex-row rounded-xl p-3  py-5  shadow-2xl min-w-[400px] w-[50%] bg-white justify-between items-center  text-center">
-          <div className="flex gap-2">
+        <div className="flex cursor-pointer flex-row rounded-xl p-3  py-5  shadow-2xl min-w-[400px] w-[50%] bg-white justify-between items-center  text-center">
+          <button type="button" onClick={handleLogout} className="flex  gap-2">
             <img src="/assets/icons/logout.svg" alt="" />
             <h1 className="text-sm">My Account</h1>
-          </div>
+          </button>
+
           <p className="text-xs text-[#6C6C6C]">Welcome to your account page</p>
         </div>
       </div>

@@ -4,18 +4,20 @@ import Footer from "@/componentsedit/layout/footer/footer";
 import Header from "@/componentsedit/layout/header/header";
 import CartItem from "./components/cart/CartItem";
 import { API_ENDPOINTS } from "../api/api";
+import Cookies from "js-cookie";
 
 export default function CartPage() {
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
+  const savedToken = Cookies.get("token");
 
   useEffect(() => {
     const fetchCart = async () => {
       try {
         const res = await fetch(API_ENDPOINTS.GET_CART, {
           headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0NDU3ZjAwNS0wOWI3LTRiYjItOWI4NS0zMzQwZDAxMTFmMGMiLCJlbWFpbCI6Im1vYXRhekBnbWFpbC5jb20iLCJwaG9uZSI6IisyMDExMjcyNzI2NjYiLCJyb2xlIjoidXNlciIsImlhdCI6MTc1NDU2Nzg0OCwiZXhwIjoxNzU1MTcyNjQ4fQ.BmTV2RVWuzemw3DrPAhRKllsPKSkmeuZJFPg31jHhOU`, // Replace with your actual token
+            Authorization: `Bearer ${savedToken}`,
             "Content-Type": "application/json",
           },
         });
@@ -27,10 +29,26 @@ export default function CartPage() {
         const data = await res.json();
         console.log("Fetched cart data:", data);
 
+        setCart(data || []);
+
         if (data?.length > 0) {
-          setCart(data);
-        } else {
-          setCart([]);
+          const productsData = [];
+          for (const item of data) {
+            const prodRes = await fetch(
+              `${API_ENDPOINTS.PRODUCTDDETAILS}/${item.productId}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${savedToken}`,
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+            if (prodRes.ok) {
+              const prodData = await prodRes.json();
+              productsData.push(prodData);
+            }
+          }
+          setProducts(productsData);
         }
       } catch (error) {
         console.error("Error fetching cart:", error);
@@ -43,26 +61,6 @@ export default function CartPage() {
     fetchCart();
   }, []);
 
-  // Fetch products
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await fetch(`${API_ENDPOINTS.PRODUCT}`);
-        const data = await res.json();
-        if (data?.products) {
-          console.log("Fetched products:", data.products);
-          setProducts(data.products);
-        }
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProducts();
-  }, []);
-
-  // Loading skeleton while fetching
   if (loading) {
     return (
       <div className="p-6 container gap-4 grid md:grid-cols-6 grid-cols-3 m-auto min-h-auto">
@@ -78,9 +76,6 @@ export default function CartPage() {
     );
   }
 
-  console.log("Cart Data:", cart);
-  console.log("Products Data:", products);
-
   return (
     <div>
       <Header />
@@ -94,7 +89,7 @@ export default function CartPage() {
             ) : (
               <div className="w-full max-w-4xl space-y-6">
                 {cart.map((item) => {
-                  const product = products?.find(
+                  const product = products.find(
                     (prod) => String(prod.id) === String(item.productId)
                   );
 
@@ -107,7 +102,7 @@ export default function CartPage() {
                         price: Number(item.price),
                         quantity: item.quantity,
                         image:
-                          product && product.images.length > 0
+                          product && product.images?.length > 0
                             ? product.images[0].src
                             : "/placeholder.png",
                         totalPrice: Number(item.totalPrice),

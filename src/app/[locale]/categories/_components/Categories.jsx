@@ -1,6 +1,7 @@
 "use client";
 import { Link } from "@/i18n/navigation";
 import { useEffect, useState } from "react";
+import { API_ENDPOINTS } from "../../api/api";
 
 export default function Categories() {
   const [categories, setCategories] = useState([]);
@@ -9,9 +10,7 @@ export default function Categories() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await fetch(
-          "http://buckydrop.camion-app.com:3000/api/categories"
-        );
+        const res = await fetch(`${API_ENDPOINTS.CAREGROES}`);
         const data = await res.json();
         if (Array.isArray(data)) {
           setCategories(data);
@@ -28,7 +27,7 @@ export default function Categories() {
 
   if (loading) {
     return (
-      <div className="w-full flex flex-col container gap-4 mt-10 m-auto">
+      <div className="w-full flex min-h-screen flex-col container gap-4 mt-10 m-auto">
         <div className="p-6 gap-4 grid md:grid-cols-10 grid-cols-3 m-auto min-h-auto ">
           {Array.from({ length: 20 }).map((_, i) => (
             <div
@@ -42,7 +41,7 @@ export default function Categories() {
   }
 
   return (
-    <div className="w-full container pb-2 mt-10 m-auto">
+    <div className="w-full container min-h-screen pb-2 mt-10 m-auto">
       <div className="grid grid-cols-3 md:grid-cols-10 gap-6 mt-6">
         {categories.map((category, i) => (
           <Link

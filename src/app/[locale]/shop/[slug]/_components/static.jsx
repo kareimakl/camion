@@ -3,7 +3,6 @@ import React from "react";
 function Static() {
   return (
     <div>
-  
       <section className="flex flex-col gap-4">
         {/* <div className="lg:col-span-1 border border-[#0000001f] p-6 rounded-xl space-y-6 font-sans text-sm text-gray-700 shadow-sm">
           <h2 className="font-semibold text-lg text-black">

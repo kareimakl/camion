@@ -1,25 +1,24 @@
 "use client";
 import { FaInfoCircle, FaKeyboard, FaLayerGroup } from "react-icons/fa";
-import Image from "next/image";
 import { useParams } from "next/navigation";
 import "swiper/css";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { ImageWithSkeleton } from "./ImageWithSkeleton";
 import { API_ENDPOINTS } from "../../../api/api";
-import { Swiper, SwiperSlide } from "swiper/react";
+import Cookies from "js-cookie";
+
 export default function ProductDetails() {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const { slug } = useParams();
-  const swiperRef = useRef(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const savedToken = Cookies.get("token");
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         const res = await fetch(`${API_ENDPOINTS.PRODUCTDDETAILS}/${slug}`, {
           headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzNDhkZGIyYy00OTYzLTQzYzEtOTMzNy1lOWQ2YjRiMmE3NzUiLCJlbWFpbCI6ImluZm9Aa2FyaW1ha2wuY29tIiwicGhvbmUiOiIrMjAxNTU4ODIwMTAzIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NTQ1Njc4NDUsImV4cCI6MTc1NTE3MjY0NX0.N1sqLvsYBiGsFOnzJO6qyZrzADhC3wf1QzFIp42vK-c`,
+            Authorization: `Bearer ${savedToken}`,
             "Content-Type": "application/json",
           },
         });

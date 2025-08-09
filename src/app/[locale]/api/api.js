@@ -1,13 +1,15 @@
 // src/api/api.js
 
-const BASE_URL = "http://buckydrop.camion-app.com:3000"; // your base URL
-const BASE_URL_STORY = "http://stories.camion-app.com:3001"; // your base URL
-const BASE_URL_CART = "http://api-gateway.camion-app.com";
+const BASE_URL = "https://buckydrop.camion-app.com"; // your base URL
+const BASE_URL_STORY = "https://stories.camion-app.com"; // your base URL
+const BASE_URL_CART = "https://api-gateway.camion-app.com";
+const BASE_URL_AUTH = "https://api-gateway.camion-app.com";
 export const API_ENDPOINTS = {
-  LOGIN: `${BASE_URL}/auth/login`,
-  REGISTER: `${BASE_URL}/auth/register`,
+  LOGIN: `${BASE_URL_AUTH}/users/auth/login`,
+  REGISTER: `${BASE_URL_AUTH}/users/auth/register`,
+  VERIFY: `${BASE_URL_AUTH}/users/auth/verify`,
   GET_USERS: `${BASE_URL}/users`,
-  CAREGROES: `${BASE_URL}/buckydrop/categories`,
+  CAREGROES: `${BASE_URL}/api/categories`,
   PRODUCT: `${BASE_URL}/api/products`,
   PRODUCTDDETAILS: `${BASE_URL}/api/products`,
   GET_CART: `${BASE_URL_CART}/cart/get`,

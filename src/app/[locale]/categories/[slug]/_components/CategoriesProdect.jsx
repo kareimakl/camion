@@ -5,13 +5,17 @@ import { useState, useEffect } from "react";
 import { API_ENDPOINTS } from "../../../api/api";
 import { toast, ToastContainer } from "react-toastify";
 import { useParams } from "next/navigation";
-
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 export default function CategoriesProdect({ categories }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hoveredProductId, setHoveredProductId] = useState("");
   const params = useParams();
   const categorySlug = params?.slug;
+  const savedToken = Cookies.get("token");
+  const router = useRouter();
+  const [addingId, setAddingId] = useState(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -35,34 +39,62 @@ export default function CategoriesProdect({ categories }) {
     }
   }, [categorySlug]);
 
+  function getPrice(product) {
+    return (
+      product?.prices?.price ||
+      product?.prices?.price_range?.min_amount ||
+      product?.price ||
+      0
+    );
+  }
   async function addToCart(product) {
+    const token = Cookies.get("token");
+    if (!token) {
+      toast.info("Please login to add items to cart");
+      router.push("/auth/login");
+      return;
+    }
+
+    setAddingId(product.id);
+
     try {
       const payload = {
-        userId: "abc-123",
-        productId: product?.id,
+        productId: String(product?.id),
         quantity: 1,
+        price: String(getPrice(product)),
       };
 
       const res = await fetch(API_ENDPOINTS.ADD_TO_CART, {
         method: "POST",
         headers: {
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
-          "X-WC-Store-API-Nonce": window.wc_store_api.nonce, // أو X-WP-Nonce حسب النوع
         },
         body: JSON.stringify(payload),
       });
 
-      const data = await res.json();
-      if (data) {
-        toast("Product added to cart successfully");
-        console.log("Product added to cart:", data);
-      } else {
-        toast.error("Failed to add product to cart");
+      const text = await res.text();
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        data = { message: text || null };
       }
-    } catch (error) {
-      toast.error("Failed to add product to cart");
+
+      if (!res.ok) {
+        throw new Error(data?.message || `Request failed (${res.status})`);
+      }
+
+      toast.success("Product added to cart successfully");
+      console.log("Product added to cart:", data);
+    } catch (err) {
+      console.error("addToCart error:", err);
+      toast.error(err.message || "Failed to add product to cart");
+    } finally {
+      setAddingId(null);
     }
   }
+
   return loading ? (
     // Skeleton Loader
     <div className="p-6 container m-auto mt-16 min-h-screen">

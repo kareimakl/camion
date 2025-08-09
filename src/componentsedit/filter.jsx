@@ -14,7 +14,7 @@ function Filter() {
     const fetchCategories = async () => {
       try {
         const res = await fetch(
-          "http://buckydrop.camion-app.com:3000/api/categories"
+          "https://buckydrop.camion-app.com/api/categories"
         );
         const data = await res.json();
         if (Array.isArray(data)) {

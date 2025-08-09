@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import CategoriesProdect from "./_components/CategoriesProdect";
 import Header from "@/componentsedit/layout/header/header";
 import Footer from "@/componentsedit/layout/footer/footer";
+import { API_ENDPOINTS } from "../../api/api";
 
 export default function CategoriesProduct() {
   const [categories, setCategories] = useState([]);
@@ -12,9 +13,7 @@ export default function CategoriesProduct() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await fetch(
-          "http://buckydrop.camion-app.com:3000/api/categories"
-        );
+        const res = await fetch(`${API_ENDPOINTS.CAREGROES}`);
         const data = await res.json();
         if (Array.isArray(data)) {
           setCategories(data);

@@ -4,11 +4,17 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "@/i18n/navigation";
 import { API_ENDPOINTS } from "../../api/api";
 import { toast, ToastContainer } from "react-toastify";
+import Cookies from "js-cookie";
 
 export default function RecommendedProducts() {
+  const token = process.env.NEXT_PUBLIC_API_TOKEN;
+  const savedToken = Cookies.get("token");
+
   const [products, setProducts] = useState([]);
   const [hoveredProductId, setHoveredProductId] = useState("");
   const [loading, setLoading] = useState(true);
+  const getPrice = (product) =>
+    product?.prices?.price_range?.min_amount || product?.prices?.price || "0";
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -31,23 +37,25 @@ export default function RecommendedProducts() {
   async function addToCart(product) {
     try {
       const payload = {
-        userId: "abc-123",
-        productId: product?.id,
+        productId: String(product?.id),
         quantity: 1,
+        price: String(getPrice(product)),
       };
 
       const res = await fetch(API_ENDPOINTS.ADD_TO_CART, {
         method: "POST",
         headers: {
+          Authorization: `Bearer ${savedToken}`,
+
           "Content-Type": "application/json",
-          "X-WC-Store-API-Nonce": window.wc_store_api.nonce, // أو X-WP-Nonce حسب النوع
         },
         body: JSON.stringify(payload),
       });
 
       const data = await res.json();
+      console.log("API Token:", token);
       if (data) {
-        toast("Product added to cart successfully");
+        toast.success("Product added to cart successfully");
         console.log("Product added to cart:", data);
       } else {
         toast.error("Failed to add product to cart");
@@ -60,7 +68,6 @@ export default function RecommendedProducts() {
   return loading ? (
     // Skeleton Loader
     <div className="p-6 container m-auto mt-16 min-h-screen">
-
       <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 gap-6">
         {Array.from({ length: 12 }).map((_, index) => (
           <div
@@ -96,7 +103,7 @@ export default function RecommendedProducts() {
           transition={{ duration: 0.4 }}
           className="grid grid-cols-2 md:grid-cols-6 md:gap-6 gap-2"
         >
-          {products?.map((product) => {
+          {products.map((product) => {
             const image = product.images?.[0]?.src || "/placeholder.png";
             const price =
               product.prices?.price_range?.min_amount ||

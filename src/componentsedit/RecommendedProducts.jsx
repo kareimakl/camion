@@ -4,9 +4,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "@/i18n/navigation";
 import { API_ENDPOINTS } from "../app/[locale]/api/api";
 import { toast, ToastContainer } from "react-toastify";
+import Cookies from "js-cookie";
 
 export default function RecommendedProducts() {
   const token = process.env.NEXT_PUBLIC_API_TOKEN;
+  const savedToken = Cookies.get("token");
 
   const [products, setProducts] = useState([]);
   const [hoveredProductId, setHoveredProductId] = useState("");
@@ -43,7 +45,8 @@ export default function RecommendedProducts() {
       const res = await fetch(API_ENDPOINTS.ADD_TO_CART, {
         method: "POST",
         headers: {
-          Authorization: `Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0NDU3ZjAwNS0wOWI3LTRiYjItOWI4NS0zMzQwZDAxMTFmMGMiLCJlbWFpbCI6Im1vYXRhekBnbWFpbC5jb20iLCJwaG9uZSI6IisyMDExMjcyNzI2NjYiLCJyb2xlIjoidXNlciIsImlhdCI6MTc1NDU2Nzg0OCwiZXhwIjoxNzU1MTcyNjQ4fQ.BmTV2RVWuzemw3DrPAhRKllsPKSkmeuZJFPg31jHhOU`,
+            Authorization: `Bearer ${savedToken}`,
+        
           "Content-Type": "application/json",
         },
         body: JSON.stringify(payload),
@@ -52,7 +55,7 @@ export default function RecommendedProducts() {
       const data = await res.json();
       console.log("API Token:", token);
       if (data) {
-        toast("Product added to cart successfully");
+        toast.success("Product added to cart successfully");
         console.log("Product added to cart:", data);
       } else {
         toast.error("Failed to add product to cart");

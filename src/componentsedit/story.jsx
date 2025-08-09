@@ -3,11 +3,13 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { API_ENDPOINTS } from "../app/[locale]/api/api";
+import Cookies from "js-cookie";
 
 export default function Stories() {
   const [stories, setStories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeStory, setActiveStory] = useState(null);
+  const savedToken = Cookies.get("token");
 
   useEffect(() => {
     const fetchStory = async () => {
@@ -15,11 +17,10 @@ export default function Stories() {
         const res = await fetch(`${API_ENDPOINTS.STORY}`, {
           method: "GET",
           headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NGY0NDVkZS04OTIzLTRiN2MtOGY4NC01ZTBhZWQ4ODI5ZjQiLCJlbWFpbCI6IkhhemVtQGdhbWlsLmNvbSIsInBob25lIjoiKzIwMTE0NDQxMzYxMSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzU0MzkwMjAzLCJleHAiOjE3NTQ5OTUwMDN9.EvryhSDfIRz03XC4mJhEhZk3cO-csEYNOdQFvGCQ9N4`,
+            Authorization: `Bearer ${savedToken}`,
             "Content-Type": "application/json",
           },
         });
-
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
 
         const data = await res.json();
@@ -101,7 +102,8 @@ export default function Stories() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <div className="relative w-[80%] max-w-xl">
+            <div className="relative w-[80%] max-w-xl flex flex-col items-center gap-4">
+              {/* صورة الستوري */}
               <Image
                 src={stories[activeStory].mediaUrl}
                 alt={`story-${activeStory}`}
@@ -109,6 +111,16 @@ export default function Stories() {
                 height={600}
                 className="w-full h-auto rounded-lg object-contain"
               />
+
+              {/* العنوان والوصف */}
+              <div className="text-center text-white mt-2">
+                <h2 className="text-xl font-bold">
+                  {stories[activeStory].title}
+                </h2>
+                <p className="text-sm opacity-80">
+                  {stories[activeStory].description}
+                </p>
+              </div>
 
               {/* Close Button */}
               <button

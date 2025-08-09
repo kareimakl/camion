@@ -8,7 +8,7 @@ import {
 
 export default function Footer() {
   return (
-    <footer className="bg-white mt-10 border-t border-gray-200 pt-2">
+    <footer className="bg-white mt-10  border-t border-gray-200 pt-2">
       <div className="max-w-[1400px] mx-auto px-4 flex flex-col gap-8">
         {/* Logo & Socials */}
         <div className="flex border-[#e3e3e3]  justify-between w-full gap-4">
