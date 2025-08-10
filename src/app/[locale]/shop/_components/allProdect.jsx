@@ -5,10 +5,10 @@ import { Link } from "@/i18n/navigation";
 import { API_ENDPOINTS } from "../../api/api";
 import { toast, ToastContainer } from "react-toastify";
 import Cookies from "js-cookie";
-
+import { useCart } from "@/componentsedit/context/CartContext";
 export default function RecommendedProducts() {
-  const token = process.env.NEXT_PUBLIC_API_TOKEN;
   const savedToken = Cookies.get("token");
+  const { addToCart: addToCartContext } = useCart(); // ✅
 
   const [products, setProducts] = useState([]);
   const [hoveredProductId, setHoveredProductId] = useState("");
@@ -35,34 +35,7 @@ export default function RecommendedProducts() {
   }, []);
 
   async function addToCart(product) {
-    try {
-      const payload = {
-        productId: String(product?.id),
-        quantity: 1,
-        price: String(getPrice(product)),
-      };
-
-      const res = await fetch(API_ENDPOINTS.ADD_TO_CART, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${savedToken}`,
-
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      const data = await res.json();
-      console.log("API Token:", token);
-      if (data) {
-        toast.success("Product added to cart successfully");
-        console.log("Product added to cart:", data);
-      } else {
-        toast.error("Failed to add product to cart");
-      }
-    } catch (error) {
-      toast.error("Failed to add product to cart");
-    }
+    await addToCartContext(product, 1);
   }
 
   return loading ? (

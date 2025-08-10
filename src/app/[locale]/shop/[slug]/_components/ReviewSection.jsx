@@ -25,7 +25,7 @@ export default function ReviewSection() {
   const [hover, setHover] = useState(0);
 
   return (
-    <div className="max-w-2xl mx-auto p-4">
+    <div className=" container  mx-auto p-4">
       <h2 className="text-center text-lg font-semibold">Customer Reviews</h2>
       <div className="text-center mt-2 text-4xl font-bold">4</div>
       <div className="flex justify-center items-center text-yellow-400 mb-2">
@@ -150,25 +150,27 @@ export default function ReviewSection() {
         <h3 className="text-lg font-semibold">
           2 reviews for Asus SDRW-08D2S-U
         </h3>
-        {reviews.map((review, i) => (
-          <div key={i} className="border border-[#e5e5e5] p-3 rounded-[20px]">
-            <div className="flex justify-between items-center mb-2">
-              <strong>{review.name}</strong>
-              <span className="text-sm text-gray-500">{review.date}</span>
+        <div className="grid md:grid-cols-2 gap-2 ">
+          {reviews.map((review, i) => (
+            <div key={i} className="border border-[#e5e5e5] p-3 rounded-[20px]">
+              <div className="flex justify-between items-center mb-2">
+                <strong>{review.name}</strong>
+                <span className="text-sm text-gray-500">{review.date}</span>
+              </div>
+              <div className="flex items-center gap-1 mb-1 text-yellow-400">
+                {[...Array(5)].map((_, j) => (
+                  <FaStar
+                    key={j}
+                    className={
+                      j < review.rating ? "text-yellow-400" : "text-gray-300"
+                    }
+                  />
+                ))}
+              </div>
+              <p className="text-sm text-gray-700">{review.comment}</p>
             </div>
-            <div className="flex items-center gap-1 mb-1 text-yellow-400">
-              {[...Array(5)].map((_, j) => (
-                <FaStar
-                  key={j}
-                  className={
-                    j < review.rating ? "text-yellow-400" : "text-gray-300"
-                  }
-                />
-              ))}
-            </div>
-            <p className="text-sm text-gray-700">{review.comment}</p>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

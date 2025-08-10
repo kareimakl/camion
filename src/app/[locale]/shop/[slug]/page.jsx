@@ -11,10 +11,10 @@ function SingleProduct() {
     <div>
       <Header />
       <ProductPage />
-      <div className="flex md:flex-row flex-col">
+      {/* <div className="flex md:flex-row flex-col">
         <ProductDetails />
+      </div> */}
         <ReviewSection />
-      </div>
       <Youmayalsolike />
       <Footer />
     </div>

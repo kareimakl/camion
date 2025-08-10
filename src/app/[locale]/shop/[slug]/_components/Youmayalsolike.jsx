@@ -4,11 +4,18 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "@/i18n/navigation";
 import { API_ENDPOINTS } from "../../../api/api";
 import { toast, ToastContainer } from "react-toastify";
-
+import Cookies from "js-cookie";
+import { useCart } from "@/componentsedit/context/CartContext";
 export default function RecommendedProducts() {
+  const token = process.env.NEXT_PUBLIC_API_TOKEN;
+  const savedToken = Cookies.get("token");
+  const { addToCart: addToCartContext } = useCart(); // ✅
+
   const [products, setProducts] = useState([]);
   const [hoveredProductId, setHoveredProductId] = useState("");
   const [loading, setLoading] = useState(true);
+  const getPrice = (product) =>
+    product?.prices?.price_range?.min_amount || product?.prices?.price || "0";
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -29,40 +36,15 @@ export default function RecommendedProducts() {
   }, []);
 
   async function addToCart(product) {
-    try {
-      const payload = {
-        userId: "abc-123",
-        productId: product?.id,
-        quantity: 1,
-      };
-
-      const res = await fetch(API_ENDPOINTS.ADD_TO_CART, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-WC-Store-API-Nonce": window.wc_store_api.nonce, 
-        },
-        body: JSON.stringify(payload),
-      });
-
-      const data = await res.json();
-      if (data) {
-        toast("Product added to cart successfully");
-        console.log("Product added to cart:", data);
-      } else {
-        toast.error("Failed to add product to cart");
-      }
-    } catch (error) {
-      toast.error("Failed to add product to cart");
-    }
+    await addToCartContext(product, 1);
   }
 
   return loading ? (
     // Skeleton Loader
     <div className="p-6 container m-auto mt-16 min-h-screen">
-      <h2 className="font-semibold text-xl mb-2">Most viewed</h2>
+    
       <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 gap-6">
-        {Array.from({ length: 12 }).map((_, index) => (
+        {Array.from({ length: 6 }).map((_, index) => (
           <div
             key={index}
             className="max-w-sm p-4 border rounded-2xl border-gray-200 shadow animate-pulse md:p-6 dark:border-gray-400"
@@ -88,7 +70,7 @@ export default function RecommendedProducts() {
     </div>
   ) : (
     <div className="flex-1 mt-10 container flex flex-col gap-4 w-full">
-      <p className="text-lg font-semibold mb-8 lg:mb-0">Most viewed</p>
+    
       <AnimatePresence mode="wait">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
@@ -97,7 +79,7 @@ export default function RecommendedProducts() {
           transition={{ duration: 0.4 }}
           className="grid grid-cols-2 md:grid-cols-6 md:gap-6 gap-2"
         >
-          {products.slice(0, 6).map((product) => {
+          {products.slice(0,6).map((product) => {
             const image = product.images?.[0]?.src || "/placeholder.png";
             const price =
               product.prices?.price_range?.min_amount ||
@@ -111,7 +93,7 @@ export default function RecommendedProducts() {
                 onMouseEnter={() => setHoveredProductId(product.id)}
                 onMouseLeave={() => setHoveredProductId("")}
               >
-                <Link href={`/shop/${product.id}`} className="">
+                <Link href={`shop/${product.id}`} className="">
                   <motion.div
                     className="h-32 py-2 sm:h-36 md:h-40 bg-center bg-contain bg-no-repeat mb-3 mt-2"
                     style={{ backgroundImage: `url(${image})` }}

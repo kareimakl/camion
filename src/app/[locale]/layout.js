@@ -1,6 +1,7 @@
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
+import { CartProvider } from "@/componentsedit/context/CartContext";
 import "../globals.css";
 import { Saira, Almarai } from "next/font/google";
 const saira = Saira({
@@ -75,7 +76,9 @@ export default async function LocaleLayout({ children, params }) {
       lang={locale}
     >
       <body className="antialiased">
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <NextIntlClientProvider>
+          <CartProvider>{children}</CartProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );
