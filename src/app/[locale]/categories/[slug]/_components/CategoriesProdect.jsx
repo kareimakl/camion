@@ -98,7 +98,6 @@ export default function CategoriesProdect({ categories }) {
   return loading ? (
     // Skeleton Loader
     <div className="p-6 container m-auto mt-16 min-h-screen">
-      <h2 className="font-semibold text-xl mb-2">Most viewed</h2>
       <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 gap-6">
         {Array.from({ length: 12 }).map((_, index) => (
           <div
@@ -172,10 +171,11 @@ export default function CategoriesProdect({ categories }) {
                   <h3 className="font-semibold px-2 text-sm line-clamp-2">
                     {product.name}
                   </h3>
-                  <p className="text-gray-400 text-xs">EGP</p>
                   <div className="text-yellow-400 mt-1">★★★★★</div>
                   <p className="text-red-600 space-x-1 font-semibold mt-1">
-                    <span className="text-red-600 ml-2">{price} EGP</span>
+                    <span className="text-red-600 ml-2">
+                      {price} {product?.prices?.currency_symbol}
+                    </span>
                   </p>
                 </Link>
                 <button

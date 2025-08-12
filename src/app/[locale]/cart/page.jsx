@@ -8,15 +8,30 @@ import Cookies from "js-cookie";
 import { toast, ToastContainer } from "react-toastify";
 import { useCart } from "@/componentsedit/context/CartContext";
 import { Link } from "@/i18n/navigation";
+import { useRouter } from "next/navigation";
 export default function CartPage() {
   const [cart, setCart] = useState([]);
   const { removeFromCart } = useCart();
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
   const savedToken = Cookies.get("token");
+  const router = useRouter();
 
   const fetchCart = useCallback(async () => {
+    if (!savedToken) {
+      toast.warn("Please sign in or create an account to view your cart", {
+        position: "top-center",
+        autoClose: 2000,
+      });
+
+      setTimeout(() => {
+        router.push("/auth/signup");
+      }, 2000);
+      return;
+    }
+
     setLoading(true);
+
     try {
       const res = await fetch(API_ENDPOINTS.GET_CART, {
         headers: {
@@ -30,39 +45,22 @@ export default function CartPage() {
       }
 
       const data = await res.json();
-      setCart(data || []);
-
-      if (data?.length > 0) {
-        const productsData = [];
-        for (const item of data) {
-          const prodRes = await fetch(
-            `${API_ENDPOINTS.PRODUCTDDETAILS}/${item.productId}`,
-            {
-              headers: {
-                Authorization: `Bearer ${savedToken}`,
-                "Content-Type": "application/json",
-              },
-            }
-          );
-          if (prodRes.ok) {
-            const prodData = await prodRes.json();
-            productsData.push(prodData);
-          }
-        }
-        setProducts(productsData);
-      }
+      setCart(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error("Error fetching cart:", error);
+      toast.error("Failed to fetch cart. Please try again later.");
       setCart([]);
     } finally {
       setLoading(false);
     }
   }, [savedToken]);
 
+  // 🌀 Fetch cart on mount
   useEffect(() => {
     fetchCart();
   }, [fetchCart]);
 
+  // 📦 Change quantity of a cart item
   const handleQuantityChange = (id, newQuantity) => {
     setCart((prevCart) =>
       prevCart.map((item) =>
@@ -71,16 +69,22 @@ export default function CartPage() {
     );
   };
 
+  // ❌ Remove item from cart
   async function handleRemove(productId) {
-    await removeFromCart(productId);
-    fetchCart();
+    try {
+      await removeFromCart(productId);
+      fetchCart();
+    } catch (error) {
+      toast.error("Failed to remove item from cart");
+    }
   }
 
+  // 💰 Calculate totals
   const grandTotal = cart.reduce(
-    (acc, item) => acc + item.price * item.quantity,
+    (acc, item) => acc + (item.price || 0) * (item.quantity || 0),
     0
   );
-  const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
+  const totalItems = cart.reduce((acc, item) => acc + (item.quantity || 0), 0);
 
   return (
     <div>
@@ -125,30 +129,21 @@ export default function CartPage() {
               ) : (
                 <>
                   <div className="w-full max-w-4xl space-y-6">
-                    {cart.map((item) => {
-                      const product = products.find(
-                        (prod) => String(prod.id) === String(item.productId)
-                      );
-
-                      return (
-                        <CartItem
-                          key={item.productId}
-                          item={{
-                            id: item.productId,
-                            title: product ? product.name : "Unnamed Product",
-                            price: Number(item.price),
-                            quantity: item.quantity,
-                            image:
-                              product && product.images?.length > 0
-                                ? product.images[0].src
-                                : "/placeholder.png",
-                            discountPercentage: item.discountPercentage,
-                          }}
-                          onQuantityChange={handleQuantityChange}
-                          onRemove={handleRemove}
-                        />
-                      );
-                    })}
+                    {cart.map((item) => (
+                      <CartItem
+                        key={item.id}
+                        item={{
+                          id: item.productId,
+                          title: item.title,
+                          price: Number(item.price),
+                          quantity: item.quantity,
+                          image: item.image || "/placeholder.png",
+                          discountPercentage: item.discountPercentage,
+                        }}
+                        onQuantityChange={handleQuantityChange}
+                        onRemove={handleRemove}
+                      />
+                    ))}
                   </div>
                   {/* Grand Total */}
                   <Link
@@ -162,14 +157,9 @@ export default function CartPage() {
               )}
             </div>
           </div>
-          <ToastContainer
-            position="top-right"
-            autoClose={4000}
-            theme="colored"
-          />
         </main>
-      )}
-
+      )}{" "}
+      <ToastContainer position="top-right" autoClose={4000} theme="colored" />
       <Footer />
     </div>
   );

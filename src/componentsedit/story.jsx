@@ -71,11 +71,11 @@ export default function Stories() {
   if (loading)
     return (
       <div className="w-full flex flex-col justify-start items-start container gap-4 m-auto">
-        <div className="py-4 gap-4 items-start justify-start grid md:grid-cols-10 grid-cols-3">
-          {Array.from({ length: 10 }).map((_, i) => (
+        <div className="py-4 gap-4 w-full flex overflow-x-auto">
+          {Array.from({ length: 14 }).map((_, i) => (
             <div
               key={i}
-              className="animate-pulse shadow-xl md:w-[80px] md:h-[80px] w-[60px] h-[60px] bg-gray-300 rounded-full"
+              className="animate-pulse shadow-xl flex-shrink-0 md:w-[80px] md:h-[80px] w-[70px] h-[70px] bg-gray-300 rounded-full"
             ></div>
           ))}
         </div>
@@ -83,7 +83,7 @@ export default function Stories() {
     );
 
   return (
-    <div className="flex justify-start container gap-6 py-6">
+    <div className="flex overflow-x-auto justify-start container gap-6 py-4">
       {/* Thumbnails */}
       {stories?.map((story, index) => (
         <div

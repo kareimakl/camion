@@ -9,10 +9,13 @@ import {
 import Cookies from "js-cookie";
 import { API_ENDPOINTS } from "../../app/[locale]/api/api";
 import { toast, ToastContainer } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
+  const router = useRouter();
+
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(true);
   const token = Cookies.get("token");
@@ -43,9 +46,16 @@ export function CartProvider({ children }) {
 
   const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
 
-  const addToCart = async (product, quantity = 1) => {
+  const addToCart = async (product, quantity = 1, variation = []) => {
     if (!token) {
-      console.warn("User not logged in.");
+      toast.warn(
+        "Please sign in or create an account to add items to your cart",
+        { position: "top-center", autoClose: 2000 }
+      );
+
+      setTimeout(() => {
+        router.push("/auth/signup");
+      }, 2000);
       return;
     }
     try {
@@ -58,8 +68,8 @@ export function CartProvider({ children }) {
         },
         body: JSON.stringify({
           productId: String(product.id),
-          price: String(product.prices?.price || ""),
           quantity,
+          variation, 
         }),
       });
 
@@ -79,7 +89,20 @@ export function CartProvider({ children }) {
   };
 
   const removeFromCart = async (id) => {
-    if (!token) return;
+    if (!token) {
+      toast.warn(
+        "Please sign in or create an account to add items to your cart",
+        {
+          position: "top-center",
+          autoClose: 2000,
+        }
+      );
+
+      setTimeout(() => {
+        router.push("/auth/signup");
+      }, 2000);
+      return;
+    }
     try {
       setLoading(true);
       const res = await fetch(API_ENDPOINTS.REMOVE_TO_CART, {
@@ -107,7 +130,20 @@ export function CartProvider({ children }) {
   };
 
   const updateQuantity = async (id, qty) => {
-    if (!token) return;
+    if (!token) {
+      toast.warn(
+        "Please sign in or create an account to add items to your cart",
+        {
+          position: "top-center",
+          autoClose: 2000,
+        }
+      );
+
+      setTimeout(() => {
+        router.push("/auth/signup");
+      }, 2000);
+      return;
+    }
     try {
       setLoading(true);
       const res = await fetch(`${API_ENDPOINTS.UPDATE_CART}/${id}`, {
@@ -147,7 +183,6 @@ export function CartProvider({ children }) {
       }}
     >
       {children}
-      <ToastContainer position="top-right" autoClose={4000} theme="colored" />
     </CartContext.Provider>
   );
 }

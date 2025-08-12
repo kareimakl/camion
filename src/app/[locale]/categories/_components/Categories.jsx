@@ -55,7 +55,7 @@ export default function Categories() {
               src={
                 category.image?.thumbnail ||
                 category.image?.src ||
-                "/assets/images/no-category.png"
+                "/assets/images/Laptops.jpg"
               }
               alt={category.name || "Category"}
               className="md:w-[120px] md:h-[120px] w-[80px] h-[80px] rounded-full shadow-xl object-cover"

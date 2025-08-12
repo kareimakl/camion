@@ -11,7 +11,7 @@ export default function Header() {
     <header className="bg-bgIcon text-white text-sm">
       <div className="container mx-auto md:px-4 flex justify-between items-center gap-4">
         <div className="flex items-center gap-6 text-sm">
-          <Link
+          {/* <Link
             href="/notification"
             className="flex cursor-pointer items-center gap-2"
           >
@@ -21,7 +21,7 @@ export default function Header() {
               width={24}
               height={24}
             />
-          </Link>
+          </Link> */}
 
           <Link
             href="/cart"
@@ -77,6 +77,9 @@ export default function Header() {
             </Link>
             <Link href={`/categories`}>
               <NavItem title="Categories" />
+            </Link>
+            <Link href={`/affiliates`}>
+              <NavItem title="Become Affiliates" />
             </Link>
           </div>
           <ProductSearch />

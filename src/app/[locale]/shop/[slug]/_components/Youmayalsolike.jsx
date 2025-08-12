@@ -42,7 +42,6 @@ export default function RecommendedProducts() {
   return loading ? (
     // Skeleton Loader
     <div className="p-6 container m-auto mt-16 min-h-screen">
-    
       <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 gap-6">
         {Array.from({ length: 6 }).map((_, index) => (
           <div
@@ -70,7 +69,6 @@ export default function RecommendedProducts() {
     </div>
   ) : (
     <div className="flex-1 mt-10 container flex flex-col gap-4 w-full">
-    
       <AnimatePresence mode="wait">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
@@ -79,7 +77,7 @@ export default function RecommendedProducts() {
           transition={{ duration: 0.4 }}
           className="grid grid-cols-2 md:grid-cols-6 md:gap-6 gap-2"
         >
-          {products.slice(0,6).map((product) => {
+          {products.slice(0, 6).map((product) => {
             const image = product.images?.[0]?.src || "/placeholder.png";
             const price =
               product.prices?.price_range?.min_amount ||
@@ -93,7 +91,7 @@ export default function RecommendedProducts() {
                 onMouseEnter={() => setHoveredProductId(product.id)}
                 onMouseLeave={() => setHoveredProductId("")}
               >
-                <Link href={`shop/${product.id}`} className="">
+                <Link href={`/shop/${product.id}`} className="">
                   <motion.div
                     className="h-32 py-2 sm:h-36 md:h-40 bg-center bg-contain bg-no-repeat mb-3 mt-2"
                     style={{ backgroundImage: `url(${image})` }}

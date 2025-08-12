@@ -14,6 +14,7 @@ function SliderHero() {
   const [loading, setLoading] = useState(true);
 
   const savedToken = Cookies.get("token");
+
   useEffect(() => {
     const fetchStory = async () => {
       try {
@@ -66,6 +67,13 @@ function SliderHero() {
                 alt={story?.title}
                 className="w-full h-full rounded-xl object-cover"
               />
+
+              {story?.discount && (
+                <div className="absolute top-6 -left-12 w-40 bg-red-600 text-white text-center transform -rotate-45 font-bold text-sm py-1 shadow-lg">
+                  {story.discount}% OFF
+                </div>
+              )}
+
               <div className="absolute inset-0 flex flex-col pb-10 bottom-0 justify-end items-start px-10 text-left text-white rounded-xl">
                 <p className="text-md mb-2 text-[#84a3b5]">{story?.title}</p>
                 <h2 className="text-4xl font-bold mb-4 text-[#84a3b5]">

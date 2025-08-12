@@ -9,18 +9,22 @@ import { useCart } from "@/componentsedit/context/CartContext";
 export default function RecommendedProducts() {
   const token = process.env.NEXT_PUBLIC_API_TOKEN;
   const savedToken = Cookies.get("token");
-  const { addToCart: addToCartContext } = useCart(); // ✅
+  const { addToCart: addToCartContext } = useCart();
 
   const [products, setProducts] = useState([]);
   const [hoveredProductId, setHoveredProductId] = useState("");
   const [loading, setLoading] = useState(true);
   const getPrice = (product) =>
     product?.prices?.price_range?.min_amount || product?.prices?.price || "0";
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const perPage = 12;
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch(`${API_ENDPOINTS.PRODUCT}`);
+        const res = await fetch(
+          `${API_ENDPOINTS.PRODUCT}?page=${currentPage}&per_page=${perPage}`
+        );
         const data = await res.json();
         if (data?.products) {
           setProducts(data.products);
@@ -41,13 +45,13 @@ export default function RecommendedProducts() {
 
   return loading ? (
     // Skeleton Loader
-    <div className="p-6 container m-auto mt-16 min-h-screen">
+    <div className="md:p-6  container m-auto mt-16 min-h-screen">
       <h2 className="font-semibold text-xl mb-2">Most viewed</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 gap-6">
+      <div className="grid  grid-cols-2 w-full md:grid-cols-6 md:gap-6 gap-1">
         {Array.from({ length: 12 }).map((_, index) => (
           <div
             key={index}
-            className="max-w-sm p-4 border rounded-2xl border-gray-200 shadow animate-pulse md:p-6 dark:border-gray-400"
+            className="p-4 border rounded-2xl border-gray-200 shadow animate-pulse md:p-6 dark:border-gray-400"
           >
             <div className="flex items-center justify-center h-48 mb-4 bg-gray-300 rounded dark:bg-gray-400">
               <svg
@@ -70,14 +74,15 @@ export default function RecommendedProducts() {
     </div>
   ) : (
     <div className="flex-1 mt-10 container flex flex-col gap-4 w-full">
-      <p className="text-lg font-semibold mb-8 lg:mb-0">Most viewed</p>
+      <p className="text-lg font-semibold mb-4">Most Viewed</p>
+
       <AnimatePresence mode="wait">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.4 }}
-          className="grid grid-cols-2 md:grid-cols-6 md:gap-6 gap-2"
+          className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4"
         >
           {products.map((product) => {
             const image = product.images?.[0]?.src || "/placeholder.png";
@@ -89,38 +94,46 @@ export default function RecommendedProducts() {
             return (
               <div
                 key={product.id}
-                className="bg-white text-center cursor-pointer group rounded-xl shadow-sm hover:shadow-md transition-all relative"
+                className="bg-white text-center min-h-[310px] rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden relative group"
                 onMouseEnter={() => setHoveredProductId(product.id)}
                 onMouseLeave={() => setHoveredProductId("")}
               >
-                <Link href={`shop/${product.id}`} className="">
+                <Link href={`shop/${product.id}`} className="block">
                   <motion.div
-                    className="h-32 py-2 sm:h-36 md:h-40 bg-center bg-contain bg-no-repeat mb-3 mt-2"
+                    className="h-40 bg-center bg-contain bg-no-repeat mb-3 mt-2 transition-transform duration-300"
                     style={{ backgroundImage: `url(${image})` }}
                     whileHover={{ scale: 1.05 }}
-                    transition={{ duration: 0.3 }}
                   />
-
-                  <h3 className="font-semibold px-2 text-sm line-clamp-2">
+                  <h3 className="font-semibold px-3 text-sm line-clamp-2">
                     {product.name}
                   </h3>
-                  <p className="text-gray-400 text-xs">EGP</p>
-                  <div className="text-yellow-400 mt-1">★★★★★</div>
-                  <p className="text-red-600 space-x-1 font-semibold mt-1">
-                    <span className="text-red-600 ml-2">{price} EGP</span>
+                  <div className="text-yellow-400 mt-1 text-sm">★★★★★</div>
+                  <p className="text-red-600 font-semibold mt-1">
+                    {price} {product?.prices?.currency_symbol}
                   </p>
                 </Link>
-                <button
+
+                {/* Add To Cart Button */}
+                <motion.button
                   onClick={() => addToCart(product)}
-                  className="bg-[#e14a5c] cursor-pointer rounded-b-xl text-white text-sm font-bold px-4 py-2 w-[100%] opacity-0 group-hover:opacity-100 m-auto transition-opacity duration-300 rounded-t-none"
+                  initial={{ y: 50, opacity: 0 }}
+                  whileHover={{ scale: 1.05 }}
+                  animate={
+                    hoveredProductId === product.id
+                      ? { y: 0, opacity: 1 }
+                      : { y: 50, opacity: 0 }
+                  }
+                  transition={{ duration: 0.3 }}
+                  className="absolute bottom-0 left-0  cursor-pointer right-0 bg-[#e14a5c] text-white text-sm font-bold py-2"
                 >
                   Add To Cart
-                </button>
+                </motion.button>
               </div>
             );
           })}
         </motion.div>
       </AnimatePresence>
+
       <ToastContainer position="top-right" autoClose={4000} theme="colored" />
     </div>
   );

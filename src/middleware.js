@@ -13,7 +13,11 @@ export default function middleware(req) {
 
   const pathWithoutLocale = pathname.replace(/^\/(ar|en)/, "");
 
-  const publicPaths = ["/auth/login", "/auth/signup", "/auth/verify"];
+  const publicPaths = [
+    "/auth/login",
+    "/auth/signup",
+    "/auth/verify"
+  ];
 
   if (publicPaths.some((path) => pathWithoutLocale.startsWith(path))) {
     if (token) {

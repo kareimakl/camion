@@ -70,8 +70,7 @@ export default function ProductPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Left Section: Gallery */}
-        {/* Left Section: Gallery */}
-        <div className="lg:col-span-2 flex flex-col md:flex-row gap-6">
+        <div className="lg:col-span-2    flex flex-col md:flex-row gap-6">
           <div className="order-1 md:order-2 flex-1 overflow-hidden rounded-xl shadow-md">
             <Swiper
               onSwiper={(swiper) => (swiperRef.current = swiper)}
@@ -102,7 +101,7 @@ export default function ProductPage() {
             </Swiper>
           </div>
 
-          <div className="order-2 md:order-1 flex flex-row md:flex-col gap-3 mt-4 md:mt-0 w-full md:w-[90px]">
+          <div className="order-2 max-h-[350px] overflow-y-scroll  md:order-1 flex flex-row md:flex-col gap-3 mt-4 md:mt-0 w-full md:w-[90px]">
             {loading
               ? [...Array(4)].map((_, i) => (
                   <div

@@ -49,7 +49,7 @@ export default function ProductDetails() {
   return (
     <div className="max-w-4xl mx-auto p-4">
       <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-        {/* صورة المنتج */}
+
         {product?.images?.[0]?.src && (
           <ImageWithSkeleton
             className="w-full h-[350px] object-cover"
@@ -58,12 +58,12 @@ export default function ProductDetails() {
           />
         )}
 
-        {/* معلومات المنتج */}
+
         <div className="p-6 text-center">
           <h1 className="text-2xl font-bold text-gray-800 mb-2">
             {product?.name}
           </h1>
-          {/* ممكن تضيف سعر أو أي تفاصيل هنا */}
+
         </div>
 
       </div>
