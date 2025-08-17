@@ -44,7 +44,7 @@ export default function SocialShare({ product }) {
   };
 
   return (
-    <div className="flex items-center gap-3 mt-6">
+    <div className="flex items-center flex-wrap gap-3 mt-6">
       <FacebookShareButton url={shareUrl} quote={title} hashtag="#MyShop">
         <FacebookIcon size={40} round />
       </FacebookShareButton>

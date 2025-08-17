@@ -78,7 +78,7 @@ export default function ReviewSection() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          product_id: Number(slug), // ✅ correct field
+          product_id: Number(slug), 
           review: reviewText,
           reviewer: name,
           reviewer_email: email,
@@ -94,10 +94,10 @@ export default function ReviewSection() {
       setReviewText("");
       setName("");
       setEmail("");
-      toast.success("✅ Review submitted successfully!");
+      toast.success(" Review submitted successfully!");
     } catch (error) {
       console.error("Error submitting review:", error);
-      toast.error("❌ Error submitting review");
+      toast.error(" Error submitting review");
     } finally {
       setSubmitting(false);
     }

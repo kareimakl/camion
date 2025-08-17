@@ -172,7 +172,7 @@ export default function ProductPage() {
               </div>
 
               <button
-                className="bg-[#e14a5c] cursor-pointer text-white px-6 py-2 rounded-full flex-1"
+                className="bg-[#e14a5c] cursor-pointer text-white md:px-6 py-2 rounded-full flex-1"
                 onClick={() => addToCart(product, quantity)}
               >
                 Add to Cart

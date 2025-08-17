@@ -17,13 +17,6 @@ export default function Header(totalnotifs) {
         {/* Left side */}
         <div className="flex items-center gap-6 text-sm">
           {" "}
-          {/* Mobile menu button */}
-          <button
-            className="md:hidden text-[#b92124] cursor-pointer flex items-center"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
-          </button>
           <Link
             href="/cart"
             className="relative flex cursor-pointer items-center gap-2"
@@ -73,19 +66,28 @@ export default function Header(totalnotifs) {
         </Link>
 
         {/* Right side */}
-        <div className="flex items-center gap-4">
-          <Link
-            href="/myaccount"
-            className="flex cursor-pointer items-center gap-2"
+        <div className=" flex items-center gap-6">
+          <div className="flex items-center ">
+            <Link
+              href="/myaccount"
+              className="flex cursor-pointer items-center gap-2"
+            >
+              <Image
+                src="/assets/icons/frame.svg"
+                alt="Account"
+                width={24}
+                height={24}
+                unoptimized
+              />
+            </Link>
+          </div>
+          {/* Mobile menu button */}
+          <button
+            className="md:hidden text-[#b92124] cursor-pointer flex items-center"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
-            <Image
-              src="/assets/icons/frame.svg"
-              alt="Account"
-              width={24}
-              height={24}
-              unoptimized
-            />
-          </Link>
+            {mobileMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
+          </button>
         </div>
       </div>
 

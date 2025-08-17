@@ -36,7 +36,7 @@ export default function Notification() {
     fetchNotifications();
   }, [savedToken]);
 
-  const totalItems = notif.length;
+  const totalnotifs = notif.length;
 
   return (
     <main>

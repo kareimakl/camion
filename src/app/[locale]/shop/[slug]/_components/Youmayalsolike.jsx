@@ -110,7 +110,7 @@ export default function RecommendedProducts() {
                 </Link>
                 <button
                   onClick={() => addToCart(product)}
-                  className="bg-[#e14a5c] cursor-pointer rounded-b-xl text-white text-sm font-bold px-4 py-2 w-[100%] opacity-0 group-hover:opacity-100 m-auto transition-opacity duration-300 rounded-t-none"
+                  className="bg-[#e14a5c] cursor-pointer rounded-b-xl text-white md:text-sm text-xs font-bold md:px-4 py-2 w-[100%] opacity-0 group-hover:opacity-100 m-auto transition-opacity duration-300 rounded-t-none"
                 >
                   Add To Cart
                 </button>

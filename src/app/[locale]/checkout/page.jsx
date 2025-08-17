@@ -1,144 +1,206 @@
+"use client";
+import React, { useEffect, useState, useCallback } from "react";
 import Footer from "@/componentsedit/layout/footer/footer";
 import Header from "@/componentsedit/layout/header/header";
-import React from "react";
 import Image from "next/image";
+import Cookies from "js-cookie";
+import { toast, ToastContainer } from "react-toastify";
+import { useRouter } from "next/navigation";
+import { useCart } from "@/componentsedit/context/CartContext";
+import { Link } from "@/i18n/navigation";
+import { API_ENDPOINTS } from "../api/api";
+import AddressDetails from "./AddressDetails";
+import Payment from "./payment";
 
 export default function CheckoutPage() {
-  const items = [
-    {
-      id: 1,
-      name: "Name of the writer's product here",
-      quantity: 2,
-      price: 11.7,
-      image: "/assets/images/Frame 1171280020.svg",
-    },
-    {
-      id: 2,
-      name: "Name of the writer's product here",
-      quantity: 2,
-      price: 11.7,
-      image: "/assets/images/Frame 1171280020.svg",
-    },
-    {
-      id: 3,
-      name: "Name of the writer's product here",
-      quantity: 2,
-      price: 11.7,
-      image: "/assets/images/Frame 1171280020.svg",
-    },
-    {
-      id: 4,
-      name: "Name of the writer's product here",
-      quantity: 2,
-      price: 11.7,
-      image: "/assets/images/Frame 1171280020.svg",
-    },
-    {
-      id: 5,
-      name: "Name of the writer's product here",
-      quantity: 2,
-      price: 11.7,
-      image: "/assets/images/Frame 1171280020.svg",
-    },
-  ];
+  const [cart, setCart] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [addressData, setAddressData] = useState({
+    first_name: "",
+    last_name: "test",
+    email: "",
+    phone: "",
+    address_1: "",
+    address_2: "",
+    city: "",
+    state: "",
+    postcode: "",
+    country: "US",
+  });
+
+  const { removeFromCart } = useCart();
+  const savedToken = Cookies.get("token");
+  const router = useRouter();
+
+  const fetchCart = useCallback(async () => {
+    if (!savedToken) {
+      toast.warn("Please sign in to view your cart", {
+        position: "top-center",
+      });
+      setTimeout(() => router.push("/auth/signup"), 2000);
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await fetch(API_ENDPOINTS.GET_CART, {
+        headers: { Authorization: `Bearer ${savedToken}` },
+      });
+      const data = await res.json();
+      setCart(Array.isArray(data) ? data : []);
+    } catch (error) {
+      toast.error("Failed to fetch cart");
+      setCart([]);
+    } finally {
+      setLoading(false);
+    }
+  }, [savedToken, router]);
+
+  useEffect(() => {
+    fetchCart();
+  }, [fetchCart]);
+
+  const grandTotal = cart.reduce(
+    (acc, item) => acc + Number(item.price) * item.quantity,
+    0
+  );
+  const handleCheckout = async () => {
+    try {
+      const fullName = (Cookies.get("fullName") || "").split(" ");
+      const firstName = fullName[0] || "";
+      const lastName = fullName[1] || "";
+      const email = Cookies.get("email") || "";
+      const phone = Cookies.get("phone") || "";
+
+      const truncate = (str, maxLength) => {
+        if (!str) return "";
+        return str.length > maxLength ? str.slice(0, maxLength) : str;
+      };
+
+      const customerData = {
+        first_name: firstName,
+        last_name: lastName,
+        email,
+        phone,
+        address_1: truncate(addressData.address_1, 200),
+        address_2: truncate(addressData.address_2, 100),
+        city: truncate(addressData.city, 50),
+        state: truncate(addressData.state, 50),
+        postcode: truncate(addressData.postcode, 20),
+        country: addressData.country,
+        shipping_address: {
+          first_name: firstName,
+          last_name: lastName,
+          address_1: truncate(addressData.address_1, 200),
+          address_2: truncate(addressData.address_2, 100),
+          city: truncate(addressData.city, 50),
+          state: truncate(addressData.state, 50),
+          postcode: truncate(addressData.postcode, 20),
+          country: addressData.country,
+        },
+        shipping_option: {
+          method_id: "flat_rate",
+          method_title: "Shipping",
+          cost: "100",
+        },
+      };
+
+      const reqBody = {
+        customer_data: customerData,
+        payment_method: "stripe",
+        payment_data: [],
+      };
+
+      const res = await fetch(API_ENDPOINTS.CHECKOUT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${savedToken}`,
+        },
+        body: JSON.stringify(reqBody),
+      });
+
+      if (!res.ok) throw new Error("Checkout failed");
+
+      const data = await res.json();
+
+      if (data?.data?.stripeCheckoutUrl) {
+        window.open(data.data.stripeCheckoutUrl, "_blank");
+      } else {
+        toast.error("Stripe checkout link not available.");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Checkout failed. Please try again.");
+    }
+  };
+
   return (
     <div>
-      <Header />
-      <main className="w-[95%] md:w-[80%] mx-auto mt-10">
-        <div className=" rounded-lg p-2 space-y-6">
-          <div>
-            <div className="flex justify-between items-center mb-2">
-              <h2 className="text-gray-700 font-semibold">المنتجات</h2>
-              <span className="text-[#B92123] text-sm cursor-pointer">
-                تعديل الطلب
-              </span>
-            </div>
-            <div className="flex gap-4 overflow-x-auto flex-nowrap scroll-smooth snap-x snap-mandatory">
-              {items?.map((item) => (
-                <div
-                  key={item.id}
-                  className="flex-shrink-0 bg-white rounded-lg p-2 flex items-center gap-3 w-[250px] snap-start"
-                >
-                  <Image
-                    src={item.image}
-                    alt={item.name}
-                    width={70}unoptimized
-                    height={70}
-                    className="rounded-lg object-cover"
-                  />
-                  <div>
-                    <p className="text-gray-800 text-xs font-medium">
-                      {item?.name}
-                    </p>
-                    <p className="text-xs text-gray-500 mt-1">
-                      الكمية: {item?.quantity}
-                    </p>
-                    <p className="text-[#B92123] text-sm font-semibold mt-1">
-                      ${item?.price.toFixed(2)}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+      <Header cartCount={cart.reduce((acc, i) => acc + i.quantity, 0)} />
 
-          <div>
-            <div className="flex justify-between items-center mb-2">
-              <h2 className="text-gray-700 font-semibold">تفاصيل العنوان</h2>
-              <span className="text-[#B92123] text-sm cursor-pointer">
-                تعديل العنوان
-              </span>
-            </div>
-            <p className="text-gray-600 text-sm leading-relaxed">
-              19 الشيخ احمد الصاوي متفرع من مكرم عبيد المنطقة السادسة
-              <br />
-              مدينة نصر، القاهرة
-            </p>
-          </div>
-
-          <div>
-            <h2 className="text-gray-700 font-semibold mb-2">كود الخصم</h2>
-            <div className="flex items-center gap-3">
-              <button className="text-[#B92123] border border-[#B92123] rounded-lg py-2 px-6 font-semibold">
-                تأكيد
-              </button>
-              <input
-                type="text"
-                placeholder="كود الخصم"
-                className="flex-1 border rounded-lg py-2 px-4 text-gray-700 outline-none"
-              />
-            </div>
-          </div>
-
-          <div>
-            <h2 className="text-gray-700 font-semibold mb-2">الدفع بواسطة</h2>
-            <div className="space-y-3">
-              <button className="w-full border border-[#B92123] bg-red-50 rounded-lg py-3 text-right px-4 flex justify-between items-center">
-                <span>بطاقة ائتمان</span>
-                <span className="text-2xl">
-                  <img src="/assets/icons/Frame 75.svg" alt="" />
-                </span>
-              </button>
-              <button className="w-full border rounded-lg py-3 text-right px-4 flex justify-between items-center">
-                <span>STC PAY</span>
-                <span className="text-2xl">
-                  <img src="/assets/icons/image.svg" alt="" />
-                </span>
-              </button>
-              <button className="w-full border rounded-lg py-3 text-right px-4 flex justify-between items-center">
-                <span>نقدي</span>
-                <span className="text-2xl">
-                  <img src="/assets/icons/Rectangle 17466.svg" alt="" />
-                </span>
-              </button>
-            </div>
-          </div>
-
-          <button className="w-full bg-[#B92123] text-white font-semibold py-3 rounded-lg mt-5 hover:bg-red-700 transition">
-            تأكيد الدفع
-          </button>
+      {loading ? (
+        <div className="flex justify-center items-center min-h-screen">
+          <p>Loading...</p>
         </div>
-      </main>
+      ) : cart.length === 0 ? (
+        <div className="flex flex-col items-center justify-center min-h-screen gap-4">
+          <p className="text-2xl font-semibold">Your cart is empty</p>
+          <Link
+            href="/shop"
+            className="bg-[#B92123] text-white px-6 py-3 rounded-lg"
+          >
+            Go to shop
+          </Link>
+        </div>
+      ) : (
+        <main className="w-[95%] md:w-[80%] mx-auto mt-10 space-y-6">
+          {/* Products Scrollable Cards */}
+          <div className="max-h-[400px] overflow-y-auto space-y-4">
+            {cart.map((item) => (
+              <div
+                key={item.id}
+                className="bg-white p-4 rounded-lg flex items-center gap-4 w-full"
+              >
+                <Image
+                  src={item.image || "/favicon.ico"}
+                  alt={item.title}
+                  width={80}
+                  height={80}
+                  className="rounded-lg object-cover"
+                  unoptimized
+                />
+                <div className="flex-1">
+                  <p className="text-sm font-medium">{item.title}</p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    Qty: {item.quantity}
+                  </p>
+                  <p className="text-[#B92123] font-semibold mt-1">
+                    {Number(item.price).toFixed(2)}$
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Address Details */}
+          <AddressDetails
+            addressData={addressData}
+            setAddressData={setAddressData}
+          />
+
+          {/* Payment Method */}
+          <Payment />
+
+          <button
+            onClick={handleCheckout}
+            className="w-full cursor-pointer bg-[#B92123] text-white font-semibold py-3 rounded-lg hover:bg-red-700 transition"
+          >
+            Confirm Payment ({grandTotal.toFixed(2)}$)
+          </button>
+        </main>
+      )}
+
+      <ToastContainer position="top-right" autoClose={4000} theme="colored" />
       <Footer />
     </div>
   );
