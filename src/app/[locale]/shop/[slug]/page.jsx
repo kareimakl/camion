@@ -10,7 +10,7 @@ function SingleProduct() {
   return (
     <div>
       <Header />
-      <ProductPage />
+      <ProductPage /> 
       {/* <div className="flex md:flex-row flex-col">
         <ProductDetails />
       </div> */}

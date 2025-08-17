@@ -19,9 +19,10 @@ export default function CartItem({ item, onRemove, onQuantityChange }) {
         <div className="flex items-center gap-5 w-full md:w-2/3">
           <div className="relative w-24 h-24">
             <Image
-              src={item?.image || "/placeholder.png"}
+              src={item?.image || "/favicon.ico"}
               alt={item?.title || "Product image"}
               fill
+              unoptimized
               className="object-contain rounded-md"
             />
             {item.discountPercentage > 0 && (

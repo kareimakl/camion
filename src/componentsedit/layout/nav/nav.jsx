@@ -34,13 +34,15 @@ export default function Categories() {
               className="h-5 w-20 bg-gray-200 rounded-full dark:bg-gray-400 animate-pulse"
             ></div>
           ))
-        : categories.map((category, i) => (
-            <NavItem
-              key={category.id || i}
-              to={`/categories/${category?.slug}`}
-              title={category.name}
-            />
-          ))}
+        : categories
+            .slice(0.6)
+            .map((category, i) => (
+              <NavItem
+                key={category.id || i}
+                to={`/categories/${category?.slug}`}
+                title={category.name}
+              />
+            ))}
     </div>
   );
 }

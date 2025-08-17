@@ -107,6 +107,7 @@ export default function Stories() {
               width={80}
               height={80}
               className="rounded-full object-cover w-full h-full"
+              unoptimized
             />
           )}
         </div>
@@ -135,6 +136,7 @@ export default function Stories() {
                   alt={`story-${activeStory}`}
                   width={600}
                   height={600}
+                  unoptimized
                   className="w-full h-auto rounded-lg object-contain"
                 />
               )}

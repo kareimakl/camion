@@ -24,6 +24,7 @@ export const API_ENDPOINTS = {
   REQUESTSTATUS: `${BASE_URL_AUTH}/affiliates/me/status`,
   COUPON: `${BASE_URL_AUTH}/affiliates/coupon/me`,
   NEWCOUPON: `${BASE_URL_AUTH}/affiliates/coupon`,
+  NOTOC: `${BASE_URL_AUTH}/users/notifications/me`,
   API_TOKEN:
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NGY0NDVkZS04OTIzLTRiN2MtOGY4NC01ZTBhZWQ4ODI5ZjQiLCJlbWFpbCI6IkhhemVtQGdhbWlsLmNvbSIsInBob25lIjoiKzIwMTE0NDQxMzYxMSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzU0MzkwMjAzLCJleHAiOjE3NTQ5OTUwMDN9.EvryhSDfIRz03XC4mJhEhZk3cO-csEYNOdQFvGCQ9N4",
 };

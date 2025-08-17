@@ -15,11 +15,8 @@ export default function AccountPage() {
 
   const fetchCodes = async () => {
     if (!token) {
-      Swal.fire(
-        "خطأ",
-        "لم يتم العثور على التوكن، يرجى تسجيل الدخول مجددًا",
-        "error"
-      );
+      toast.warn("Please login first", { position: "top-center" });
+      setTimeout(() => router.push("/auth/signup"), 2000);
       return;
     }
     try {
@@ -32,20 +29,24 @@ export default function AccountPage() {
       });
 
       if (res.status === 403) {
-        Swal.fire("رفض الوصول", "ليس لديك صلاحية للوصول للأكواد", "error");
+        Swal.fire(
+          "Access Denied",
+          "You don't have permission to access codes",
+          "error"
+        );
         return;
       }
 
       const data = await res.json();
       if (!Array.isArray(data) && !data.code) {
-        Swal.fire("خطأ", "لم يتم العثور على أكواد", "warning");
+        Swal.fire("Error", "No codes found", "warning");
         setCodes([]);
         return;
       }
 
       setCodes(Array.isArray(data) ? data : [data]);
     } catch (error) {
-      Swal.fire("خطأ", "تعذر جلب الأكواد من السيرفر", "error");
+      Swal.fire("Error", "Failed to fetch codes from server", "error");
     } finally {
       setLoading(false);
     }
@@ -57,46 +58,61 @@ export default function AccountPage() {
 
   const showMyCodes = () => {
     if (loading) {
-      Swal.fire("جارِ التحميل...", "", "info");
+      Swal.fire("Loading...", "", "info");
       return;
     }
     if (codes.length === 0) {
-      Swal.fire("لا توجد أكواد مسجلة", "", "warning");
+      Swal.fire("No codes available", "", "warning");
       return;
     }
 
-    const codeList = codes
+    const codeCards = codes
       .map(
         (c) => `
-          <li style="margin-bottom:8px;">
-            <strong>الكود:</strong> ${c.code} |
-            <strong>الخصم:</strong> ${c.discountPercentage}%
-          </li>`
+          <div style="
+            border:1px solid #e5e7eb;
+            border-radius:12px;
+            padding:16px;
+            margin:8px 0;
+            text-align:left;
+            background:#fff;
+            box-shadow:0 2px 6px rgba(0,0,0,0.05);
+          ">
+            <p style="margin:0; font-weight:bold; font-size:16px; color:#B92123;">
+              ${c.code}
+            </p>
+            <p style="margin:6px 0 0; font-size:14px; color:#374151;">
+              Discount: <strong>${c.discountPercentage}%</strong>
+            </p>
+          </div>
+        `
       )
       .join("");
 
     Swal.fire({
-      title: "أكوادي",
-      html: `<ul style="list-style:none; padding:0; text-align:right;">${codeList}</ul>`,
-      confirmButtonText: "إغلاق",
+      title: "🎟️ My Codes",
+      html: `<div style="display:flex; flex-direction:column; gap:10px;">${codeCards}</div>`,
+      confirmButtonText: "Close",
+      width: 400,
+      background: "#f9fafb",
     });
   };
 
   const createCode = () => {
     Swal.fire({
-      title: "إنشاء كود جديد",
+      title: "Create New Code",
       html: `
-        <input id="newCode" class="swal2-input" placeholder="اكتب الكود" />
-        <input id="discount" type="number" class="swal2-input" placeholder="نسبة الخصم (مثال: 10)" />
+        <input id="newCode" class="swal2-input" placeholder="Enter code" />
+        <input id="discount" type="number" class="swal2-input" placeholder="Discount percentage (e.g. 10)" />
       `,
       focusConfirm: false,
       showCancelButton: true,
-      confirmButtonText: "حفظ",
+      confirmButtonText: "Save",
       preConfirm: () => {
         const newCode = document.getElementById("newCode").value.trim();
         const discount = document.getElementById("discount").value.trim();
         if (!newCode || !discount) {
-          Swal.showValidationMessage("يرجى إدخال الكود ونسبة الخصم");
+          Swal.showValidationMessage("Please enter both code and discount");
           return false;
         }
         return { newCode, discount };
@@ -104,7 +120,7 @@ export default function AccountPage() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         if (!token) {
-          Swal.fire("خطأ", "التوكن غير موجود، يرجى تسجيل الدخول", "error");
+          Swal.fire("Error", "Token not found, please log in", "error");
           return;
         }
         try {
@@ -121,18 +137,22 @@ export default function AccountPage() {
           });
 
           if (res.ok) {
-            Swal.fire("تم الحفظ", "تم إنشاء الكود بنجاح", "success");
+            Swal.fire("Saved", "Code created successfully", "success");
             fetchCodes();
           } else {
             const errorData = await res.json();
             Swal.fire(
-              "خطأ",
-              errorData.message || "لم يتم إنشاء الكود",
+              "Error",
+              errorData.message || "Failed to create code",
               "error"
             );
           }
         } catch (error) {
-          Swal.fire("خطأ", "حدث خطأ أثناء الاتصال بالسيرفر", "error");
+          Swal.fire(
+            "Error",
+            "An error occurred while connecting to the server",
+            "error"
+          );
         }
       }
     });
@@ -143,20 +163,22 @@ export default function AccountPage() {
       <Header />
       <div className="min-h-screen flex flex-col items-center px-4 bg-gray-50">
         <div className="w-full max-w-md mt-8">
-          <h1 className="text-center text-lg font-medium mb-4">حساب المسوق</h1>
+          <h1 className="text-center text-lg font-medium mb-4">
+            Affiliate Account
+          </h1>
           <div className="flex flex-col gap-4">
             <button
               onClick={showMyCodes}
               className="flex items-center justify-between bg-white p-4 rounded-2xl shadow-sm border border-gray-200"
             >
-              <span className="text-gray-800">أكوادي</span>
+              <span className="text-gray-800">My Codes</span>
               <FaPlay className="text-gray-500" />
             </button>
             <button
               onClick={createCode}
               className="flex items-center justify-between bg-white p-4 rounded-2xl shadow-sm border border-gray-200"
             >
-              <span className="text-gray-800">إنشاء كود</span>
+              <span className="text-gray-800">Create Code</span>
               <FaBookmark className="text-gray-500" />
             </button>
           </div>

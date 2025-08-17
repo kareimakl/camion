@@ -95,7 +95,7 @@ function ProductsPage() {
             className="grid grid-cols-2 md:grid-cols-6 md:gap-6 gap-2"
           >
             {products.map((product) => {
-              const image = product.images?.[0]?.src || "/placeholder.png";
+              const image = product.images?.[0]?.src || "/favicon.ico";
               const price =
                 product.prices?.price_range?.min_amount ||
                 product.prices?.price ||

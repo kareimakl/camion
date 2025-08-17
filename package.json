@@ -37,6 +37,7 @@
     "react-phone-input-2": "^2.15.1",
     "react-select": "^5.10.2",
     "react-select-country-list": "^2.2.3",
+    "react-share": "^5.2.2",
     "react-toastify": "^11.0.5",
     "sweetalert2": "^11.22.3",
     "swiper": "^11.2.10"

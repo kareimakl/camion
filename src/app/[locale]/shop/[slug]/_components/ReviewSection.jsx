@@ -1,20 +1,27 @@
 "use client";
 import "swiper/css";
 import Cookies from "js-cookie";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { API_ENDPOINTS } from "../../../api/api";
 import { FaStar } from "react-icons/fa";
-import { useParams } from "next/navigation";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function ReviewSection() {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [rating, setRating] = useState(0);
+  const [reviewText, setReviewText] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
-  const searchParams = useSearchParams();
-  const productId = searchParams.get("product");
+  const router = useRouter();
   const savedToken = Cookies.get("token");
-  const { slug } = useParams();
+  const { slug } = useParams(); // product id from URL
+
+  // Fetch Reviews
   useEffect(() => {
     if (!slug) return;
 
@@ -29,21 +36,72 @@ export default function ReviewSection() {
         if (!res.ok) throw new Error(`Error: ${res.status}`);
         const data = await res.json();
         setReviews(data);
-        console.log("Fetched reviews:", data);
       } catch (error) {
         console.error("Error fetching reviews:", error);
+        toast.error("Failed to load reviews");
       } finally {
         setLoading(false);
       }
     };
 
     fetchReviews();
-  }, [productId, savedToken]);
+  }, [slug, savedToken]);
 
   const averageRating =
     reviews.length > 0
       ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
       : 0;
+
+  // Submit Review
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!savedToken) {
+      toast.warn("You must be logged in to add a review");
+      setTimeout(() => {
+        router.push("/auth/signup");
+      }, 2000);
+      return;
+    }
+
+    if (!name || !email || rating === 0 || reviewText.trim() === "") {
+      toast.error("Please fill all fields (name, email, rating, review)");
+      return;
+    }
+
+    try {
+      setSubmitting(true);
+      const res = await fetch(API_ENDPOINTS.REVIEWS, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${savedToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          product_id: Number(slug), // ✅ correct field
+          review: reviewText,
+          reviewer: name,
+          reviewer_email: email,
+          rating,
+        }),
+      });
+
+      if (!res.ok) throw new Error("Failed to submit review");
+
+      const newReview = await res.json();
+      setReviews((prev) => [newReview, ...prev]);
+      setRating(0);
+      setReviewText("");
+      setName("");
+      setEmail("");
+      toast.success("✅ Review submitted successfully!");
+    } catch (error) {
+      console.error("Error submitting review:", error);
+      toast.error("❌ Error submitting review");
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -56,6 +114,9 @@ export default function ReviewSection() {
 
   return (
     <div className="container mx-auto p-4">
+      {/* Toast Container */}
+      <ToastContainer position="top-right" autoClose={3000} />
+
       <h2 className="text-center text-lg font-semibold">Customer Reviews</h2>
       <div className="text-center mt-2 text-4xl font-bold">
         {averageRating.toFixed(1)}
@@ -76,6 +137,7 @@ export default function ReviewSection() {
         </span>
       </div>
 
+      {/* Reviews */}
       {reviews.length === 0 ? (
         <p className="text-center text-gray-500 mt-4">No reviews yet</p>
       ) : (
@@ -115,6 +177,61 @@ export default function ReviewSection() {
           </div>
         </div>
       )}
+
+      {/* Add Review */}
+      <div className="mt-10 border-t pt-6">
+        <h3 className="text-lg font-semibold mb-4">Add a Review</h3>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Name */}
+          <input
+            type="text"
+            className="w-full border rounded-lg p-2 text-sm"
+            placeholder="Your Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+
+          {/* Email */}
+          <input
+            type="email"
+            className="w-full border rounded-lg p-2 text-sm"
+            placeholder="Your Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+
+          {/* Rating */}
+          <div className="flex items-center gap-2">
+            {[...Array(5)].map((_, i) => (
+              <FaStar
+                key={i}
+                onClick={() => setRating(i + 1)}
+                className={`cursor-pointer ${
+                  i < rating ? "text-yellow-400" : "text-gray-300"
+                }`}
+              />
+            ))}
+          </div>
+
+          {/* Review Text */}
+          <textarea
+            className="w-full border rounded-lg p-2 text-sm"
+            rows="4"
+            placeholder="Write your review..."
+            value={reviewText}
+            onChange={(e) => setReviewText(e.target.value)}
+          />
+
+          <button
+            type="submit"
+            disabled={submitting}
+            className="bg-[#e14a5c] cursor-pointer text-white px-6 py-2 rounded-lg hover:bg-[#d83c4f] disabled:opacity-50"
+          >
+            {submitting ? "Submitting..." : "Submit Review"}
+          </button>
+        </form>
+        <ToastContainer position="top-right" autoClose={4000} theme="colored" />
+      </div>
     </div>
   );
 }

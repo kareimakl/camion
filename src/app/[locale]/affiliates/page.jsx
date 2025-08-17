@@ -6,7 +6,16 @@ import { API_ENDPOINTS } from "../api/api";
 import Header from "@/componentsedit/layout/header/header";
 import Footer from "@/componentsedit/layout/footer/footer";
 import Swal from "sweetalert2";
+import { toast, ToastContainer } from "react-toastify";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+
+// ===== Utils =====
+const getTokenFromCookies = () => {
+  const match = document.cookie.match(/(?:^|; )token=([^;]*)/);
+  return match ? decodeURIComponent(match[1]) : null;
+};
 
 export default function AffiliateRequestForm() {
   const [formData, setFormData] = useState({
@@ -15,37 +24,59 @@ export default function AffiliateRequestForm() {
     nationality: "",
     bio: "",
   });
-
+  const router = useRouter();
+  const [showWelcome, setShowWelcome] = useState(false);
   const [loading, setLoading] = useState(false);
   const [affiliateStatus, setAffiliateStatus] = useState(null);
   const countries = countryList().getData();
 
+  // ===== Fetch affiliate status =====
   useEffect(() => {
     const fetchAffiliateStatus = async () => {
       try {
         const token = getTokenFromCookies();
-        if (!token) throw new Error("Token not found in cookies");
+        if (!token) {
+          toast.warn("Please login first", { position: "top-center" });
+          setTimeout(() => router.push("/auth/signup"), 2000);
+          return;
+        }
 
-        const res = await fetch(`${API_ENDPOINTS.REQUESTSTATUS}`, {
+        const res = await fetch(API_ENDPOINTS.REQUESTSTATUS, {
           method: "GET",
           headers: {
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         });
 
-        if (res.ok) {
-          const data = await res.json();
-          setAffiliateStatus(data.status);
+        const data = await res.json();
 
-          // نخزن الحالة الجديدة في localStorage
-          localStorage.setItem("affiliateData", JSON.stringify(data));
-        } else {
-          throw new Error("Failed to fetch status");
+        if (!res.ok) {
+          if (data.message === "Affiliate request not found") {
+            console.warn("No affiliate request yet, show the form");
+            setAffiliateStatus(null);
+            return;
+          }
+          throw new Error(`Request failed: ${res.status}`);
+        }
+
+        setAffiliateStatus(data.status);
+        localStorage.setItem("affiliateData", JSON.stringify(data));
+
+        if (data.status === "approved" && data.token) {
+          Cookies.set("token", data.token, { expires: 7 });
+          console.log("✅ Token updated after approval:", data.token);
+        }
+        // Show welcome message ONCE if approved
+        if (data.status === "approved") {
+          const hasSeenMessage = localStorage.getItem("affiliateWelcomeSeen");
+          if (!hasSeenMessage) {
+            setShowWelcome(true);
+            localStorage.setItem("affiliateWelcomeSeen", "true");
+          }
         }
       } catch (error) {
-        console.error(error);
-
-        // fallback للـ localStorage لو الـ API فشل
+        console.error("Fetch Affiliate Status Error:", error.message);
         const storedData = localStorage.getItem("affiliateData");
         if (storedData) {
           const parsed = JSON.parse(storedData);
@@ -55,16 +86,12 @@ export default function AffiliateRequestForm() {
     };
 
     fetchAffiliateStatus();
-  }, []);
+  }, [router]);
 
+  // ===== Handlers =====
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const getTokenFromCookies = () => {
-    const match = document.cookie.match(/(?:^|; )token=([^;]*)/);
-    return match ? decodeURIComponent(match[1]) : null;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
@@ -73,48 +100,46 @@ export default function AffiliateRequestForm() {
 
     try {
       const token = getTokenFromCookies();
-      if (!token) throw new Error("Token not found in cookies");
+      if (!token) {
+        toast.warn("Please sign in or create an account first", {
+          position: "top-center",
+          autoClose: 2000,
+        });
+        setTimeout(() => {
+          router.push("/auth/signup");
+        }, 2000);
+        return;
+      }
 
-      const bodyData = {
-        fullName: formData.fullName,
-        gender: formData.gender,
-        nationality: formData.nationality,
-        bio: formData.bio,
-      };
-
-      const res = await fetch(`${API_ENDPOINTS.REQUEST}`, {
+      const res = await fetch(API_ENDPOINTS.REQUEST, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(bodyData),
+        body: JSON.stringify(formData),
       });
 
       if (!res.ok) throw new Error("Failed to send request");
 
       const data = await res.json();
-
       localStorage.setItem("affiliateData", JSON.stringify(data));
+      setAffiliateStatus(data.status);
 
       Swal.fire({
         html: `
-    <main class="w-full max-w-md p-6 bg-white rounded-2xl flex flex-col items-center text-center">
-      <img src="/assets/images/check 3.svg" alt="success" class="w-24 h-24 rounded-full mb-4" />
-      <p class="text-lg font-medium mb-4">Your booking has been successfully added</p>
-      <div class="flex items-center justify-center gap-4">
-        <a href="/shop" class="text-[#B92123] border border-[#B92123] rounded-lg py-2 px-6 font-semibold hover:bg-[#B92123] hover:text-white transition">
-          Go to Home
-        </a>
-      </div>
-    </main>
-  `,
+          <main class="w-full max-w-md p-6 bg-white rounded-2xl flex flex-col items-center text-center">
+            <img src="/assets/images/check 3.svg" alt="success" class="w-24 h-24 mb-4" />
+            <p class="text-lg font-medium mb-4">Your request has been successfully submitted</p>
+            <a href="/shop" class="text-[#B92123] border border-[#B92123] rounded-lg py-2 px-6 font-semibold hover:bg-[#B92123] hover:text-white transition">
+              Go to Home
+            </a>
+          </main>
+        `,
         showConfirmButton: false,
         width: 400,
         padding: 0,
       });
-
-      setAffiliateStatus(data.status);
     } catch (error) {
       console.error(error);
       alert("An error occurred while sending the request");
@@ -123,13 +148,14 @@ export default function AffiliateRequestForm() {
     }
   };
 
+  // ===== Render =====
   if (affiliateStatus) {
     return (
       <main>
         <Header />
         <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-gray-50">
           <div className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-md text-center border border-gray-100">
-            <h1 className="text-2xl font-bold text-gray-800 mb-4">
+            <h1 className="text-2xl flex flex-col gap-2 font-bold text-gray-800 mb-4">
               Your Affiliate Request Status:
               <span
                 className={`ml-2 ${
@@ -142,22 +168,25 @@ export default function AffiliateRequestForm() {
               >
                 {affiliateStatus}
               </span>
+              {affiliateStatus === "approved" && (
+                <Link
+                  href="/coupons"
+                  className="inline-block mt-6 text-white bg-[#B92123] hover:bg-[#a5181a] transition-colors rounded-lg py-3 px-8 font-semibold shadow-md"
+                >
+                  Start Now
+                </Link>
+              )}
             </h1>
 
-            {affiliateStatus === "approved" && (
-              <div>
-                <p>We are honored to have you join our team of marketers.</p>{" "}
-                <p>
+            {affiliateStatus === "approved" && showWelcome && (
+              <>
+                <p>We are honored to have you join our team of marketers.</p>
+                <p className="mt-2 text-sm text-gray-600">
                   We offer a simple and effective affiliate marketing system
                   based on unique codes assigned to each marketer. You can share
                   your code with your audience and earn a commission on every
-                  sale made using it. Commissions are transferred directly to
-                  your wallet without any intermediaries or delays, ensuring
-                  fast and easy payouts. We provide a wide range of products in
-                  various fields, so every marketer can find what suits their
-                  audience and achieve the highest sales rate. Our goal is to
-                  help you earn a continuous income through minimal effort and
-                  smart marketing.
+                  sale made using it. Payments are transferred directly to your
+                  wallet quickly and easily.
                 </p>
                 <Link
                   href="/coupons"
@@ -165,22 +194,22 @@ export default function AffiliateRequestForm() {
                 >
                   Start Now
                 </Link>
-              </div>
+              </>
             )}
           </div>
         </div>
-
         <Footer />
       </main>
     );
   }
 
+  // ===== If no request yet -> show form =====
   return (
     <main>
       <Header />
       <form
         onSubmit={handleSubmit}
-        className="space-y-4 min-h-screen container p-4"
+        className="space-y-4 min-h-screen container p-4 max-w-lg mx-auto"
       >
         <input
           type="text"
@@ -191,35 +220,32 @@ export default function AffiliateRequestForm() {
           className="border p-2 rounded w-full"
           required
         />
-        <div className="flex flex-row justify-between gap-4">
-          <button
-            type="button"
-            className={`p-3 border rounded w-full ${
-              formData.gender === "male" ? "bg-red-200" : ""
-            }`}
-            onClick={() => setFormData({ ...formData, gender: "male" })}
-          >
-            Male
-          </button>
-          <button
-            type="button"
-            className={`p-3 border rounded w-full ${
-              formData.gender === "female" ? "bg-red-200" : ""
-            }`}
-            onClick={() => setFormData({ ...formData, gender: "female" })}
-          >
-            Female
-          </button>
+
+        <div className="flex gap-4">
+          {["male", "female"].map((g) => (
+            <button
+              key={g}
+              type="button"
+              className={`p-3 border rounded w-full ${
+                formData.gender === g ? "bg-red-200" : ""
+              }`}
+              onClick={() => setFormData((prev) => ({ ...prev, gender: g }))}
+            >
+              {g.charAt(0).toUpperCase() + g.slice(1)}
+            </button>
+          ))}
         </div>
+
         <Select
           instanceId="country-select"
           options={countries}
           placeholder="Select nationality"
           value={countries.find((c) => c.label === formData.nationality)}
           onChange={(val) =>
-            setFormData({ ...formData, nationality: val.label })
+            setFormData((prev) => ({ ...prev, nationality: val.label }))
           }
         />
+
         <textarea
           name="bio"
           placeholder="Short bio"
@@ -229,14 +255,16 @@ export default function AffiliateRequestForm() {
           maxLength={200}
           required
         />
+
         <button
           type="submit"
           disabled={loading}
-          className="bg-red-600 cursor-pointer text-white p-3 rounded w-full"
+          className="bg-red-600 text-white p-3 rounded w-full hover:bg-red-700 transition-colors"
         >
           {loading ? "Submitting..." : "Next"}
         </button>
       </form>
+      <ToastContainer position="top-right" autoClose={4000} theme="colored" />
       <Footer />
     </main>
   );

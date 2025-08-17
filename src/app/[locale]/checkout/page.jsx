@@ -62,7 +62,7 @@ export default function CheckoutPage() {
                   <Image
                     src={item.image}
                     alt={item.name}
-                    width={70}
+                    width={70}unoptimized
                     height={70}
                     className="rounded-lg object-cover"
                   />

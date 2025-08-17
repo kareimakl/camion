@@ -10,6 +10,7 @@ import { ImageWithSkeleton } from "./ImageWithSkeleton";
 import { API_ENDPOINTS } from "../../../api/api";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useCart } from "@/componentsedit/context/CartContext";
+import dynamic from "next/dynamic";
 export default function ProductPage() {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -19,16 +20,22 @@ export default function ProductPage() {
   const savedToken = Cookies.get("token");
   const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
+  const SocialShare = dynamic(() => import("./SocialShare"), { ssr: false });
+
   useEffect(() => {
+    const productId = Number(slug);
     const fetchProduct = async () => {
       if (!slug) return;
       try {
-        const res = await fetch(`${API_ENDPOINTS.PRODUCTDDETAILS}/${slug}`, {
-          headers: {
-            Authorization: `Bearer ${savedToken}`,
-            "Content-Type": "application/json",
-          },
-        });
+        const res = await fetch(
+          `${API_ENDPOINTS.PRODUCTDDETAILS}/${productId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${savedToken}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
         console.log("savedToken", savedToken);
 
         if (!res.ok) {
@@ -40,6 +47,7 @@ export default function ProductPage() {
         const data = await res.json();
         if (data) {
           setProduct(data);
+          console.log("١ Product fetched successfully:", data);
         }
       } catch (error) {
         console.error("Error fetching product:", error);
@@ -111,6 +119,8 @@ export default function ProductPage() {
                 ))
               : product?.images?.map((img, i) => (
                   <Image
+                  
+                  unoptimized
                     key={i}
                     src={img.thumbnail}
                     width={70}
@@ -129,8 +139,8 @@ export default function ProductPage() {
         </div>
 
         {/* Right Section: Details */}
-        <div className="bg-white p-6 rounded-xl shadow-md space-y-4">
-          <span className="bg-gradient-to-r from-[#dc673b] to-yellow-300 text-white text-sm px-4 py-2 rounded-full inline-block">
+        <div className="bg-white  p-6 rounded-xl shadow-md space-y-4">
+          <span className="bg-gradient-to-r w-full from-[#dc673b] to-yellow-300 text-white text-sm px-4 py-2 rounded-full inline-block">
             Fast delivery within 72 Hours
           </span>
 
@@ -143,30 +153,32 @@ export default function ProductPage() {
           <p className="text-gray-600 text-sm leading-relaxed">
             {product?.short_description?.replace(/<[^>]+>/g, "") || ""}
           </p>
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-4 mt-6">
+              <div className="flex items-center border rounded-full">
+                <button
+                  className="px-3 py-1 cursor-pointer"
+                  onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                >
+                  -
+                </button>
+                <span className="px-4">{quantity}</span>
+                <button
+                  className="px-3 py-1 cursor-pointer"
+                  onClick={() => setQuantity((q) => q + 1)}
+                >
+                  +
+                </button>
+              </div>
 
-          <div className="flex items-center gap-4 mt-6">
-            <div className="flex items-center border rounded-full">
               <button
-                className="px-3 py-1 cursor-pointer"
-                onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                className="bg-[#e14a5c] cursor-pointer text-white px-6 py-2 rounded-full flex-1"
+                onClick={() => addToCart(product, quantity)}
               >
-                -
-              </button>
-              <span className="px-4">{quantity}</span>
-              <button
-                className="px-3 py-1 cursor-pointer"
-                onClick={() => setQuantity((q) => q + 1)}
-              >
-                +
+                Add to Cart
               </button>
             </div>
-
-            <button
-              className="bg-[#e14a5c] cursor-pointer text-white px-6 py-2 rounded-full flex-1"
-              onClick={() => addToCart(product, quantity)}
-            >
-              Add to Cart
-            </button>
+            <SocialShare product={product} />
           </div>
         </div>
       </div>

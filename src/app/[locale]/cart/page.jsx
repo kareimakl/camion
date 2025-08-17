@@ -137,7 +137,7 @@ export default function CartPage() {
                           title: item.title,
                           price: Number(item.price),
                           quantity: item.quantity,
-                          image: item.image || "/placeholder.png",
+                          image: item.image || "/favicon.ico",
                           discountPercentage: item.discountPercentage,
                         }}
                         onQuantityChange={handleQuantityChange}

@@ -16,6 +16,7 @@ export function ImageWithSkeleton({ src, alt }) {
         width={400}
         height={500}
         alt={alt}
+        unoptimized
         className={`rounded-xl object-contain w-full h-full transition-opacity duration-300 ${
           loaded ? "opacity-100" : "opacity-0"
         }`}

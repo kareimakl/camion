@@ -80,7 +80,7 @@ export default function AllProducts() {
                 className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4"
               >
                 {products.map((product) => {
-                  const image = product.images?.[0]?.src || "/placeholder.png";
+                  const image = product.images?.[0]?.src || "/favicon.ico";
                   const price =
                     product.prices?.price_range?.min_amount ||
                     product.prices?.price ||

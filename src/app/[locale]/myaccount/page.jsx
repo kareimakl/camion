@@ -4,6 +4,7 @@ import Footer from "@/componentsedit/layout/footer/footer";
 import Header from "@/componentsedit/layout/header/header";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import { Link } from "@/i18n/navigation";
 
 function MyAccount() {
   const router = useRouter();
@@ -43,7 +44,7 @@ function MyAccount() {
 
   const handleLogout = () => {
     Cookies.remove("token");
-    Cookies.remove("id"); // برضه نشيل ال id لو بتخزنها
+    Cookies.remove("id");
     router.push("/auth/login");
   };
 
@@ -75,8 +76,6 @@ function MyAccount() {
             <p className="text-lg text-[#6C6C6C] capitalize">{userData.role}</p>
           </div>
         </div>
-
-
 
         {/* {[
           {
@@ -117,6 +116,17 @@ function MyAccount() {
             <img src="/assets/icons/logout.svg" alt="Logout Icon" />
             <h1 className="text-sm">Logout</h1>
           </button>
+        </div>
+        <div className="flex cursor-pointer flex-row rounded-xl p-3 py-5 shadow-2xl min-w-[400px] w-[50%] bg-white justify-between items-center text-center">
+          <Link
+            href="/affiliates/request"
+            type="button"
+            onClick={handleLogout}
+            className="flex gap-2"
+          >
+            <img src="/assets/icons/archive.svg" alt="Logout Icon" />
+            <h1 className="text-sm cursor-pointer">Become Affiliates</h1>
+          </Link>
         </div>
       </div>
       <Footer />

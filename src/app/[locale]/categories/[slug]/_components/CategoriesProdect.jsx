@@ -5,28 +5,35 @@ import { useState, useEffect } from "react";
 import { API_ENDPOINTS } from "../../../api/api";
 import { toast, ToastContainer } from "react-toastify";
 import { useParams } from "next/navigation";
-import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
-export default function CategoriesProdect({ categories }) {
+import { useCart } from "@/componentsedit/context/CartContext";
+export default function CategoriesProdect() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hoveredProductId, setHoveredProductId] = useState("");
   const params = useParams();
   const categorySlug = params?.slug;
-  const savedToken = Cookies.get("token");
-  const router = useRouter();
-  const [addingId, setAddingId] = useState(null);
+  const { addToCart: addToCartContext } = useCart();
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch(`${API_ENDPOINTS.PRODUCT}`);
+        const res = await fetch(
+          `${API_ENDPOINTS.PRODUCT}?category_id=${categorySlug}`
+        );
+
         const data = await res.json();
+        console.log("API raw data:", data);
+
         if (data?.products) {
-          const filtered = data.products.filter((product) =>
-            product.categories?.some((cat) => cat.slug === categorySlug)
+          setProducts(data.products);
+
+          console.log(
+            "Products IDs fetched successfully:",
+            data.products.map((p) => p.id)
           );
-          setProducts(filtered);
+        } else {
+          setProducts([]);
+          console.warn("No products key in API response");
         }
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -34,6 +41,7 @@ export default function CategoriesProdect({ categories }) {
         setLoading(false);
       }
     };
+
     if (categorySlug) {
       fetchProducts();
     }
@@ -47,52 +55,9 @@ export default function CategoriesProdect({ categories }) {
       0
     );
   }
+
   async function addToCart(product) {
-    const token = Cookies.get("token");
-    if (!token) {
-      toast.info("Please login to add items to cart");
-      router.push("/auth/login");
-      return;
-    }
-
-    setAddingId(product.id);
-
-    try {
-      const payload = {
-        productId: String(product?.id),
-        quantity: 1,
-        price: String(getPrice(product)),
-      };
-
-      const res = await fetch(API_ENDPOINTS.ADD_TO_CART, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      const text = await res.text();
-      let data;
-      try {
-        data = JSON.parse(text);
-      } catch {
-        data = { message: text || null };
-      }
-
-      if (!res.ok) {
-        throw new Error(data?.message || `Request failed (${res.status})`);
-      }
-
-      toast.success("Product added to cart successfully");
-      console.log("Product added to cart:", data);
-    } catch (err) {
-      console.error("addToCart error:", err);
-      toast.error(err.message || "Failed to add product to cart");
-    } finally {
-      setAddingId(null);
-    }
+    await addToCartContext(product, 1);
   }
 
   return loading ? (
@@ -136,18 +101,22 @@ export default function CategoriesProdect({ categories }) {
     <div className="flex-1 mt-10 container flex flex-col gap-4   w-full">
       {/* Breadcrumb */}
       <nav className="text-sm text-gray-500 mb-6">
-        Home / <span className="text-black font-bold">{categorySlug}</span>
+        Home /{" "}
+        <span className="text-black font-bold">
+          {decodeURIComponent(categorySlug)}
+        </span>
       </nav>
+
       <AnimatePresence mode="wait">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.4 }}
-          className="grid grid-cols-2 md:grid-cols-6 md:gap-6 gap-2"
+          className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4"
         >
-          {products.slice(0, 6).map((product) => {
-            const image = product.images?.[0]?.src || "/placeholder.png";
+          {products.map((product) => {
+            const image = product.images?.[0]?.src || "/favicon.ico";
             const price =
               product.prices?.price_range?.min_amount ||
               product.prices?.price ||
@@ -156,34 +125,40 @@ export default function CategoriesProdect({ categories }) {
             return (
               <div
                 key={product.id}
-                className="bg-white text-center cursor-pointer group rounded-xl shadow-sm hover:shadow-md transition-all relative"
+                className="bg-white text-center min-h-[310px] rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden relative group"
                 onMouseEnter={() => setHoveredProductId(product.id)}
                 onMouseLeave={() => setHoveredProductId("")}
               >
-                <Link href={`/shop/${product.id}`} className="">
+                <Link href={`/shop/${product.id}`} className="block">
                   <motion.div
-                    className="h-32 py-2 sm:h-36 md:h-40 bg-center bg-contain bg-no-repeat mb-3 mt-2"
+                    className="h-40 bg-center bg-contain bg-no-repeat mb-3 mt-2 transition-transform duration-300"
                     style={{ backgroundImage: `url(${image})` }}
                     whileHover={{ scale: 1.05 }}
-                    transition={{ duration: 0.3 }}
                   />
-
-                  <h3 className="font-semibold px-2 text-sm line-clamp-2">
+                  <h3 className="font-semibold px-3 text-sm line-clamp-2">
                     {product.name}
                   </h3>
-                  <div className="text-yellow-400 mt-1">★★★★★</div>
-                  <p className="text-red-600 space-x-1 font-semibold mt-1">
-                    <span className="text-red-600 ml-2">
-                      {price} {product?.prices?.currency_symbol}
-                    </span>
+                  <div className="text-yellow-400 mt-1 text-sm">★★★★★</div>
+                  <p className="text-red-600 font-semibold mt-1">
+                    {price} {product?.prices?.currency_symbol}
                   </p>
                 </Link>
-                <button
+
+                {/* Add To Cart Button */}
+                <motion.button
                   onClick={() => addToCart(product)}
-                  className="bg-[#e14a5c] cursor-pointer rounded-b-xl text-white text-sm font-bold px-4 py-2 w-[100%] opacity-0 group-hover:opacity-100 m-auto transition-opacity duration-300 rounded-t-none"
+                  initial={{ y: 50, opacity: 0 }}
+                  whileHover={{ scale: 1.05 }}
+                  animate={
+                    hoveredProductId === product.id
+                      ? { y: 0, opacity: 1 }
+                      : { y: 50, opacity: 0 }
+                  }
+                  transition={{ duration: 0.3 }}
+                  className="absolute bottom-0 left-0  cursor-pointer right-0 bg-[#e14a5c] text-white text-sm font-bold py-2"
                 >
                   Add To Cart
-                </button>
+                </motion.button>
               </div>
             );
           })}
