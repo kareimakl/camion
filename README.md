@@ -1,8 +1,38 @@
+تمام ✅ خلينا نضيف خطوات **تثبيت Node.js و npm** وكمان **تثبيت dependencies** (`npm i`) قبل التشغيل. هتكون موجودة في بداية الـ README عشان أي حد يبدأ يشتغل يعرف يعمل الإعداد من الأول.
+
+الكود بعد التعديل 👇
+
+````markdown
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+## Installation
+
+First, make sure you have [Node.js](https://nodejs.org/) and npm installed:
+
+- [Download Node.js](https://nodejs.org/en/download/) (comes with npm)
+- Verify installation:
+  ```bash
+  node -v
+  npm -v
+````
+
+Then install project dependencies:
+
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+# or
+bun install
+```
+
+---
 
 ## Getting Started
 
-First, run the development server:
+Run the development server:
 
 ```bash
 npm run dev
@@ -20,14 +50,31 @@ You can start editing the page by modifying `app/page.js`. The page auto-updates
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+---
+
+## Run in Production
+
+To build and run the app in **production** mode:
+
+```bash
+npm run build
+npm run start
+```
+
+Now open [http://localhost:3000](http://localhost:3000) to see the production version of your app.
+
+---
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+* [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+* [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+---
 
 ## Deploy on Vercel
 
