@@ -18,7 +18,7 @@ export default function CategoriesProdect() {
     const fetchProducts = async () => {
       try {
         const res = await fetch(
-          `${API_ENDPOINTS.PRODUCT}?category_id=${categorySlug}`
+          `${API_ENDPOINTS.PRODUCT}?category=${categorySlug}`
         );
 
         const data = await res.json();

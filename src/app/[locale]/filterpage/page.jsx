@@ -79,7 +79,9 @@ function ProductsPage() {
       <Header />
       <div className="flex-1 mt-10 container flex flex-col gap-4 w-full">
         <h1>
-          {`Products${category ? ` in category "${category}"` : ""}${
+          {`Products${
+            category ? ` in category "${decodeURIComponent(category)}"` : ""
+          }${
             minPrice || maxPrice
               ? ` with price range from ${minPrice || 0} to ${maxPrice || "∞"}`
               : ""
