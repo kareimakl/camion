@@ -73,9 +73,8 @@ function ComOffer() {
               )}
 
               <div className="absolute inset-0 flex flex-col pb-10 bottom-0 justify-end items-start px-10 text-left text-white rounded-xl">
-                <p className="text-md mb-2 text-[#84a3b5]">{story?.title}</p>
                 <h2 className="text-4xl font-bold mb-4 text-[#84a3b5]">
-                  {story?.description}
+                  {story?.title}
                 </h2>
                 <Link
                   href="/shop"
@@ -83,6 +82,12 @@ function ComOffer() {
                 >
                   Buy Now
                 </Link>
+                {/* Full-slide clickable overlay ABOVE everything */}
+                <Link
+                  href={story?.description || "/shop"}
+                  className="absolute inset-0 z-10"
+                  aria-label={story?.title}
+                />
               </div>
             </div>
           </SwiperSlide>

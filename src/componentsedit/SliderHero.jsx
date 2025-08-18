@@ -53,32 +53,37 @@ function SliderHero() {
       <Swiper
         spaceBetween={30}
         slidesPerView={1}
+        pagination={{ clickable: true }}
+        navigation
         loop={true}
         autoplay={{ delay: 2500, disableOnInteraction: false }}
-        pagination={{ clickable: true }}
-        navigation={true}
         modules={[Navigation, Pagination, Autoplay]}
+        preventClicks={false}
+        preventClicksPropagation={false}
       >
         {stories?.map((story) => (
           <SwiperSlide key={story?.id}>
             <div className="relative cursor-grab w-full h-[510px]">
+              {/* Image first */}
               <img
                 src={story?.imageUrl}
                 alt={story?.title}
                 className="w-full h-full rounded-xl object-cover"
               />
 
+              {/* Discount ribbon */}
               {story?.discount && (
                 <div className="absolute top-6 -left-12 w-40 bg-red-600 text-white text-center transform -rotate-45 font-bold text-sm py-1 shadow-lg">
                   {story.discount}% OFF
                 </div>
               )}
 
+              {/* Overlay content */}
               <div className="absolute inset-0 flex flex-col pb-10 bottom-0 justify-end items-start px-10 text-left text-white rounded-xl">
-                <p className="text-md mb-2 text-[#84a3b5]">{story?.title}</p>
                 <h2 className="text-4xl font-bold mb-4 text-[#84a3b5]">
-                  {story?.description}
+                  {story?.title}
                 </h2>
+
                 <Link
                   href="/shop"
                   className="bg-white cursor-pointer text-black px-4 py-2 rounded-full text-sm font-semibold hover:bg-gray-200 transition"
@@ -86,6 +91,13 @@ function SliderHero() {
                   Buy Now
                 </Link>
               </div>
+
+              {/* Full-slide clickable overlay ABOVE everything */}
+              <Link
+                href={story?.description || "/shop"}
+                className="absolute inset-0 z-10"
+                aria-label={story?.title}
+              />
             </div>
           </SwiperSlide>
         ))}
