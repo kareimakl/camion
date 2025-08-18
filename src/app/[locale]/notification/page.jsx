@@ -2,19 +2,31 @@
 import Footer from "@/componentsedit/layout/footer/footer";
 import Header from "@/componentsedit/layout/header/header";
 import Image from "next/image";
-import { toast, ToastContainer } from "react-toastify";
-import "swiper/css";
 import Cookies from "js-cookie";
 import { useState, useEffect } from "react";
 import { API_ENDPOINTS } from "../api/api";
+import { useNotifications } from "@/hooks/useNotifications";
+import { useRouter } from "next/navigation";
+import { Toaster, toast } from "sonner";
 
 export default function Notification() {
   const [loading, setLoading] = useState(true);
   const [notif, setNotif] = useState([]);
   const savedToken = Cookies.get("token");
+  const { message } = useNotifications();
+  const router = useRouter();
 
   useEffect(() => {
     const fetchNotifications = async () => {
+      if (!savedToken) {
+        toast.warning("Please sign in an account to view your Notifications");
+
+        setTimeout(() => {
+          router.push("/auth/signup");
+        }, 2000);
+        return;
+      }
+      setLoading(true);
       try {
         const res = await fetch(`${API_ENDPOINTS.NOTOC}`, {
           headers: {
@@ -34,7 +46,23 @@ export default function Notification() {
     };
 
     fetchNotifications();
-  }, [savedToken]);
+  }, [savedToken, router]);
+
+  // Handle incoming notifications from the service worker
+  useEffect(() => {
+    if (message) {
+      setNotif((prev) => [
+        {
+          id: Date.now(),
+          title: message.notification?.title,
+          body: message.notification?.body,
+          createdAt: new Date().toISOString(),
+        },
+        ...prev,
+      ]);
+      toast.info(message.notification?.title || "New notification");
+    }
+  }, [message]);
 
   const totalnotifs = notif.length;
 
@@ -88,8 +116,9 @@ export default function Notification() {
             ))
           )}
         </div>
-        <ToastContainer position="top-right" autoClose={4000} theme="colored" />
       </div>
+
+      <Toaster position="top-center" richColors />
       <Footer />
     </main>
   );

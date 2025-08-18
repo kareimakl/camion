@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import { API_ENDPOINTS } from "../../api/api";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNotifications } from "@/hooks/useNotifications"; // ✅ import hook
 
 const VerifyCode = () => {
   const router = useRouter();
@@ -13,6 +14,8 @@ const VerifyCode = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const { requestPermission } = useNotifications(); // ✅ use hook
 
   useEffect(() => {
     const savedEmail = Cookies.get("email");
@@ -40,11 +43,14 @@ const VerifyCode = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Verification failed");
 
+      // ✅ save token + user info
       Cookies.set("token", data.accessToken, { expires: 7 });
       Cookies.set("id", data.user.id);
       Cookies.set("email", data.user.email);
       Cookies.set("fullName", data.user.fullName);
       Cookies.set("phone", data.user.phone);
+
+      await requestPermission();
 
       toast.success("Verification successful! Redirecting...", {
         position: "top-center",
