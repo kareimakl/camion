@@ -48,12 +48,7 @@ export default function CategoriesProdect() {
   }, [categorySlug]);
 
   function getPrice(product) {
-    return (
-      product?.prices?.price ||
-      product?.prices?.price_range?.min_amount ||
-      product?.price ||
-      0
-    );
+    return product.prices?.price;
   }
 
   async function addToCart(product) {
@@ -117,10 +112,7 @@ export default function CategoriesProdect() {
         >
           {products.map((product) => {
             const image = product.images?.[0]?.src || "/favicon.ico";
-            const price =
-              product.prices?.price_range?.min_amount ||
-              product.prices?.price ||
-              "0";
+            const price = product.prices?.price;
 
             return (
               <div

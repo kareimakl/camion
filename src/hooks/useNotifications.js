@@ -5,29 +5,47 @@ import { getToken, onMessage } from "firebase/messaging";
 import Cookies from "js-cookie";
 
 export const useNotifications = () => {
-  const [token, setToken] = useState(null);
+  const [fcmToken, setFcmToken] = useState(null);
   const [message, setMessage] = useState(null);
-  const tokens = Cookies.get("token");
+
+  // login
+  const authToken = Cookies.get("token");
+
   const requestPermission = async () => {
     try {
+      const permission = await Notification.requestPermission();
+      if (permission !== "granted") {
+        console.warn("Permission not granted for Notification");
+        return;
+      }
+
+      // FCM Token
+      const registration = await navigator.serviceWorker.ready;
       const currentToken = await getToken(messaging, {
         vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY,
+        serviceWorkerRegistration: registration,
       });
 
       if (currentToken) {
-        setToken(currentToken);
+        setFcmToken(currentToken);
 
-        await fetch(
-          "https://api-gateway.camion-app.com/users/notifications/token",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${tokens}`,
-            },
-            body: JSON.stringify({ token: currentToken }),
-          }
-        );
+        Cookies.set("fcm_token", currentToken);
+
+        if (authToken) {
+          await fetch(
+            "https://api-gateway.camion-app.com/users/notifications/token",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${authToken}`,
+              },
+              body: JSON.stringify({ token: currentToken }),
+            }
+          );
+        } else {
+          console.warn("User not authenticated, cannot save FCM token");
+        }
       } else {
         console.log("No registration token available.");
       }
@@ -46,5 +64,5 @@ export const useNotifications = () => {
     }
   }, []);
 
-  return { token, message, requestPermission };
+  return { fcmToken, message, requestPermission };
 };

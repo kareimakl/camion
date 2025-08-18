@@ -50,8 +50,6 @@ const VerifyCode = () => {
       Cookies.set("fullName", data.user.fullName);
       Cookies.set("phone", data.user.phone);
 
-      await requestPermission();
-
       toast.success("Verification successful! Redirecting...", {
         position: "top-center",
         autoClose: 2000,
@@ -60,6 +58,11 @@ const VerifyCode = () => {
       setTimeout(() => {
         router.push("/");
       }, 2000);
+
+      setTimeout(() => {
+        requestPermission();
+      }, 4000);
+      
     } catch (err) {
       toast.error(err.message || "Something went wrong", {
         position: "top-center",

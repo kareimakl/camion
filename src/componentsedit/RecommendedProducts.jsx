@@ -14,8 +14,7 @@ export default function RecommendedProducts() {
   const [products, setProducts] = useState([]);
   const [hoveredProductId, setHoveredProductId] = useState("");
   const [loading, setLoading] = useState(true);
-  const getPrice = (product) =>
-    product?.prices?.price_range?.min_amount || product?.prices?.price || "0";
+  const getPrice = (product) => product.prices?.price;
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const perPage = 12;
@@ -86,10 +85,7 @@ export default function RecommendedProducts() {
         >
           {products.map((product) => {
             const image = product.images?.[0]?.src || "/favicon.ico";
-            const price =
-              product.prices?.price_range?.min_amount ||
-              product.prices?.price ||
-              "0";
+            const price = product.prices?.price;
 
             return (
               <div

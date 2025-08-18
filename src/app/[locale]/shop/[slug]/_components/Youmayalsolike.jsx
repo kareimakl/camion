@@ -15,7 +15,7 @@ export default function RecommendedProducts() {
   const [hoveredProductId, setHoveredProductId] = useState("");
   const [loading, setLoading] = useState(true);
   const getPrice = (product) =>
-    product?.prices?.price_range?.min_amount || product?.prices?.price || "0";
+  product.prices?.price
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -80,9 +80,7 @@ export default function RecommendedProducts() {
           {products.slice(0, 6).map((product) => {
             const image = product.images?.[0]?.src || "/favicon.ico";
             const price =
-              product.prices?.price_range?.min_amount ||
-              product.prices?.price ||
-              "0";
+product.prices?.price
 
             return (
               <div
@@ -102,10 +100,11 @@ export default function RecommendedProducts() {
                   <h3 className="font-semibold px-2 text-sm line-clamp-2">
                     {product.name}
                   </h3>
-                  <p className="text-gray-400 text-xs">EGP</p>
                   <div className="text-yellow-400 mt-1">★★★★★</div>
                   <p className="text-red-600 space-x-1 font-semibold mt-1">
-                    <span className="text-red-600 ml-2">{price} EGP</span>
+                    <span className="text-red-600 ml-2">
+                      {price} {product?.prices?.currency_symbol}{" "}
+                    </span>
                   </p>
                 </Link>
                 <button

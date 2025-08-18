@@ -119,8 +119,7 @@ export default function ProductPage() {
                 ))
               : product?.images?.map((img, i) => (
                   <Image
-                  
-                  unoptimized
+                    unoptimized
                     key={i}
                     src={img.thumbnail}
                     width={70}
@@ -140,9 +139,9 @@ export default function ProductPage() {
 
         {/* Right Section: Details */}
         <div className="bg-white  p-6 rounded-xl shadow-md space-y-4">
-          <span className="bg-gradient-to-r w-full from-[#dc673b] to-yellow-300 text-white text-sm px-4 py-2 rounded-full inline-block">
+          {/* <span className="bg-gradient-to-r w-full from-[#dc673b] to-yellow-300 text-white text-sm px-4 py-2 rounded-full inline-block">
             Fast delivery within 72 Hours
-          </span>
+          </span> */}
 
           <h1 className="text-2xl font-semibold">{product?.name}</h1>
 

@@ -46,8 +46,7 @@ export default function AllProducts() {
     await addToCartContext(product, 1);
   }
 
-  const getPrice = (product) =>
-    product?.prices?.price_range?.min_amount || product?.prices?.price || "0";
+  const getPrice = (product) => product.prices?.price;
 
   return (
     <div className="container m-auto mt-16 min-h-screen">
@@ -70,7 +69,6 @@ export default function AllProducts() {
         <>
           {/* Products */}
           <div className="flex-1 mt-10 container flex flex-col gap-4 w-full">
-
             <AnimatePresence mode="wait">
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
@@ -81,10 +79,7 @@ export default function AllProducts() {
               >
                 {products.map((product) => {
                   const image = product.images?.[0]?.src || "/favicon.ico";
-                  const price =
-                    product.prices?.price_range?.min_amount ||
-                    product.prices?.price ||
-                    "0";
+                  const price = product.prices?.price;
 
                   return (
                     <div

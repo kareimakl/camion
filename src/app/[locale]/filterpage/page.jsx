@@ -98,10 +98,7 @@ function ProductsPage() {
           >
             {products.map((product) => {
               const image = product.images?.[0]?.src || "/favicon.ico";
-              const price =
-                product.prices?.price_range?.min_amount ||
-                product.prices?.price ||
-                "0";
+              const price = product.prices?.price;
 
               return (
                 <div

@@ -1,11 +1,11 @@
 {
-  "name": "Taj House – Software Solutions & Web Development Company",
-  "short_name": "TajHouse",
+  "name": "Camion – Store for High-Quality Products at Great Prices",
+  "short_name": "Camion",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#000000",
-  "description": "Leading software solutions and web development company",
+  "description": "Camion is your trusted online store offering high-quality products at great prices.",
   "icons": [
     {
       "src": "/assets/logos/icon-192x192.png",

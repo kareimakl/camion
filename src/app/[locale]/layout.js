@@ -15,51 +15,41 @@ const almarai = Almarai({
   weight: ["300", "400", "700"],
 });
 export const metadata = {
-  title: "Camion – Software Solutions & Web Development Company",
-
+  title: "Camion Store – High-Quality Products at Great Prices",
   description:
-    "Camion is a software solutions and web development company delivering modern, scalable digital products using React, Next.js, and Node.js.",
+    "Camion Store is your trusted online destination for high-quality products. Enjoy curated offerings, unbeatable deals, and effortless shopping tailored to your daily needs.",
   keywords:
-    "Camion, Software Solutions, Web Development, React Developer, Next.js Developer, Node.js Developer, Egypt, Full Stack Developer",
-  authors: [{ name: "Camion", url: "https://tajhouse.com" }],
-  creator: "Camion",
+    "Camion Store, online shopping, high-quality products, best prices, deals, e-commerce",
+
+  authors: [{ name: "Camion Store", url: "https://camion-app.com/en" }],
+  creator: "Camion Store",
   viewport: "width=device-width, initial-scale=1",
+
   icons: {
     icon: "/favicon.ico",
   },
+
   openGraph: {
-    title: "Camion – Software Solutions & Web Development Company",
+    title: "Camion Store – High-Quality Products at Great Prices",
     description:
-      "Camion builds fast and scalable digital solutions using modern technologies like React and Node.js.",
-    url: "https://tajhouse.com",
-    siteName: "Camion",
+      "Shop with confidence at Camion Store—browse high-quality products, enjoy competitive prices, and experience seamless online shopping.",
+    url: "https://camion-app.com/en",
+    siteName: "Camion Store",
     images: [
       {
-        url: "https://tajhouse.com/assets/icons/apple-icon.png",
+        url: "https://camion-app.com/assets/icons/apple-icon.png",
         width: 1200,
         height: 630,
-        alt: "Camion Open Graph Image",
+        alt: "Camion Store Open Graph Image",
       },
     ],
     type: "website",
   },
+
   twitter: {
-    handle: "@tajhouse",
-    site: "@tajhouse",
+    handle: "@camionstore",
+    site: "@camionstore",
     cardType: "summary_large_image",
-  },
-  openGraph: {
-    title: "Camion – Software Solutions & Web Development Company",
-    description:
-      "Custom software solutions and modern web development by Camion.",
-    images: [
-      {
-        url: "https://tajhouse.com/assets/icons/apple-icon.png",
-        width: 1200,
-        height: 628,
-        alt: "Camion Logo",
-      },
-    ],
   },
 };
 
