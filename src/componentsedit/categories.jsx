@@ -45,7 +45,7 @@ export default function Categories() {
     <div className="w-full  container pb-2 mt-10 m-auto">
       <h2 className="font-semibold text-xl mb-2">Shop by categories</h2>
       <div className="grid grid-cols-3 md:grid-cols-10 gap-6 mt-6">
-        {categories.map((category, i) => (
+        {categories.slice(0, 10).map((category, i) => (
           <Link
             href={`/categories/${category?.slug}`}
             passHref

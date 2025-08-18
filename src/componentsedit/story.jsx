@@ -4,7 +4,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { API_ENDPOINTS } from "../app/[locale]/api/api";
 import Cookies from "js-cookie";
-
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
 export default function Stories() {
   const [stories, setStories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -83,35 +84,44 @@ export default function Stories() {
     );
 
   return (
-    <div className="flex overflow-x-auto justify-start container gap-6 py-4">
-      {/* Thumbnails */}
-      {stories?.map((story, index) => (
-        <div
-          key={story.id}
-          className="w-20 h-20 rounded-full border-4 border-red-500 p-1 cursor-pointer overflow-hidden"
-          onClick={() => setActiveStory(index)}
+    <div className="flex container">
+      <div className="w-full py-4">
+        <Swiper
+          spaceBetween={12} // المسافة بين العناصر
+          slidesPerView={"auto"} // يخليها ديناميك
+          className="w-full"
         >
-          {isVideo(story.mediaUrl) ? (
-            <video
-              src={story.mediaUrl}
-              muted
-              autoPlay
-              loop
-              playsInline
-              className="w-full h-full object-cover rounded-full"
-            />
-          ) : (
-            <Image
-              src={story.mediaUrl}
-              alt={`story-${index}`}
-              width={80}
-              height={80}
-              className="rounded-full object-cover w-full h-full"
-              unoptimized
-            />
-          )}
-        </div>
-      ))}
+          {stories?.map((story, index) => (
+            <SwiperSlide
+              key={story.id}
+              className="!w-20 !h-20 flex-shrink-0"
+              onClick={() => setActiveStory(index)}
+            >
+              <div className="w-20 h-20 rounded-full border-4 border-red-500 p-1 cursor-pointer overflow-hidden">
+                {isVideo(story.mediaUrl) ? (
+                  <video
+                    src={story.mediaUrl}
+                    muted
+                    autoPlay
+                    loop
+                    playsInline
+                    className="w-full h-full object-cover rounded-full"
+                  />
+                ) : (
+                  <Image
+                    src={story.mediaUrl}
+                    alt={`story-${index}`}
+                    width={80}
+                    height={80}
+                    className="rounded-full object-cover w-full h-full"
+                    unoptimized
+                  />
+                )}
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
 
       {/* Story Viewer Modal */}
       <AnimatePresence>
