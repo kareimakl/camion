@@ -6,6 +6,9 @@ import { API_ENDPOINTS } from "../app/[locale]/api/api";
 import { toast, ToastContainer } from "react-toastify";
 import Cookies from "js-cookie";
 import { useCart } from "@/componentsedit/context/CartContext";
+import Image from "next/image";
+import { ShoppingCart } from "lucide-react";
+
 export default function RecommendedProducts() {
   const token = process.env.NEXT_PUBLIC_API_TOKEN;
   const savedToken = Cookies.get("token");
@@ -14,10 +17,10 @@ export default function RecommendedProducts() {
   const [products, setProducts] = useState([]);
   const [hoveredProductId, setHoveredProductId] = useState("");
   const [loading, setLoading] = useState(true);
-  const getPrice = (product) => product.prices?.price;
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const perPage = 12;
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -40,33 +43,20 @@ export default function RecommendedProducts() {
 
   async function addToCart(product) {
     await addToCartContext(product, 1);
+    toast.success(`${product.name} added to cart!`);
   }
 
   return loading ? (
     // Skeleton Loader
-    <div className="md:p-6  container m-auto mt-16 min-h-screen">
+    <div className="md:p-6 container m-auto mt-16 min-h-screen">
       <h2 className="font-semibold text-xl mb-2">Most viewed</h2>
-      <div className="grid  grid-cols-2 w-full md:grid-cols-6 md:gap-6 gap-1">
+      <div className="grid grid-cols-2 w-full md:grid-cols-6 md:gap-6 gap-1">
         {Array.from({ length: 12 }).map((_, index) => (
           <div
             key={index}
             className="p-4 border rounded-2xl border-gray-200 shadow animate-pulse md:p-6 dark:border-gray-400"
           >
-            <div className="flex items-center justify-center h-48 mb-4 bg-gray-300 rounded dark:bg-gray-400">
-              <svg
-                viewBox="0 0 16 20"
-                fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-                className="w-10 h-10 text-gray-200 dark:text-gray-600"
-              >
-                <path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2ZM10.5 6a1.5 1.5 0 1 1 0 2.999A1.5 1.5 0 0 1 10.5 6Zm2.221 10.515a1 1 0 0 1-.858.485h-8a1 1 0 0 1-.9-1.43L5.6 10.039a.978.978 0 0 1 .936-.57 1 1 0 0 1 .9.632l1.181 2.981.541-1a.945.945 0 0 1 .883-.522 1 1 0 0 1 .879.529l1.832 3.438a1 1 0 0 1-.031.988Z"></path>
-                <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z"></path>
-              </svg>
-            </div>
-            <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-400 mb-2.5"></div>
-            <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-400 mb-2.5"></div>
-            <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-400"></div>
+            <div className="flex items-center justify-center h-48 mb-4 bg-gray-300 rounded dark:bg-gray-400"></div>
           </div>
         ))}
       </div>
@@ -85,26 +75,35 @@ export default function RecommendedProducts() {
         >
           {products.map((product) => {
             const image = product.images?.[0]?.src || "/favicon.ico";
+            const hoverImage =
+              product.images?.[1]?.src || product.images?.[0]?.src;
             const price = product.prices?.price;
 
             return (
               <div
                 key={product.id}
-                className="bg-white text-center min-h-[310px] rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden relative group"
+                className="bg-white text-center min-h-[300px] rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden relative group border border-gray-100"
                 onMouseEnter={() => setHoveredProductId(product.id)}
                 onMouseLeave={() => setHoveredProductId("")}
               >
                 <Link href={`shop/${product.id}`} className="block">
-                  <motion.div
-                    className="h-40 bg-center bg-contain bg-no-repeat mb-3 mt-2 transition-transform duration-300"
-                    style={{ backgroundImage: `url(${image})` }}
-                    whileHover={{ scale: 1.05 }}
-                  />
-                  <h3 className="font-semibold px-3 text-sm line-clamp-2">
+                  <div className="relative w-full h-44 mb-3 mt-4">
+                    <Image
+                      src={hoveredProductId === product.id ? hoverImage : image}
+                      alt={product.name}
+                      fill
+                      className="object-contain rounded-xl transition-transform duration-300 group-hover:scale-105"
+                      unoptimized
+                    />
+                  </div>
+
+                  <h3 className="font-semibold px-3 text-gray-800 text-sm line-clamp-2 group-hover:text-[#e14a5c] transition-colors">
                     {product.name}
                   </h3>
-                  <div className="text-yellow-400 mt-1 text-sm">★★★★★</div>
-                  <p className="text-red-600 font-semibold mt-1">
+                  {/* <div className="flex justify-center gap-1 text-yellow-400 mt-2 text-sm">
+                    ★★★★☆
+                  </div> */}
+                  <p className="text-[#e14a5c] font-bold mt-1">
                     {price} {product?.prices?.currency_symbol}
                   </p>
                 </Link>
@@ -112,17 +111,22 @@ export default function RecommendedProducts() {
                 {/* Add To Cart Button */}
                 <motion.button
                   onClick={() => addToCart(product)}
-                  initial={{ y: 50, opacity: 0 }}
                   whileHover={{ scale: 1.05 }}
                   animate={
                     hoveredProductId === product.id
                       ? { y: 0, opacity: 1 }
-                      : { y: 50, opacity: 0 }
+                      : { y: 60, opacity: 0 }
                   }
                   transition={{ duration: 0.3 }}
-                  className="absolute bottom-0 left-0  cursor-pointer right-0 bg-[#e14a5c] text-white text-sm font-bold py-2"
+                  className="
+    w-full cursor-pointer 
+    bg-[#e14a5c] hover:bg-[#c63a4a] text-white text-sm font-semibold py-3 
+    rounded-t-xl shadow-md flex items-center justify-center gap-2
+    md:absolute md:bottom-0 md:left-0 md:right-0
+    md:opacity-0 md:group-hover:opacity-100
+  "
                 >
-                  Add To Cart
+                  <ShoppingCart size={18} /> Add To Cart
                 </motion.button>
               </div>
             );
