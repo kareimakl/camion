@@ -35,7 +35,7 @@ export default function Categories() {
             ></div>
           ))
         : categories
-            .slice(0.6)
+            .slice(0,6)
             .map((category, i) => (
               <NavItem
                 key={category.id || i}

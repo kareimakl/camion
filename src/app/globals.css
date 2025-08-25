@@ -27,7 +27,7 @@ body {
 
 @media only screen and (width < 780px) {
   .container {
-    width: 90%;
+    width: 98%;
   }
 }
 .bg-dynamic {

@@ -43,7 +43,6 @@ export default function RecommendedProducts() {
 
   async function addToCart(product) {
     await addToCartContext(product, 1);
-    toast.success(`${product.name} added to cart!`);
   }
 
   return loading ? (
