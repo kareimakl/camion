@@ -22,29 +22,49 @@ export function CartProvider({ children }) {
 
   const fetchCart = useCallback(async () => {
     if (!token) {
-      setCart([]);
-      setLoading(false);
+      toast.warn("Please sign in or create an account to view your cart", {
+        position: "top-center",
+        autoClose: 2000,
+      });
+      setTimeout(() => router.push("/auth/signup"), 2000);
       return;
     }
+
+    setLoading(true);
+
     try {
-      setLoading(true);
       const res = await fetch(API_ENDPOINTS.GET_CART, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
       });
+
+      if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
+
       const data = await res.json();
-      setCart(data || []);
-    } catch (err) {
-      console.error("Cart fetch error:", err);
+
+      // ✅ Use items array
+      setCart(Array.isArray(data.items) ? data.items : []);
+
+      // ✅ Optional: store summary if you want
+      // setSummary(data.summary || {});
+    } catch (error) {
+      console.error("Error fetching cart:", error);
+      toast.error("Failed to fetch cart. Please try again later.");
+      setCart([]);
     } finally {
       setLoading(false);
     }
-  }, [token]);
+  }, [token, router]);
 
   useEffect(() => {
     fetchCart();
   }, [fetchCart]);
 
-  const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
+  const totalItems = Array.isArray(cart)
+    ? cart.reduce((acc, item) => acc + (item.quantity || 0), 0)
+    : 0;
 
   const addToCart = async (product, quantity = 1, variation = []) => {
     if (!token) {
@@ -69,7 +89,7 @@ export function CartProvider({ children }) {
         body: JSON.stringify({
           productId: String(product.id),
           quantity,
-          variation, 
+          variation,
         }),
       });
 

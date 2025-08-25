@@ -6,7 +6,7 @@ export default function Payment({ paymentMethod, setPaymentMethod }) {
   // خلي طريقة واحدة فقط: Stripe
   const method = {
     id: "credit_card",
-    label: "Credit Card (Stripe)",
+    label: "Credit Card (Skipcash)",
     icon: "/assets/icons/Frame 75.svg",
   };
 

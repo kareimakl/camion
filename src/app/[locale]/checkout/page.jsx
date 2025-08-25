@@ -34,21 +34,36 @@ export default function CheckoutPage() {
 
   const fetchCart = useCallback(async () => {
     if (!savedToken) {
-      toast.warn("Please sign in to view your cart", {
+      toast.warn("Please sign in or create an account to view your cart", {
         position: "top-center",
+        autoClose: 2000,
       });
       setTimeout(() => router.push("/auth/signup"), 2000);
       return;
     }
+
     setLoading(true);
+
     try {
       const res = await fetch(API_ENDPOINTS.GET_CART, {
-        headers: { Authorization: `Bearer ${savedToken}` },
+        headers: {
+          Authorization: `Bearer ${savedToken}`,
+          "Content-Type": "application/json",
+        },
       });
+
+      if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
+
       const data = await res.json();
-      setCart(Array.isArray(data) ? data : []);
+
+      // ✅ Use items array
+      setCart(Array.isArray(data.items) ? data.items : []);
+
+      // ✅ Optional: store summary if you want
+      // setSummary(data.summary || {});
     } catch (error) {
-      toast.error("Failed to fetch cart");
+      console.error("Error fetching cart:", error);
+      toast.error("Failed to fetch cart. Please try again later.");
       setCart([]);
     } finally {
       setLoading(false);
@@ -75,7 +90,6 @@ export default function CheckoutPage() {
         if (!str) return "";
         return str.length > maxLength ? str.slice(0, maxLength) : str;
       };
-
       const customerData = {
         first_name: firstName,
         last_name: lastName,
@@ -88,8 +102,8 @@ export default function CheckoutPage() {
         postcode: truncate(addressData.postcode, 20),
         country: addressData.country,
         shipping_address: {
-          first_name: firstName,
-          last_name: lastName,
+          first_name: firstName || "Shipping",
+          last_name: lastName || "Customer",
           address_1: truncate(addressData.address_1, 200),
           address_2: truncate(addressData.address_2, 100),
           city: truncate(addressData.city, 50),
@@ -104,9 +118,12 @@ export default function CheckoutPage() {
         },
       };
 
+      // 🧹 remove unwanted keys explicitly
+      delete customerData.couponCode;
+
       const reqBody = {
         customer_data: customerData,
-        payment_method: "stripe",
+        payment_method: "skipcash",
         payment_data: [],
       };
 
@@ -123,10 +140,10 @@ export default function CheckoutPage() {
 
       const data = await res.json();
 
-      if (data?.data?.stripeCheckoutUrl) {
-        window.open(data.data.stripeCheckoutUrl, "_blank");
+      if (data?.data?.skipcashCheckoutUrl) {
+        window.open(data.data.skipcashCheckoutUrl, "_blank");
       } else {
-        toast.error("Stripe checkout link not available.");
+        toast.error("skipcash checkout link not available.");
       }
     } catch (error) {
       console.error(error);

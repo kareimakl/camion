@@ -23,10 +23,7 @@ export default function CartPage() {
         position: "top-center",
         autoClose: 2000,
       });
-
-      setTimeout(() => {
-        router.push("/auth/signup");
-      }, 2000);
+      setTimeout(() => router.push("/auth/signup"), 2000);
       return;
     }
 
@@ -40,12 +37,15 @@ export default function CartPage() {
         },
       });
 
-      if (!res.ok) {
-        throw new Error(`HTTP error! Status: ${res.status}`);
-      }
+      if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
 
       const data = await res.json();
-      setCart(Array.isArray(data) ? data : []);
+
+      // ✅ Use items array
+      setCart(Array.isArray(data.items) ? data.items : []);
+
+      // ✅ Optional: store summary if you want
+      // setSummary(data.summary || {});
     } catch (error) {
       console.error("Error fetching cart:", error);
       toast.error("Failed to fetch cart. Please try again later.");
@@ -53,7 +53,7 @@ export default function CartPage() {
     } finally {
       setLoading(false);
     }
-  }, [savedToken]);
+  }, [savedToken, router]);
 
   // 🌀 Fetch cart on mount
   useEffect(() => {
