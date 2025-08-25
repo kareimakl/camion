@@ -1,6 +1,5 @@
 // lib/firebase.js
 import { initializeApp } from "firebase/app";
-import { getMessaging } from "firebase/messaging";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -11,5 +10,4 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-const app = initializeApp(firebaseConfig);
-export const messaging = typeof window !== "undefined" ? getMessaging(app) : null;
+export const app = initializeApp(firebaseConfig);

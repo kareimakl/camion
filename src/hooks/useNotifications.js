@@ -1,17 +1,20 @@
 // hooks/useNotifications.js
 import { useEffect, useState } from "react";
-import { messaging } from "@/lib/firebase";
-import { getToken, onMessage } from "firebase/messaging";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import { app } from "@/lib/firebase";
 import Cookies from "js-cookie";
 
 export const useNotifications = () => {
   const [fcmToken, setFcmToken] = useState(null);
   const [message, setMessage] = useState(null);
+  const [messaging, setMessaging] = useState(null);
 
   // login
   const authToken = Cookies.get("token");
 
   const requestPermission = async () => {
+    if (!messaging) return;
+
     try {
       const permission = await Notification.requestPermission();
       if (permission !== "granted") {
@@ -28,7 +31,6 @@ export const useNotifications = () => {
 
       if (currentToken) {
         setFcmToken(currentToken);
-
         Cookies.set("fcm_token", currentToken);
 
         if (authToken) {
@@ -54,15 +56,29 @@ export const useNotifications = () => {
     }
   };
 
-  useEffect(() => {
-    if (messaging) {
-      const unsubscribe = onMessage(messaging, (payload) => {
+useEffect(() => {
+  if (
+    typeof window !== "undefined" &&
+    "serviceWorker" in navigator &&
+    "PushManager" in window
+  ) {
+    try {
+      const msg = getMessaging(app);
+      setMessaging(msg);
+
+      const unsubscribe = onMessage(msg, (payload) => {
         console.log("Message received. ", payload);
         setMessage(payload);
       });
       return () => unsubscribe();
+    } catch (err) {
+      console.error("Error initializing messaging:", err);
     }
-  }, []);
+  } else {
+    console.warn("This browser does not support Firebase Cloud Messaging.");
+  }
+}, []);
+
 
   return { fcmToken, message, requestPermission };
 };
