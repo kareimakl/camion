@@ -36,7 +36,6 @@ const Signup = () => {
 
       if (!res.ok) throw new Error(data.message || "Registration failed");
 
-      // حفظ البيانات في الكوكيز
       Cookies.set("email", formData.email);
       Cookies.set("phone", formData.phone);
       Cookies.set("fullName", formData.fullName);
@@ -46,9 +45,8 @@ const Signup = () => {
         autoClose: 2000,
       });
 
-      // الانتقال بعد ثانيتين لصفحة التحقق
       setTimeout(() => {
-        router.push("/auth/login");
+        router.push("/auth/customerdata");
       }, 2000);
     } catch (err) {
       toast.error(err.message || "Something went wrong", {

@@ -26,7 +26,6 @@ export function CartProvider({ children }) {
         position: "top-center",
         autoClose: 2000,
       });
-      setTimeout(() => router.push("/auth/signup"), 2000);
       return;
     }
 
@@ -108,46 +107,46 @@ export function CartProvider({ children }) {
     }
   };
 
-  const removeFromCart = async (id) => {
-    if (!token) {
-      toast.warn(
-        "Please sign in or create an account to add items to your cart",
-        {
-          position: "top-center",
-          autoClose: 2000,
-        }
-      );
+const removeFromCart = async (productId) => {
+  if (!token) {
+    toast.warn("Please sign in or create an account to view your cart", {
+      position: "top-center",
+      autoClose: 2000,
+    });
 
-      setTimeout(() => {
-        router.push("/auth/signup");
-      }, 2000);
+    setTimeout(() => {
+      router.push("/auth/signup");
+    }, 2000);
+    return;
+  }
+
+  try {
+    setLoading(true);
+    const res = await fetch(API_ENDPOINTS.REMOVE_TO_CART, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ productId: String(productId) }),
+    });
+
+    if (!res.ok) {
+      const errorText = await res.text();
+      console.error("Remove from cart failed:", errorText);
+      toast.error("Failed to remove item");
       return;
     }
-    try {
-      setLoading(true);
-      const res = await fetch(API_ENDPOINTS.REMOVE_TO_CART, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ productId: String(id) }),
-      });
 
-      if (!res.ok) {
-        const errorText = await res.text();
-        console.error("Remove from cart failed:", errorText);
-        return;
-      }
-
-      await fetchCart();
-      toast.success("Item removed successfully");
-    } catch (err) {
-      console.error("Remove from cart error:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
+    await fetchCart();
+    toast.success("Item removed successfully");
+  } catch (err) {
+    console.error("Remove from cart error:", err);
+    toast.error("Something went wrong while removing item");
+  } finally {
+    setLoading(false);
+  }
+};
 
   const updateQuantity = async (id, qty) => {
     if (!token) {

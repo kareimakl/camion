@@ -58,7 +58,7 @@ export default function Header() {
           <div className="flex items-center gap-2">
             <FaShoppingBag />
             <div className="text-right">
-              <div>104.94 ر.ق</div>
+              <div>104.94 QAR</div>
               <div className="text-xs">2 items</div>
             </div>
           </div>

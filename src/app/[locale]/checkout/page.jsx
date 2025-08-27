@@ -56,11 +56,8 @@ export default function CheckoutPage() {
 
       const data = await res.json();
 
-      // ✅ Use items array
-      setCart(Array.isArray(data.items) ? data.items : []);
-
-      // ✅ Optional: store summary if you want
-      // setSummary(data.summary || {});
+      // ✅ الريسبونس Array مش فيه items
+      setCart(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error("Error fetching cart:", error);
       toast.error("Failed to fetch cart. Please try again later.");
@@ -78,78 +75,112 @@ export default function CheckoutPage() {
     (acc, item) => acc + Number(item.price) * item.quantity,
     0
   );
-  const handleCheckout = async () => {
-    try {
-      const fullName = (Cookies.get("fullName") || "").split(" ");
-      const firstName = fullName[0] || "";
-      const lastName = fullName[1] || "";
-      const email = Cookies.get("email") || "";
-      const phone = Cookies.get("phone") || "";
+const handleCheckout = async () => {
+  try {
+    const fullName = (Cookies.get("fullName") || "").split(" ");
+    const firstName = fullName[0] || "";
+    const lastName = fullName[1] || "";
+    const email = Cookies.get("email") || "";
+    const phone = Cookies.get("phone") || "";
 
-      const truncate = (str, maxLength) => {
-        if (!str) return "";
-        return str.length > maxLength ? str.slice(0, maxLength) : str;
+    const truncate = (str, maxLength) => {
+      if (!str) return "";
+      return str.length > maxLength ? str.slice(0, maxLength) : str;
+    };
+
+    // ✅ clean cart items before sending
+    const cleanedCart = cart.map(({ id, productId, quantity, variation, title, image, price, totalPrice, couponCode }) => {
+      const item = {
+        id,
+        productId,
+        quantity,
+        variation,
+        title,
+        image,
+        price,
+        totalPrice,
       };
-      const customerData = {
-        first_name: firstName,
-        last_name: lastName,
-        email,
-        phone,
+      // ⬇️ لو فيه كوبون فعلاً، ضيفه هنا (في مكان منفصل)
+      if (couponCode) {
+        item.couponCode = couponCode;
+      }
+      return item;
+    });
+
+    const customerData = {
+      first_name: firstName,
+      last_name: lastName,
+      email,
+      phone,
+      address_1: truncate(addressData.address_1, 200),
+      address_2: truncate(addressData.address_2, 100),
+      city: truncate(addressData.city, 50),
+      state: truncate(addressData.state, 50),
+      postcode: truncate(addressData.postcode, 20),
+      country: addressData.country,
+      shipping_address: {
+        first_name: firstName || "Shipping",
+        last_name: lastName || "Customer",
         address_1: truncate(addressData.address_1, 200),
         address_2: truncate(addressData.address_2, 100),
         city: truncate(addressData.city, 50),
         state: truncate(addressData.state, 50),
         postcode: truncate(addressData.postcode, 20),
         country: addressData.country,
-        shipping_address: {
-          first_name: firstName || "Shipping",
-          last_name: lastName || "Customer",
-          address_1: truncate(addressData.address_1, 200),
-          address_2: truncate(addressData.address_2, 100),
-          city: truncate(addressData.city, 50),
-          state: truncate(addressData.state, 50),
-          postcode: truncate(addressData.postcode, 20),
-          country: addressData.country,
-        },
-        shipping_option: {
-          method_id: "flat_rate",
-          method_title: "Shipping",
-          cost: "100",
-        },
-      };
+      },
+      shipping_option: {
+        method_id: "flat_rate",
+        method_title: "Shipping",
+        cost: "100",
+      },
+    };
 
-      // 🧹 remove unwanted keys explicitly
-      delete customerData.couponCode;
+    const reqBody = {
+      customer_data: customerData,
+      cart: cleanedCart, // ⬅️ هنا الكارت من غير الـ couponCode الفاضي
+      payment_method: "skipcash",
+      payment_data: [],
+    };
 
-      const reqBody = {
-        customer_data: customerData,
-        payment_method: "skipcash",
-        payment_data: [],
-      };
+    const res = await fetch(API_ENDPOINTS.CHECKOUT, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${savedToken}`,
+      },
+      body: JSON.stringify(reqBody),
+    });
 
-      const res = await fetch(API_ENDPOINTS.CHECKOUT, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${savedToken}`,
-        },
-        body: JSON.stringify(reqBody),
-      });
-
-      if (!res.ok) throw new Error("Checkout failed");
-
-      const data = await res.json();
-
-      if (data?.data?.skipcashCheckoutUrl) {
-        window.open(data.data.skipcashCheckoutUrl, "_blank");
-      } else {
-        toast.error("skipcash checkout link not available.");
-      }
-    } catch (error) {
-      console.error(error);
-      toast.error("Checkout failed. Please try again.");
+    if (!res.ok) {
+      const errorData = await res.json();
+      console.error("Checkout error:", errorData);
+      throw new Error(errorData?.message?.[0] || "Checkout failed");
     }
-  };
+
+    const data = await res.json();
+
+    if (data?.data?.order?.skipCashPaymentUrl) {
+      const popup = window.open(
+        data.data.order.skipCashPaymentUrl,
+        "popupWindow",
+        "width=600,height=700,scrollbars=yes,resizable=yes"
+      );
+
+      if (!popup) {
+        toast.warn("⚠️ الرجاء السماح بالنوافذ المنبثقة (Popups) في المتصفح.");
+      } else {
+        popup.focus();
+      }
+    } else {
+      toast.error("❌ SkipCash checkout link not available.");
+    }
+  } catch (error) {
+    console.error("Checkout Exception:", error);
+    toast.error(error.message || "Checkout failed. Please try again.");
+  }
+};
+
+
 
   return (
     <div>

@@ -58,7 +58,7 @@ export default function CartItem({ item, onRemove, onQuantityChange }) {
             </div>
 
             <button
-              onClick={() => onRemove(item.id)}
+              onClick={() => onRemove(item.productId)}
               className="text-sm cursor-pointer text-[#B92123] mt-2 hover:underline"
             >
               Remove item

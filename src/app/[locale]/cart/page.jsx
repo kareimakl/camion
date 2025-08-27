@@ -41,11 +41,8 @@ export default function CartPage() {
 
       const data = await res.json();
 
-      // ✅ Use items array
-      setCart(Array.isArray(data.items) ? data.items : []);
-
-      // ✅ Optional: store summary if you want
-      // setSummary(data.summary || {});
+      // ✅ الريسبونس Array مش فيه items
+      setCart(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error("Error fetching cart:", error);
       toast.error("Failed to fetch cart. Please try again later.");
@@ -60,16 +57,14 @@ export default function CartPage() {
     fetchCart();
   }, [fetchCart]);
 
-  // 📦 Change quantity of a cart item
-  const handleQuantityChange = (id, newQuantity) => {
+  const handleQuantityChange = (productId, newQuantity) => {
     setCart((prevCart) =>
       prevCart.map((item) =>
-        item.productId === id ? { ...item, quantity: newQuantity } : item
+        item.productId === productId ? { ...item, quantity: newQuantity } : item
       )
     );
   };
 
-  // ❌ Remove item from cart
   async function handleRemove(productId) {
     try {
       await removeFromCart(productId);
@@ -133,7 +128,8 @@ export default function CartPage() {
                       <CartItem
                         key={item.id}
                         item={{
-                          id: item.productId,
+                          id: item.id,
+                          productId: item.productId,
                           title: item.title,
                           price: Number(item.price),
                           quantity: item.quantity,
